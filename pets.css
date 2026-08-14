@@ -1,4 +1,4 @@
-/* TOEFL 2026 Pixel Pet Arcade
+/* TOEFL 2026 Pixel Pet Home
    A self-contained, dependency-free overlay shared by every page. */
 
 :root {
@@ -47,8 +47,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 104px;
-  height: 104px;
+  width: 94px;
+  height: 94px;
   margin: 0;
   padding: 0;
   border: 0;
@@ -147,7 +147,7 @@
 .pixel-pet-bubble {
   position: absolute;
   left: 50%;
-  bottom: 86px;
+  bottom: 78px;
   z-index: 8;
   width: max-content;
   max-width: 158px;
@@ -1159,8 +1159,8 @@
 
 @media (max-width: 720px) {
   .pixel-pet-actor {
-    width: 88px;
-    height: 88px;
+    width: 80px;
+    height: 80px;
   }
 
   .pixel-pet-label {
@@ -1169,7 +1169,7 @@
   }
 
   .pixel-pet-bubble {
-    bottom: 73px;
+    bottom: 67px;
     max-width: 132px;
   }
 
@@ -1272,9 +1272,340 @@
 .pixel-pets-root[data-quiet-motion="true"] .pet-tail,
 .pixel-pets-root[data-quiet-motion="true"] .pet-eyes,
 .pixel-pets-root[data-quiet-motion="true"] .pixel-pet-toy,
+.pixel-pets-root[data-quiet-motion="true"] .pixel-pet-treat,
 .pixel-pets-root[data-quiet-motion="true"] .pixel-house-zzz,
 .pixel-pets-root[data-quiet-motion="true"] .house-window-glow {
   animation: none !important;
+}
+
+/* The bottom-left manager is now the real, fixed pet home. */
+.pixel-pet-launcher {
+  left: 14px;
+  bottom: 14px;
+  display: block;
+  width: 96px;
+  height: 84px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.pixel-pet-launcher:hover {
+  transform: translateY(-3px);
+  box-shadow: none;
+}
+
+.pixel-pet-launcher:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.pixel-pet-home-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.pixel-pet-home-art svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+  filter: drop-shadow(4px 5px 0 rgba(24,32,63,.3));
+}
+
+.pixel-pet-launcher .house-door {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transition: transform 180ms steps(3,end);
+}
+
+.pixel-pet-launcher[data-door-open="true"] .house-door {
+  transform: scaleX(.36);
+}
+
+.pixel-pet-launcher .house-window-glow {
+  opacity: .55;
+}
+
+.pixel-pet-launcher[data-sleepers]:not([data-sleepers="0"]) .house-window-glow {
+  opacity: 1;
+  animation: pixel-window-glow 1.8s steps(2,end) infinite alternate;
+}
+
+.pixel-pet-launcher .pixel-house-sleepers {
+  left: 18px;
+  top: 43px;
+  gap: 2px;
+}
+
+.pixel-pet-launcher .pixel-house-sleepers span {
+  width: 16px;
+  height: 14px;
+  padding: 0;
+  border-width: 1.5px;
+  border-radius: 4px;
+}
+
+.pixel-pet-launcher .pixel-house-zzz {
+  right: -5px;
+  top: -6px;
+  font-size: 12px;
+}
+
+.pixel-pet-launcher[data-sleepers]:not([data-sleepers="0"]) .pixel-house-zzz {
+  display: block;
+}
+
+.pixel-pet-home-sign {
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  min-width: 62px;
+  padding: 3px 5px 2px;
+  border: 2px solid var(--pet-ink);
+  border-radius: 6px;
+  background: var(--pet-yellow);
+  box-shadow: 2px 2px 0 var(--pet-ink);
+  color: var(--pet-ink);
+  font: 950 7px/1 var(--font-display,"Segoe UI",sans-serif);
+  letter-spacing: .08em;
+  transform: translateX(-50%);
+}
+
+.pixel-pet-launcher::before {
+  content: "OPEN PET HOME";
+  position: absolute;
+  left: calc(100% + 9px);
+  bottom: 12px;
+  width: max-content;
+  padding: 6px 8px;
+  border: 2px solid var(--pet-ink);
+  border-radius: 8px;
+  background: var(--pet-cream);
+  box-shadow: 2px 2px 0 var(--pet-ink);
+  color: var(--pet-ink);
+  font: 900 8px/1 var(--font-display,"Segoe UI",sans-serif);
+  letter-spacing: .06em;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 120ms linear,transform 120ms steps(2,end);
+  pointer-events: none;
+}
+
+.pixel-pet-launcher:hover::before,
+.pixel-pet-launcher:focus-visible::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.pixel-pet-launcher .pixel-pet-count {
+  top: -7px;
+  right: -8px;
+  min-width: 23px;
+  height: 23px;
+}
+
+.pixel-pet-launcher[data-nudge="true"] .pixel-pet-home-art {
+  animation: pixel-launcher-nudge 900ms steps(5,end) 2;
+}
+
+.pixel-pet-dialog {
+  inset: auto auto 116px 14px;
+}
+
+.pixel-pet-toast {
+  left: 124px;
+  bottom: 26px;
+  max-width: min(310px,calc(100vw - 144px));
+}
+
+/* Right-click action palette: icon-only, crisp, and keyboard accessible. */
+.pixel-pet-context-menu {
+  position: fixed;
+  z-index: 1900;
+  display: block;
+  width: 115px;
+  height: 58px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  pointer-events: auto;
+}
+
+.pixel-pet-context-menu[hidden] {
+  display: none !important;
+}
+
+.pixel-pet-context-menu::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  bottom: 1px;
+  width: 93px;
+  height: 40px;
+  border: 1.5px dashed rgba(24,32,63,.35);
+  border-bottom: 0;
+  border-radius: 70px 70px 0 0;
+  pointer-events: none;
+}
+
+.pixel-pet-context-menu button {
+  --arc-from-x: 0px;
+  --arc-from-y: 0px;
+  --arc-delay: 0ms;
+  position: absolute;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  place-items: center;
+  border: 2px solid var(--pet-ink);
+  border-radius: 7px;
+  background: var(--pet-cream);
+  box-shadow: 2px 2px 0 var(--pet-ink);
+  color: var(--pet-ink);
+  cursor: pointer;
+  animation: pixel-arc-button 280ms cubic-bezier(.2,.85,.32,1.28) var(--arc-delay) backwards;
+}
+
+.pixel-pet-context-menu button:nth-child(1){left:0;top:34px;--arc-from-x:45px;--arc-from-y:0;--arc-delay:0ms;background:#ffd7df}
+.pixel-pet-context-menu button:nth-child(2){left:15px;top:15px;--arc-from-x:30px;--arc-from-y:19px;--arc-delay:28ms;background:#dff3ee}
+.pixel-pet-context-menu button:nth-child(3){left:34px;top:0;--arc-from-x:11px;--arc-from-y:34px;--arc-delay:56ms;background:#fff0c5}
+.pixel-pet-context-menu button:nth-child(4){left:57px;top:0;--arc-from-x:-12px;--arc-from-y:34px;--arc-delay:84ms;background:#eee1f7}
+.pixel-pet-context-menu button:nth-child(5){left:76px;top:15px;--arc-from-x:-31px;--arc-from-y:19px;--arc-delay:112ms;background:#dce5ff}
+.pixel-pet-context-menu button:nth-child(6){left:91px;top:34px;--arc-from-x:-46px;--arc-from-y:0;--arc-delay:140ms;background:#ffe3bb}
+
+.pixel-pet-context-menu button:hover,
+.pixel-pet-context-menu button:focus-visible {
+  z-index: 4;
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 2px 3px 0 var(--pet-ink);
+}
+
+.pixel-pet-context-menu button:active {
+  transform: translateY(1px) scale(.94);
+  box-shadow: none;
+}
+
+.pixel-pet-context-menu button svg {
+  width: 15px;
+  height: 15px;
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+.pixel-pet-context-menu button::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  z-index: 3;
+  width: max-content;
+  max-width: 110px;
+  padding: 4px 5px;
+  border: 1.5px solid #fff;
+  border-radius: 6px;
+  background: var(--pet-ink);
+  color: #fff;
+  font: 850 7px/1 var(--font-display,"Segoe UI",sans-serif);
+  opacity: 0;
+  transform: translate(-50%,4px);
+  transition: opacity 100ms linear .22s,transform 100ms steps(2,end) .22s;
+  pointer-events: none;
+}
+
+.pixel-pet-context-menu button:hover::after,
+.pixel-pet-context-menu button:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%,0);
+}
+
+.pixel-pet-treat {
+  position: absolute;
+  left: 59px;
+  top: 55px;
+  z-index: 7;
+  width: 32px;
+  height: 24px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pixel-pet-treat svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+  filter: drop-shadow(2px 2px 0 rgba(24,32,63,.24));
+}
+
+.pixel-pet-actor[data-state="snack"] .pixel-pet-treat {
+  opacity: 1;
+  animation: pixel-treat-nibble 720ms steps(4,end) infinite;
+}
+
+.pixel-pet-actor[data-state="snack"] .pixel-pet-avatar {
+  animation: pixel-pet-nibble 420ms steps(2,end) infinite;
+}
+
+.pixel-pet-actor[data-state="dance"] .pixel-pet-avatar {
+  animation: pixel-pet-dance 680ms steps(6,end) infinite;
+}
+
+.pixel-pet-actor[data-state="dance"] .pet-tail {
+  animation-duration: 220ms;
+}
+
+@keyframes pixel-arc-button {
+  from { opacity:0;transform:translate(var(--arc-from-x),var(--arc-from-y)) scale(.25); }
+  70% { opacity:1; }
+  to { opacity:1;transform:translate(0,0) scale(1); }
+}
+
+@keyframes pixel-treat-nibble {
+  0%,100% { transform:translate(0,0) rotate(0); }
+  50% { transform:translate(-9px,-5px) rotate(-8deg) scale(.9); }
+}
+
+@keyframes pixel-pet-nibble {
+  from { transform:translateY(0) rotate(0); }
+  to { transform:translateY(2px) rotate(2deg); }
+}
+
+@keyframes pixel-pet-dance {
+  0%,100% { transform:translate(0,0) rotate(0); }
+  20% { transform:translate(-7px,-8px) rotate(-7deg); }
+  40% { transform:translate(4px,-2px) rotate(5deg); }
+  60% { transform:translate(8px,-9px) rotate(8deg); }
+  80% { transform:translate(-3px,-3px) rotate(-4deg); }
+}
+
+@media (max-width:720px) {
+  .pixel-pet-launcher {
+    left: 10px;
+    bottom: 10px;
+    width: 84px;
+    height: 74px;
+    padding: 0;
+  }
+  .pixel-pet-launcher .pixel-house-sleepers {left:15px;top:38px}
+  .pixel-pet-launcher .pixel-house-sleepers span {width:14px;height:12px}
+  .pixel-pet-home-sign {min-width:55px;font-size:6px}
+  .pixel-pet-dialog {inset:auto 10px 98px 10px;max-height:calc(100vh - 112px)}
+  .pixel-pet-dialog-shell {max-height:calc(100vh - 116px)}
+  .pixel-pet-toast {left:104px;bottom:18px;max-width:calc(100vw - 116px)}
 }
 
 @media print {

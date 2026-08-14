@@ -29,7 +29,7 @@ The project turns the updated TOEFL iBT into an explorable learning system rathe
 - Independent Speaking response engines and Listen & Repeat chunk training.
 - Full Writing and Speaking practice packs with timers, drafts, recording, playback, and progress tracking.
 - Browser-local highlighting, comments, checklists, and study progress.
-- A persistent Pixel Pet Arcade with six original pets, three dens, toys, naps, dragging, and multi-pet interactions.
+- A persistent Pixel Pet Home with six selectable pets, one active companion, three home styles, toys, naps, and dragging.
 - A responsive maximalist-retro interface that works without a backend or build pipeline.
 
 ## Table of contents
@@ -37,7 +37,7 @@ The project turns the updated TOEFL iBT into an explorable learning system rathe
 - [Project pages](#project-pages)
 - [2026 format snapshot](#2026-format-snapshot)
 - [Core features](#core-features)
-- [Pixel Pet Arcade](#pixel-pet-arcade)
+- [Pixel Pet Home](#pixel-pet-home)
 - [Practice inventory](#practice-inventory)
 - [Architecture](#architecture)
 - [Getting started](#getting-started)
@@ -137,15 +137,16 @@ Across the guide and practice pages, `retromax.js` and the annotation systems pr
 - Reduced-motion support.
 - Keyboard-visible focus states.
 
-### Pixel Pet Arcade
+### Pixel Pet Home
 
 Every page loads the same dependency-free `pets.js` and `pets.css` playground. It includes:
 
 - Six original pixel pets: three cats and three dogs with distinct silhouettes and palettes.
-- A three-pet maximum with a persistent roster and cross-page positions.
-- Separate cat-ball and dog-bone play loops, click reactions, zoomies, roaming, naps, and wake-up states.
-- Pair and three-pet social scenes, including nose boops, paw handshakes, bone-tug, and tiny parades.
-- Three draggable shared-den skins with lit sleeper windows.
+- One active companion at a time, selected from a persistent six-pet roster.
+- Separate cat-ball and dog-bone play loops, click reactions, zoomies, roaming, snacks, dances, naps, and wake-up states.
+- Solo reactions and playful routines tailored to cats and dogs.
+- One small fixed bottom-left home with three selectable styles and lit sleeper windows; the home itself opens pet management.
+- An icon-only right-click palette for affection, play, snacks, dancing, zoomies, and returning home.
 - Pointer dragging, keyboard movement, direct action controls, quiet motion, autoplay, and a hide-world option.
 
 Pet choices and settings stay in browser storage. The playground does not use external image assets, tracking, or a backend.
@@ -185,7 +186,7 @@ flowchart TD
     R --> P
     R --> W
     R --> S
-    G["pets.js + pets.css · Pixel Pet Arcade"] --> I
+    G["pets.js + pets.css · Pixel Pet Home"] --> I
     G --> T
     G --> P
     G --> W
@@ -329,7 +330,7 @@ The current release has been checked for:
 - Dark-panel text contrast.
 - Task filters and task-detail selection.
 - Writing and Speaking template switching.
-- Pet persistence, the three-pet cap, separate species toys, sleep/wake, drag, keyboard, quiet-motion, and all-page singleton mounting.
+- Pet persistence, the one-pet cap, instant pet switching, separate species toys, sleep/wake, drag, keyboard, quiet-motion, and all-page singleton mounting.
 - Fresh browser console warnings and errors.
 
 Useful syntax checks:

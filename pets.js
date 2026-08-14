@@ -5,7 +5,7 @@
   window.__TOEFL_PIXEL_PETS__ = true;
 
   var STORAGE_KEY = "toefl26-pet-world:v1";
-  var MAX_PETS = 3;
+  var MAX_PETS = 1;
   var ROOT_ID = "toefl-pixel-pets";
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -113,7 +113,7 @@
 
   var DEFAULT_STATE = {
     version: 1,
-    active: ["saffron", "biscuit"],
+    active: ["saffron"],
     house: "sunbeam",
     autoplay: true,
     quiet: false,
@@ -370,6 +370,60 @@
       '</svg>';
   }
 
+  function treatSvg(species) {
+    if (species === "cat") {
+      return '<svg viewBox="0 0 32 24" aria-hidden="true" shape-rendering="crispEdges">' +
+        '<path fill="#18203f" d="M3 8h5V5h13v3h4V4h4v16h-4v-4h-4v3H8v-3H3z"/>' +
+        '<path fill="#79bfb2" d="M7 9h14v3h4V8h1v8h-1v-3h-4v3H7v-2H4v-4h3z"/>' +
+        '<rect x="10" y="10" width="3" height="3" fill="#fff8e8"/>' +
+      '</svg>';
+    }
+    return '<svg viewBox="0 0 32 24" aria-hidden="true" shape-rendering="crispEdges">' +
+      '<path fill="#18203f" d="M3 5h7v4h12V5h7v6h-4v2h4v6h-7v-4H10v4H3v-6h4v-2H3z"/>' +
+      '<path fill="#e5ad62" d="M6 8h3v4h14V8h3v1h-3v5H9V9H6zm0 7h3v-1h14v1h3v1h-3v-2H9v2H6z"/>' +
+    '</svg>';
+  }
+
+  function actionIconSvg(action, species) {
+    var open = '<svg viewBox="0 0 28 28" aria-hidden="true" shape-rendering="crispEdges">';
+    if (action === "pet") {
+      return open + '<path fill="#18203f" d="M3 8h4V4h6v4h2V4h6v4h4v8h-3v4h-4v4h-8v-4H6v-4H3z"/><path fill="#f2786b" d="M7 9h4v4h6V9h4v6h-3v4h-8v-4H7z"/></svg>';
+    }
+    if (action === "play") {
+      return species === "cat"
+        ? open + '<rect x="5" y="7" width="18" height="16" fill="#18203f"/><rect x="8" y="5" width="12" height="20" fill="#e86f65"/><rect x="3" y="10" width="22" height="9" fill="#e86f65"/><rect x="11" y="6" width="4" height="18" fill="#f2bd45"/><rect x="4" y="12" width="20" height="4" fill="#9fd8cf"/></svg>'
+        : open + '<path fill="#18203f" d="M2 6h6v4h12V6h6v6h-3v4h3v6h-6v-4H8v4H2v-6h3v-4H2z"/><path fill="#fff0c5" d="M5 9h3v4h12V9h3v1h-3v6H8v-6H5zm0 9h3v-2h12v2h3v1h-3v-3H8v3H5z"/></svg>';
+    }
+    if (action === "snack") {
+      return species === "cat"
+        ? open + '<path fill="#18203f" d="M2 9h5V6h12v3h4V5h4v18h-4v-5h-4v3H7v-3H2z"/><path fill="#79bfb2" d="M6 10h13v3h4V9h1v10h-1v-4h-4v3H6v-2H3v-4h3z"/><rect x="9" y="11" width="3" height="3" fill="#fff"/></svg>'
+        : open + '<path fill="#18203f" d="M3 6h6v4h10V6h6v6h-3v4h3v6h-6v-4H9v4H3v-6h3v-4H3z"/><path fill="#e5ad62" d="M6 9h3v4h10V9h3v1h-3v6H9v-6H6zm0 9h3v-2h10v2h3v1h-3v-3H9v3H6z"/></svg>';
+    }
+    if (action === "dance") {
+      return open + '<path fill="#18203f" d="M14 3h11v5h-7v12h-3v4h-7v-7h7V3zm5 2v2h4V5z"/><rect x="9" y="19" width="4" height="3" fill="#a878ca"/><rect x="18" y="4" width="5" height="2" fill="#f2bd45"/></svg>';
+    }
+    if (action === "zoomie") {
+      return open + '<path fill="#18203f" d="M12 2h8l-3 8h7L10 26l3-10H5z"/><path fill="#f2bd45" d="M13 5h4l-3 8h5l-6 8 2-8H9z"/></svg>';
+    }
+    return open + '<path fill="#18203f" d="M3 13h3V9h4V6h8v3h4v4h3v11H3z"/><path fill="#9fd8cf" d="M7 14h3v-3h8v3h3v7h-5v-5h-5v5H7z"/><path fill="#a878ca" d="M18 2h7v3h-3v3h-5V5h3V4h-2z"/></svg>';
+  }
+
+  function contextMenuMarkup() {
+    var actions = [
+      { id: "pet", label: "Pet" },
+      { id: "play", label: "Play" },
+      { id: "snack", label: "Give snack" },
+      { id: "dance", label: "Dance" },
+      { id: "zoomie", label: "Zoomies" },
+      { id: "sleep", label: "Go home" }
+    ];
+    return '<div class="pixel-pet-context-menu" data-pet-context role="menu" aria-label="Pet actions" hidden>' +
+      actions.map(function (action) {
+        return '<button type="button" role="menuitem" data-context-action="' + action.id + '" aria-label="' + action.label + '" title="' + action.label + '" data-tooltip="' + action.label + '">' + actionIconSvg(action.id, "cat") + '</button>';
+      }).join("") +
+    '</div>';
+  }
+
   function managerMarkup() {
     var cards = PETS.map(function (pet) {
       return '<article class="pixel-pet-card" data-pet-card="' + pet.id + '" data-active="false">' +
@@ -382,15 +436,15 @@
     return '<div class="pixel-pet-dialog-shell">' +
       '<header class="pixel-pet-dialog-header">' +
         '<span class="pixel-pet-dialog-mark" aria-hidden="true">&#9829;</span>' +
-        '<div class="pixel-pet-dialog-title"><h2 id="pixel-pet-dialog-title">Pet Arcade</h2><p data-pet-count-copy>0 / 3 exploring</p></div>' +
-        '<button class="pixel-pet-close" type="button" data-pet-close aria-label="Close Pet Arcade">&times;</button>' +
+        '<div class="pixel-pet-dialog-title"><h2 id="pixel-pet-dialog-title">Pet Home</h2><p data-pet-count-copy>0 / 1 in your crew</p></div>' +
+        '<button class="pixel-pet-close" type="button" data-pet-close aria-label="Close Pet Home">&times;</button>' +
       '</header>' +
       '<section class="pixel-pet-panel-section">' +
-        '<div class="pixel-pet-panel-heading"><h3>Choose your crew</h3><small>Up to three together</small></div>' +
+        '<div class="pixel-pet-panel-heading"><h3>Choose your pet</h3><small>One companion at a time</small></div>' +
         '<div class="pixel-pet-roster">' + cards + '</div>' +
       '</section>' +
       '<section class="pixel-pet-panel-section">' +
-        '<div class="pixel-pet-panel-heading"><h3>Shared den</h3><small>Drag it anywhere</small></div>' +
+        '<div class="pixel-pet-panel-heading"><h3>Home style</h3><small>Fixed safely at bottom-left</small></div>' +
         '<div class="pixel-house-picker">' +
           '<button class="pixel-house-choice" type="button" data-house="sunbeam" aria-pressed="false"><span class="pixel-house-mini"></span>Sunbeam<br>Cottage</button>' +
           '<button class="pixel-house-choice" type="button" data-house="arcade" aria-pressed="false"><span class="pixel-house-mini"></span>Mint<br>Arcade</button>' +
@@ -403,7 +457,7 @@
           '<button class="pixel-pet-action" type="button" data-pet-action="play"><span aria-hidden="true">&#9679;</span>Playtime</button>' +
           '<button class="pixel-pet-action" type="button" data-pet-action="home"><span aria-hidden="true">&#8962;</span>Call home</button>' +
           '<button class="pixel-pet-action" type="button" data-pet-action="wake"><span aria-hidden="true">Zz</span>Wake all</button>' +
-          '<button class="pixel-pet-action" type="button" data-pet-action="party"><span aria-hidden="true">&#9829;</span>Pet party</button>' +
+          '<button class="pixel-pet-action" type="button" data-pet-action="party"><span aria-hidden="true">&#9829;</span>Solo party</button>' +
           '<button class="pixel-pet-action" type="button" data-pet-action="shuffle"><span aria-hidden="true">&#8644;</span>Shuffle spots</button>' +
           '<button class="pixel-pet-action" type="button" data-pet-action="visibility"><span aria-hidden="true">&#9673;</span><span data-visibility-copy>Hide world</span></button>' +
         '</div>' +
@@ -416,7 +470,7 @@
         '</div>' +
       '</section>' +
       '<footer class="pixel-pet-help">' +
-        '<p><b>Try this:</b> drag pets around the whole screen, click for affection, double-click for zoomies, press Space for a toy, or drop a pet on the den door for a nap.</p>' +
+        '<p><b>Try this:</b> drag pets around the screen, click for affection, or right-click a pet to open its icon-only action palette. Drop a pet onto this little home for a nap.</p>' +
         '<button class="pixel-pet-reset" type="button" data-pet-reset>Reset the entire pet world</button>' +
       '</footer>' +
     '</div>';
@@ -429,6 +483,8 @@
     this.house = null;
     this.dialog = null;
     this.launcher = null;
+    this.contextMenu = null;
+    this.contextActor = null;
     this.live = null;
     this.toastEl = null;
     this.toastTimer = 0;
@@ -437,7 +493,6 @@
     this.scheduler = 0;
     this.nextSocialAt = Date.now() + random(18000, 28000);
     this.managerOpen = false;
-    this.houseDrag = null;
     this.destroyed = false;
   }
 
@@ -450,11 +505,14 @@
     this.root.setAttribute("data-pet-ui", "");
     this.root.innerHTML =
       '<div class="pixel-pet-stage" data-pet-stage aria-label="Interactive pixel pet playground"></div>' +
-      '<button class="pixel-pet-launcher" type="button" data-pet-launcher aria-controls="pixel-pet-dialog" aria-expanded="false" aria-label="Open Pet Arcade">' +
-        '<span class="pixel-pet-launcher-icon">' + pawIconSvg() + '</span>' +
-        '<span class="pixel-pet-launcher-copy"><b>Pet Arcade</b><small>Click to manage</small></span>' +
+      '<button class="pixel-pet-launcher" type="button" data-pet-launcher data-pet-house data-door-open="false" data-sleepers="0" aria-controls="pixel-pet-dialog" aria-expanded="false" aria-label="Open Pet Home">' +
+        '<span class="pixel-pet-home-art" data-home-art aria-hidden="true">' + houseSvg(HOUSES[this.state.house]) + '</span>' +
+        '<span class="pixel-house-sleepers" aria-hidden="true"><span></span><span></span><span></span></span>' +
+        '<span class="pixel-house-zzz" aria-hidden="true">Zz</span>' +
+        '<span class="pixel-pet-home-sign" aria-hidden="true">PET HOME</span>' +
         '<span class="pixel-pet-count" data-pet-count>0</span>' +
       '</button>' +
+      contextMenuMarkup() +
       '<div class="pixel-pet-toast" data-pet-toast aria-hidden="true"></div>' +
       '<div class="pixel-pet-live" data-pet-live role="status" aria-live="polite"></div>' +
       '<dialog class="pixel-pet-dialog" id="pixel-pet-dialog" aria-labelledby="pixel-pet-dialog-title">' + managerMarkup() + '</dialog>';
@@ -462,6 +520,7 @@
     document.body.appendChild(this.root);
     this.stage = this.root.querySelector("[data-pet-stage]");
     this.launcher = this.root.querySelector("[data-pet-launcher]");
+    this.contextMenu = this.root.querySelector("[data-pet-context]");
     this.dialog = this.root.querySelector("#pixel-pet-dialog");
     this.live = this.root.querySelector("[data-pet-live]");
     this.toastEl = this.root.querySelector("[data-pet-toast]");
@@ -477,7 +536,7 @@
       var self = this;
       window.setTimeout(function () {
         self.launcher.dataset.nudge = "true";
-        self.toast("New: drag your pixel pets, click them, or open the Pet Arcade.");
+        self.toast("New: right-click a pet for tricks, or open the little Pet Home.");
         var first = self.actors.values().next().value;
         if (first) first.say("Drag me or click for a trick!", 4400);
         self.state.introduced = true;
@@ -488,42 +547,42 @@
   };
 
   PetWorld.prototype.buildHouse = function () {
-    var self = this;
     var theme = HOUSES[this.state.house];
-    if (this.house) this.house.remove();
-    this.house = document.createElement("button");
-    this.house.type = "button";
-    this.house.className = "pixel-house";
-    this.house.setAttribute("data-pet-house", "");
+    this.house = this.launcher;
+    if (!this.house) return;
+    var art = this.house.querySelector("[data-home-art]");
+    if (art) art.innerHTML = houseSvg(theme);
     this.house.setAttribute("data-door-open", "false");
     this.house.setAttribute("data-sleepers", "0");
-    this.house.setAttribute("aria-label", theme.name + ". Drag to move; activate to call a pet home.");
-    this.house.innerHTML =
-      houseSvg(theme) +
-      '<span class="pixel-house-sleepers" aria-hidden="true"><span></span><span></span><span></span></span>' +
-      '<span class="pixel-house-zzz" aria-hidden="true">Zz</span>' +
-      '<span class="pixel-house-tip" data-house-tip>Click the door to call someone home.</span>' +
-      '<span class="pixel-house-name">' + theme.name + '</span>';
-    this.stage.insertBefore(this.house, this.stage.firstChild);
-    this.house.style.zIndex = "490";
-
-    var saved = this.state.housePosition;
-    var size = this.houseSize();
-    var x = saved && isFinite(saved.x) ? saved.x * Math.max(1, window.innerWidth - size.width) : Math.max(210, window.innerWidth * 0.68);
-    var y = saved && isFinite(saved.y) ? saved.y * Math.max(1, window.innerHeight - size.height) : window.innerHeight - size.height - 18;
-    this.setHousePosition(x, y, false);
-
-    this.house.addEventListener("pointerdown", function (event) { self.startHouseDrag(event); });
-    this.house.addEventListener("pointermove", function (event) { self.moveHouseDrag(event); });
-    this.house.addEventListener("pointerup", function (event) { self.endHouseDrag(event); });
-    this.house.addEventListener("pointercancel", function (event) { self.endHouseDrag(event); });
-    this.house.addEventListener("lostpointercapture", function (event) { self.endHouseDrag(event); });
-    this.house.addEventListener("keydown", function (event) { self.houseKeydown(event); });
+    this.updateHouseSleepers();
   };
 
   PetWorld.prototype.bindInterface = function () {
     var self = this;
     this.launcher.addEventListener("click", function () { self.openManager(); });
+
+    this.contextMenu.addEventListener("click", function (event) {
+      var action = event.target.closest("[data-context-action]");
+      if (!action || !self.contextActor) return;
+      event.preventDefault();
+      event.stopPropagation();
+      self.runContextAction(self.contextActor, action.getAttribute("data-context-action"));
+    });
+
+    this.contextMenu.addEventListener("keydown", function (event) {
+      var buttons = Array.from(self.contextMenu.querySelectorAll("button"));
+      var index = buttons.indexOf(document.activeElement);
+      var next = index;
+      if (event.key === "ArrowRight") next = (index + 1 + buttons.length) % buttons.length;
+      else if (event.key === "ArrowLeft") next = (index - 1 + buttons.length) % buttons.length;
+      else if (event.key === "ArrowDown") next = (index + 3) % buttons.length;
+      else if (event.key === "ArrowUp") next = (index - 3 + buttons.length) % buttons.length;
+      else if (event.key === "Home") next = 0;
+      else if (event.key === "End") next = buttons.length - 1;
+      else return;
+      event.preventDefault();
+      buttons[next].focus();
+    });
 
     this.dialog.addEventListener("click", function (event) {
       if (event.target === self.dialog) {
@@ -579,18 +638,30 @@
       self.scheduleAll();
     });
 
-    window.addEventListener("resize", function () { self.handleResize(); }, { passive: true });
+    window.addEventListener("resize", function () {
+      self.closeContextMenu();
+      self.handleResize();
+    }, { passive: true });
+    window.addEventListener("scroll", function () { self.closeContextMenu(); }, { passive: true, capture: true });
     document.addEventListener("visibilitychange", function () {
       if (!document.hidden) self.scheduleAll();
     });
 
     document.addEventListener("click", function (event) {
-      if (!self.managerOpen) return;
-      if (event.target.closest(".notes-button,.annotation-fab,.annotation-drawer")) self.closeManager();
+      if (!event.target.closest("[data-pet-context]")) self.closeContextMenu();
+      if (self.managerOpen && event.target.closest(".notes-button,.annotation-fab,.annotation-drawer")) self.closeManager();
     }, true);
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !self.contextMenu.hidden) {
+        event.preventDefault();
+        self.closeContextMenu(true);
+      }
+    });
   };
 
   PetWorld.prototype.openManager = function () {
+    this.closeContextMenu();
     this.managerOpen = true;
     this.launcher.setAttribute("aria-expanded", "true");
     this.updateManager();
@@ -612,6 +683,74 @@
     this.launcher.setAttribute("aria-expanded", "false");
     this.launcher.focus();
     this.scheduleAll();
+  };
+
+  PetWorld.prototype.openContextMenu = function (actor, clientX, clientY, focusMenu) {
+    if (!actor || actor.state === "sleep" || !this.contextMenu) return;
+    this.closeContextMenu();
+    if (this.managerOpen) this.closeManager();
+    actor.cancelAction();
+    actor.wake(false);
+    window.clearTimeout(actor.bubbleTimer);
+    actor.el.removeAttribute("data-speaking");
+    actor.lock = "menu";
+    actor.setState("idle");
+    actor.lastUserAction = Date.now();
+    this.contextActor = actor;
+    this.contextMenu.setAttribute("aria-label", "Actions for " + actor.name);
+    Array.from(this.contextMenu.querySelectorAll("[data-context-action]")).forEach(function (button) {
+      var action = button.getAttribute("data-context-action");
+      var label = button.getAttribute("data-tooltip") || action;
+      button.innerHTML = actionIconSvg(action, actor.config.species);
+      button.setAttribute("aria-label", label + " — " + actor.name);
+    });
+    var rect = actor.el.getBoundingClientRect();
+    var x = rect.left + rect.width / 2;
+    var y = rect.top;
+    this.contextMenu.hidden = false;
+    this.contextMenu.dataset.species = actor.config.species;
+    this.contextMenu.dataset.petName = actor.name;
+    var width = this.contextMenu.offsetWidth || 115;
+    var height = this.contextMenu.offsetHeight || 58;
+    this.contextMenu.style.left = clamp(x - width / 2, 8, window.innerWidth - width - 8) + "px";
+    this.contextMenu.style.top = clamp(y - height - 1, 46, window.innerHeight - height - 8) + "px";
+    if (focusMenu) {
+      var first = this.contextMenu.querySelector("button");
+      if (first) first.focus();
+    }
+  };
+
+  PetWorld.prototype.closeContextMenu = function (restoreFocus) {
+    if (!this.contextMenu || this.contextMenu.hidden) return;
+    var actor = this.contextActor;
+    this.contextMenu.hidden = true;
+    this.contextActor = null;
+    if (actor && actor.lock === "menu") {
+      actor.lock = "";
+      actor.setState("idle");
+      actor.scheduleNext();
+    }
+    if (restoreFocus && actor && actor.state !== "sleep") actor.el.focus();
+  };
+
+  PetWorld.prototype.runContextAction = function (actor, action) {
+    this.closeContextMenu();
+    if (!actor) return;
+    if (action === "pet") {
+      actor.react();
+    } else if (action === "play") {
+      this.play(actor, true);
+      this.announce(actor.name + " started playing.");
+    } else if (action === "snack") {
+      actor.snack();
+    } else if (action === "dance") {
+      actor.dance();
+    } else if (action === "zoomie") {
+      actor.zoomie();
+    } else if (action === "sleep") {
+      this.sendHome(actor, true);
+      this.announce(actor.name + " is going home for a nap.");
+    }
   };
 
   PetWorld.prototype.syncActors = function () {
@@ -646,12 +785,14 @@
       this.toast(config.name + " is resting off-screen.");
     } else {
       if (this.state.active.length >= MAX_PETS) {
-        this.announce("Three pets are already exploring. Send one home before adding another.");
-        this.toast("The playground is full: three pets maximum.");
-        return;
+        var previous = petById(this.state.active[0]);
+        this.state.active = [id];
+        this.announce(config.name + " is now your active companion.");
+        this.toast(config.name + " moved in" + (previous ? "; " + previous.name + " returned to the roster." : "."));
+      } else {
+        this.state.active.push(id);
+        this.announce(config.name + " joined the playground.");
       }
-      this.state.active.push(id);
-      this.announce(config.name + " joined the playground.");
       this.state.worldHidden = false;
     }
 
@@ -666,7 +807,7 @@
     this.updateHouseSleepers();
     this.persist();
     this.updateManager();
-    this.announce(HOUSES[id].name + " is now the shared den.");
+    this.announce(HOUSES[id].name + " is now the shared home.");
     this.toast("Den changed to " + HOUSES[id].name + ".");
   };
 
@@ -686,18 +827,18 @@
   };
 
   PetWorld.prototype.applyPreferences = function () {
+    var activeCount = this.state.active.length;
     this.root.setAttribute("data-world-hidden", this.state.worldHidden ? "true" : "false");
     this.root.setAttribute("data-quiet-motion", this.state.quiet || reduceMotion ? "true" : "false");
-    this.launcher.setAttribute("aria-label", "Open Pet Arcade. " + this.state.active.length + " pets active.");
+    this.launcher.setAttribute("aria-label", "Open " + HOUSES[this.state.house].name + " Pet Home. " + activeCount + (activeCount === 1 ? " pet active, " : " pets active, ") + this.sleepingActors().length + " sleeping.");
   };
 
   PetWorld.prototype.updateManager = function () {
     if (!this.dialog) return;
     var active = this.state.active;
-    var atLimit = active.length >= MAX_PETS;
     var countCopy = this.dialog.querySelector("[data-pet-count-copy]");
     var countBadge = this.root.querySelector("[data-pet-count]");
-    if (countCopy) countCopy.textContent = active.length + " / " + MAX_PETS + " exploring";
+    if (countCopy) countCopy.textContent = active.length + " / " + MAX_PETS + " in your crew";
     if (countBadge) countBadge.textContent = active.length;
 
     PETS.forEach(function (pet) {
@@ -706,10 +847,10 @@
       var isActive = active.indexOf(pet.id) >= 0;
       var button = card.querySelector("[data-pet-toggle]");
       card.setAttribute("data-active", isActive ? "true" : "false");
-      button.textContent = isActive ? "Send home" : "Add pet";
+      button.textContent = isActive ? "Remove pet" : "Choose pet";
       button.setAttribute("aria-pressed", isActive ? "true" : "false");
-      button.disabled = !isActive && atLimit;
-      button.title = button.disabled ? "Three pets are already exploring." : "";
+      button.disabled = false;
+      button.title = isActive ? pet.name + " is your current companion." : "Switch to " + pet.name + ".";
     }, this);
 
     Array.from(this.dialog.querySelectorAll("[data-house]")).forEach(function (button) {
@@ -743,13 +884,13 @@
       actors.forEach(function (actor, index) {
         window.setTimeout(function () { self.sendHome(actor, true, index); }, index * 220);
       });
-      this.announce("The pets are heading to their shared den.");
+      this.announce("The pets are heading to their fixed little home.");
     } else if (name === "wake") {
       this.wakeAll(true);
     } else if (name === "party") {
       if (actors.length < 2) {
-        actors[0].react("A one-pet party!");
-        this.toast("Add a second pet to unlock team animations.");
+        actors[0].react("Solo pixel party!");
+        this.toast("One tiny companion, one excellent party.");
       } else {
         this.startSocial(true);
       }
@@ -765,7 +906,7 @@
       this.state.worldHidden = !this.state.worldHidden;
       this.applyPreferences();
       this.updateManager();
-      this.toast(this.state.worldHidden ? "Pet world hidden. The launcher stays here." : "Pet world is back!");
+      this.toast(this.state.worldHidden ? "Pet world hidden. The little home stays here." : "Pet world is back!");
       this.announce(this.state.worldHidden ? "Pet world hidden." : "Pet world shown.");
     }
 
@@ -854,9 +995,11 @@
     actor.cancelAction();
     actor.lock = "home";
     var housePos = this.housePosition();
-    var slot = isFinite(preferredSlot) ? preferredSlot % 3 : this.sleepingActors().length % 3;
-    var targetX = housePos.x + 18 + slot * 24;
-    var targetY = housePos.y + 52;
+    var houseSize = this.houseSize();
+    var actorSize = actor.size();
+    var slot = isFinite(preferredSlot) ? preferredSlot % MAX_PETS : this.sleepingActors().length % MAX_PETS;
+    var targetX = housePos.x + (houseSize.width - actorSize.width) / 2 + (slot - (MAX_PETS - 1) / 2) * 11;
+    var targetY = housePos.y + houseSize.height - actorSize.height * 0.72;
     var distance = Math.hypot(targetX - actor.x, targetY - actor.y);
     var duration = this.motionAllowed() ? clamp(Math.round(distance * 4.8), 700, 3000) : 0;
     actor.say("Home, sweet pixel home.", 1700);
@@ -897,7 +1040,9 @@
       slot.innerHTML = actor ? petFaceSvg(actor.config) : "";
     });
     this.house.setAttribute("aria-label", HOUSES[this.state.house].name + ". " +
-      (sleepers.length ? sleepers.length + " pets sleeping. Activate to wake them." : "Activate to call a pet home; drag to move."));
+      (sleepers.length
+        ? sleepers.length + (sleepers.length === 1 ? " pet is sleeping. " : " pets are sleeping. ") + "Activate to manage pets."
+        : "Pet Home. Activate to manage pets."));
   };
 
   PetWorld.prototype.wakeAll = function (announce) {
@@ -969,8 +1114,8 @@
 
   PetWorld.prototype.defaultPosition = function (index, total, shuffled) {
     var narrow = window.innerWidth < 720;
-    var width = narrow ? 88 : 104;
-    var height = narrow ? 88 : 104;
+    var width = narrow ? 80 : 94;
+    var height = narrow ? 80 : 94;
     var x;
     if (shuffled) {
       x = random(narrow ? 75 : 185, Math.max(narrow ? 80 : 190, window.innerWidth - width - 20));
@@ -1027,7 +1172,7 @@
     }
     var awake = Array.from(this.actors.values()).filter(function (actor) { return actor.state !== "sleep"; });
     if (!awake.length) {
-      this.houseSpeak("Add a pet in the Arcade first.");
+      this.houseSpeak("Add a pet in the Home first.");
       return;
     }
     var pos = this.housePosition();
@@ -1074,16 +1219,18 @@
   };
 
   PetWorld.prototype.housePosition = function () {
+    var rect = this.house ? this.house.getBoundingClientRect() : null;
     return {
-      x: Number(this.house && this.house.dataset.x) || 0,
-      y: Number(this.house && this.house.dataset.y) || 0
+      x: rect ? rect.left : 14,
+      y: rect ? rect.top : Math.max(72, window.innerHeight - 108)
     };
   };
 
   PetWorld.prototype.houseSize = function () {
+    var rect = this.house ? this.house.getBoundingClientRect() : null;
     return {
-      width: this.house ? (this.house.offsetWidth || (window.innerWidth < 720 ? 124 : 146)) : 146,
-      height: this.house ? (this.house.offsetHeight || (window.innerWidth < 720 ? 113 : 132)) : 132
+      width: rect && rect.width ? rect.width : (window.innerWidth < 720 ? 86 : 104),
+      height: rect && rect.height ? rect.height : (window.innerWidth < 720 ? 78 : 94)
     };
   };
 
@@ -1160,6 +1307,10 @@
 
   PetWorld.prototype.houseSpeak = function (message) {
     var tip = this.house.querySelector("[data-house-tip]");
+    if (!tip) {
+      this.toast(message);
+      return;
+    }
     tip.textContent = message;
     this.house.setAttribute("data-speaking", "true");
     window.clearTimeout(this.houseTipTimer);
@@ -1174,8 +1325,6 @@
     this.actors.forEach(function (actor) {
       actor.setPosition(actor.x, actor.y, 0);
     });
-    var pos = this.housePosition();
-    this.setHousePosition(pos.x, pos.y, false);
     window.clearTimeout(this.resizePersistTimer);
     this.resizePersistTimer = window.setTimeout(function () {
       self.actors.forEach(function (actor) {
@@ -1185,12 +1334,6 @@
           y: actor.y / Math.max(1, window.innerHeight - actorSize.height)
         };
       });
-      var housePos = self.housePosition();
-      var houseSize = self.houseSize();
-      self.state.housePosition = {
-        x: housePos.x / Math.max(1, window.innerWidth - houseSize.width),
-        y: housePos.y / Math.max(1, window.innerHeight - houseSize.height)
-      };
       self.persist();
       self.updateHouseSleepers();
     }, 180);
@@ -1253,11 +1396,12 @@
     this.el.setAttribute("data-species", config.species);
     this.el.setAttribute("data-state", "idle");
     this.el.setAttribute("data-facing", "right");
-    this.el.setAttribute("aria-label", config.name + " the " + config.kind + ". Enter to pet, Space to play, arrow keys to move, H to go home.");
+    this.el.setAttribute("aria-label", config.name + " the " + config.kind + ". Enter to pet, Space to play, arrow keys to move, H to go home, or Shift F10 for actions.");
     this.el.innerHTML =
       '<span class="pixel-pet-shadow" aria-hidden="true"></span>' +
       '<span class="pixel-pet-facing" aria-hidden="true"><span class="pixel-pet-avatar">' + petSvg(config, "") + '</span></span>' +
       '<span class="pixel-pet-toy" aria-hidden="true">' + toySvg(config.species) + '</span>' +
+      '<span class="pixel-pet-treat" aria-hidden="true">' + treatSvg(config.species) + '</span>' +
       '<span class="pixel-pet-fx" aria-hidden="true"></span>' +
       '<span class="pixel-pet-bubble" aria-hidden="true"></span>' +
       '<span class="pixel-pet-label">' + config.name + '</span>';
@@ -1303,6 +1447,11 @@
     window.addEventListener("pointerup", this.windowPointerUp);
     window.addEventListener("pointercancel", this.windowPointerUp);
     this.el.addEventListener("click", function (event) { self.click(event); });
+    this.el.addEventListener("contextmenu", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      self.world.openContextMenu(self, event.clientX, event.clientY, false);
+    });
     this.el.addEventListener("keydown", function (event) { self.keydown(event); });
     var toy = this.el.querySelector(".pixel-pet-toy");
     toy.addEventListener("pointerdown", function (event) { event.stopPropagation(); });
@@ -1367,7 +1516,7 @@
     if (moved && this.overHouseDoor()) {
       this.suppressClickUntil = Date.now() + 420;
       this.world.sendHome(this, true);
-      this.world.announce(this.name + " was tucked into the shared den.");
+      this.world.announce(this.name + " was tucked into the little Pet Home.");
     } else if (moved) {
       this.suppressClickUntil = Date.now() + 420;
       this.say("New lookout!", 1600);
@@ -1394,6 +1543,11 @@
 
   PetActor.prototype.keydown = function (event) {
     var step = event.shiftKey ? 24 : 8;
+    if (event.key === "ContextMenu" || (event.shiftKey && event.key === "F10")) {
+      event.preventDefault();
+      this.world.openContextMenu(this, 0, 0, true);
+      return;
+    }
     if (event.key === "Enter") {
       event.preventDefault();
       this.react();
@@ -1446,6 +1600,42 @@
       this.world.announce(this.name + " is happy.");
       this.world.toast(this.name + (this.config.species === "cat" ? " purrs in eight-bit." : " activates turbo tail."));
     }
+  };
+
+  PetActor.prototype.snack = function () {
+    this.cancelAction();
+    this.wake(false);
+    this.lock = "user";
+    this.lastUserAction = Date.now();
+    this.setState("snack");
+    this.say(this.config.species === "cat" ? "Pixel fish!" : "Biscuit break!", 1800);
+    this.emitFx(["+", "*", "+"]);
+    var self = this;
+    this.finishTimer = window.setTimeout(function () {
+      self.lock = "";
+      self.setState("idle");
+      self.scheduleNext();
+    }, this.world.motionAllowed() ? 2300 : 900);
+    this.world.toast(this.name + " enjoyed a tiny snack.");
+    this.world.announce(this.name + " is eating a pixel snack.");
+  };
+
+  PetActor.prototype.dance = function () {
+    this.cancelAction();
+    this.wake(false);
+    this.lock = "user";
+    this.lastUserAction = Date.now();
+    this.setState("dance");
+    this.say(this.config.species === "cat" ? "Paw-step remix!" : "Tail-wag shuffle!", 1900);
+    this.emitFx(["&#9835;", "*", "&#9834;"]);
+    var self = this;
+    this.finishTimer = window.setTimeout(function () {
+      self.lock = "";
+      self.setState("idle");
+      self.scheduleNext();
+    }, this.world.motionAllowed() ? 2700 : 1000);
+    this.world.toast(this.name + " started an eight-bit dance.");
+    this.world.announce(this.name + " is dancing.");
   };
 
   PetActor.prototype.zoomie = function () {
@@ -1508,7 +1698,7 @@
     if (state === "sleep") this.el.setAttribute("aria-hidden", "true");
     else this.el.removeAttribute("aria-hidden");
     var activity = state === "idle" ? "waiting" : state;
-    this.el.setAttribute("aria-label", this.name + " the " + this.config.kind + ", " + activity + ". Enter to pet, Space to play, arrow keys to move, H to go home.");
+    this.el.setAttribute("aria-label", this.name + " the " + this.config.kind + ", " + activity + ". Enter to pet, Space to play, arrow keys to move, H to go home, or Shift F10 for actions.");
     if (state !== "sleep") this.world.updateHouseSleepers();
   };
 
@@ -1544,8 +1734,8 @@
 
   PetActor.prototype.size = function () {
     return {
-      width: this.el.offsetWidth || (window.innerWidth < 720 ? 88 : 104),
-      height: this.el.offsetHeight || (window.innerWidth < 720 ? 88 : 104)
+      width: this.el.offsetWidth || (window.innerWidth < 720 ? 80 : 94),
+      height: this.el.offsetHeight || (window.innerWidth < 720 ? 80 : 94)
     };
   };
 
@@ -1610,6 +1800,7 @@
   };
 
   PetActor.prototype.destroy = function () {
+    if (this.world.contextActor === this) this.world.closeContextMenu();
     window.clearTimeout(this.finishTimer);
     window.clearTimeout(this.bubbleTimer);
     window.clearTimeout(this.clickTimer);
