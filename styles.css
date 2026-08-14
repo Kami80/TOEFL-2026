@@ -2054,3 +2054,50 @@ body.retromax-ready .community-link small{color:var(--retro-muted);font:650 9px/
   body.retromax-ready .community-support-actions{display:grid;grid-template-columns:1fr;width:100%}
   body.retromax-ready .community-link{min-width:0}
 }
+
+/* Floating primary navigation — follows the reader without becoming a wall. */
+body.retromax-ready .nav-shell{
+  position:sticky;
+  top:12px;
+  z-index:1100;
+  width:calc(100% - 28px);
+  max-width:none;
+  height:68px;
+  margin:12px 14px 0;
+  padding:0 clamp(16px,2.4vw,34px);
+  border:2px solid var(--retro-line);
+  border-radius:999px;
+  background:rgba(255,247,232,.91);
+  box-shadow:5px 6px 0 rgba(24,32,63,.88),0 16px 34px rgba(24,32,63,.16);
+  -webkit-backdrop-filter:blur(14px) saturate(1.12);
+  backdrop-filter:blur(14px) saturate(1.12);
+  transition:background-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+body.retromax-ready .nav-shell:hover,
+body.retromax-ready .nav-shell:focus-within{
+  background:rgba(255,250,241,.97);
+  box-shadow:4px 5px 0 rgba(24,32,63,.9),0 18px 38px rgba(24,32,63,.2);
+}
+body.retromax-ready [id]{scroll-margin-top:98px}
+
+@media(max-width:900px){
+  body.retromax-ready .nav-shell{
+    top:9px;
+    width:calc(100% - 20px);
+    height:62px;
+    margin:9px 10px 0;
+    padding-inline:15px;
+  }
+}
+@media(max-width:560px){
+  body.retromax-ready .nav-shell{
+    top:7px;
+    width:calc(100% - 14px);
+    height:58px;
+    margin:7px 7px 0;
+    padding-inline:13px;
+    box-shadow:3px 4px 0 rgba(24,32,63,.88),0 11px 24px rgba(24,32,63,.16);
+  }
+  body.retromax-ready .brand-mark{width:34px;height:34px}
+  body.retromax-ready [id]{scroll-margin-top:82px}
+}
