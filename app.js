@@ -13073,6 +13073,56 @@
     { section: "Writing", items: "12", time: "23 min", color: "amber", tasks: "Build a Sentence \xB7 Email \xB7 Academic Discussion" },
     { section: "Speaking", items: "11", time: "8 min", color: "rose", tasks: "Listen & Repeat \xB7 Take an Interview" }
   ];
+  var formatDeepRows = [
+    {
+      section: "Reading",
+      code: "R",
+      color: "violet",
+      delivery: "Two-stage adaptive",
+      route: "Routing module \u2192 lower or upper second module",
+      anatomy: "30 Complete the Words \xB7 5\u201315 Daily Life \xB7 5\u201315 Academic Passage",
+      timing: "Router 18\u201321 min \xB7 Module 2: 9 min",
+      response: "Type missing letters + choose answers; text stays visible",
+      scoring: "35 raw points in the blueprint; some delivered items are unscored",
+      href: "task-explorer.html?section=reading#task-map"
+    },
+    {
+      section: "Listening",
+      code: "L",
+      color: "cyan",
+      delivery: "Two-stage adaptive",
+      route: "Routing module \u2192 lower or upper second module",
+      anatomy: "15\u201319 Responses \xB7 10 Conversation \xB7 18\u201322 Announcement + Talk",
+      timing: "Router 18 min \xB7 Module 2: lower 7 / upper 11 min",
+      response: "Audio plays once; choose answers; notes are allowed",
+      scoring: "35 raw points in the blueprint; some delivered items are unscored",
+      href: "task-explorer.html?section=listening#task-map"
+    },
+    {
+      section: "Writing",
+      code: "W",
+      color: "amber",
+      delivery: "Linear",
+      route: "10 sentence items \u2192 1 email \u2192 1 discussion",
+      anatomy: "Build a Sentence \xB7 Write an Email \xB7 Academic Discussion",
+      timing: "23 min total \xB7 Email 7 min \xB7 Discussion 10 min",
+      response: "Move language chunks, then type two constructed responses",
+      scoring: "20 raw points max: sentence items \xD71; responses \xD75",
+      href: "task-explorer.html?section=writing#writing-studio"
+    },
+    {
+      section: "Speaking",
+      code: "S",
+      color: "rose",
+      delivery: "Linear",
+      route: "7 Listen and Repeat \u2192 4 Take an Interview",
+      anatomy: "Accuracy and intelligibility \xB7 spontaneous interview responses",
+      timing: "8 min total \xB7 no preparation time in official samples",
+      response: "Listen once, then record into the microphone",
+      scoring: "55 raw points max: every response has a 5-point maximum",
+      href: "task-explorer.html?section=speaking#speaking-studio"
+    }
+  ];
   var checklistItems = [
     "My identification exactly matches my ETS registration name.",
     "I have confirmed my test time, time zone and test-center or Home Edition requirements.",
@@ -13184,6 +13234,7 @@
     const [editingId, setEditingId] = (0, import_react.useState)(null);
     const [editingComment, setEditingComment] = (0, import_react.useState)("");
     const [toast, setToast] = (0, import_react.useState)("");
+    const [highlightPopover, setHighlightPopover] = (0, import_react.useState)(null);
     const [highlightSupported, setHighlightSupported] = (0, import_react.useState)(true);
     (0, import_react.useEffect)(() => {
       const frame = window.requestAnimationFrame(() => {
@@ -13294,6 +13345,7 @@
         const root2 = document.getElementById("guide-content");
         const target = event.target;
         if (!root2 || !(target instanceof Element) || !root2.contains(target) || target.closest("[data-annotation-ui], input, textarea, select, button, a, audio")) return;
+        setHighlightPopover(null);
         let pointRange = null;
         if (document.caretRangeFromPoint) pointRange = document.caretRangeFromPoint(event.clientX, event.clientY);
         else if (document.caretPositionFromPoint) {
@@ -13317,10 +13369,18 @@
         const offset = before.toString().length;
         const hit = annotations.map((annotation) => ({ annotation, location: locateAnnotation(root2, annotation) })).filter((item) => item.location && offset >= item.location.start && offset <= item.location.end).sort((a, b) => a.location.end - a.location.start - (b.location.end - b.location.start))[0];
         if (!hit) return;
-        setPanelOpen(true);
-        setDraft(null);
-        setEditingId(hit.annotation.id);
-        setEditingComment(hit.annotation.comment || "");
+        const noteRange = createTextRange(root2, hit.location.start, hit.location.end);
+        const rect = noteRange?.getBoundingClientRect();
+        if (!rect) return;
+        const popoverWidth = Math.min(340, window.innerWidth - 24);
+        const half = popoverWidth / 2;
+        const below = rect.top < 190;
+        setHighlightPopover({
+          annotation: hit.annotation,
+          x: Math.max(half + 12, Math.min(window.innerWidth - half - 12, rect.left + rect.width / 2)),
+          y: below ? rect.bottom : rect.top,
+          below
+        });
         setToolbar(null);
       };
       document.addEventListener("click", openClickedHighlight);
@@ -13337,6 +13397,7 @@
       setComment("");
       setColor("yellow");
       setPanelOpen(true);
+      setHighlightPopover(null);
       setToolbar(null);
     };
     const saveNote = () => {
@@ -13394,9 +13455,32 @@
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u2726" }),
         " Highlight & comment"
       ] }) }),
+      highlightPopover && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: `annotation-highlight-popover color-${highlightPopover.annotation.color} ${highlightPopover.below ? "is-below" : ""}`, style: { left: highlightPopover.x, top: highlightPopover.y }, role: "dialog", "aria-label": "Saved highlight comment", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "✦ SAVED HIGHLIGHT" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", "aria-label": "Close highlight comment", onClick: () => setHighlightPopover(null), children: "×" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("blockquote", { children: ["“", highlightPopover.annotation.quote, "”"] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: highlightPopover.annotation.comment ? "" : "empty-comment", children: highlightPopover.annotation.comment || "No comment yet—add a quick memory cue." }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => {
+            setPanelOpen(true);
+            setDraft(null);
+            setEditingId(highlightPopover.annotation.id);
+            setEditingComment(highlightPopover.annotation.comment || "");
+            setHighlightPopover(null);
+          }, children: "Edit comment" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => {
+            setPanelOpen(true);
+            setDraft(null);
+            setHighlightPopover(null);
+          }, children: "All notes →" })
+        ] })
+      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "annotation-fab", "aria-label": `Open My notes. ${annotations.length} saved`, onClick: () => {
         setPanelOpen(true);
         setDraft(null);
+        setHighlightPopover(null);
       }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "fab-icon", children: "\u270E" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "fab-label", children: "Highlight & comment" }),
@@ -13511,14 +13595,14 @@
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "nav-links", children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#format", children: "Format" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#sections", children: "Tasks" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#adaptive", children: "Adaptive test" }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#scoring", children: "Scoring" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#practice", children: "Practice" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "practice-packs.html", children: "Practice packs" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#test-day", children: "Test day" })
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#test-day", children: "Test day" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { className: "nav-feature nav-atlas", href: "task-explorer.html", children: "Task atlas ↗" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { className: "nav-feature nav-practice", href: "practice-packs.html", children: "Practice packs ↗" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: "nav-cta", href: "#sections", children: [
-          "Start exploring ",
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: "nav-cta", href: "practice-packs.html", children: [
+          "Start practicing ",
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u2192" })
         ] })
       ] })
@@ -13542,9 +13626,9 @@
             "See the full format ",
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u2193" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: "button button-ghost", href: "#practice", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "play", children: "\u25B6" }),
-            " Try a mini task"
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: "button button-ghost hero-atlas-link", href: "task-explorer.html", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "play", children: "TX" }),
+            " Open task atlas"
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: "button button-ghost", href: "practice-packs.html", children: [
             "Full practice packs ",
@@ -13651,6 +13735,41 @@
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "format-footnote", children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "*" }),
             " Reading and Listening are two-stage adaptive; delivered item counts and timing can vary. Public base figures are shown above."
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "format-deep-dive", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "format-deep-head", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "kicker", children: "MODULE + RESPONSE MATRIX" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: "What happens inside each section" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Read across the row to connect delivery, item mix, timing, response mode and raw-point construction. Module-specific task mixes are not published, so the table avoids inventing them." })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "format-detail-scroll", tabIndex: "0", "aria-label": "Scrollable detailed TOEFL format table", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "format-detail-row format-detail-labels", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Section + delivery" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Route" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Item anatomy" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Timing" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Response" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Blueprint scoring" })
+            ] }),
+            formatDeepRows.map((row) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: `format-detail-row detail-${row.color}`, href: row.href, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: "format-detail-section", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("i", { children: row.code }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("b", { children: [row.section, /* @__PURE__ */ (0, import_jsx_runtime.jsx)("small", { children: row.delivery })] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: row.route }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: row.anatomy }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: row.timing }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: row.response }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [row.scoring, /* @__PURE__ */ (0, import_jsx_runtime.jsx)("b", { children: "Deep dive \u2192" })] })
+            ] }, row.section))
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "format-deep-note", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("b", { children: "How to read this:" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Raw points describe the ETS blueprint; they do not provide a public shortcut to a 1\u20136 band." }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "task-explorer.html#format", children: "Open the full module atlas \u2197" })
           ] })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "change-grid", children: [
@@ -13768,6 +13887,51 @@
       ] })
     ] });
   }
+  function ResourceLaunchpad() {
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "resource-launchpad", id: "study-tools", "aria-labelledby": "study-tools-title", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { className: "resource-launch-head", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "kicker", children: "KEEP EXPLORING" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { id: "study-tools-title", children: "Choose your next move." })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "The main guide stays focused. Open the Task Atlas when you need complete strategies and models; open Practice Packs when you are ready to perform under time." })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "resource-launch-grid", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { className: "resource-card resource-atlas", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "resource-card-top", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "resource-icon", children: "TX" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: "resource-badge", children: ["12 TASK TYPES", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("b", { children: "Deep dive" })] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: "Open the complete Task Atlas." }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Move from format facts to task-by-task workflows, common traps, ETS-style examples, highlighted writing templates, and speaking scripts." }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "resource-tags", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Examples" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Templates" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Strategies" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { className: "resource-primary", href: "task-explorer.html", children: "Explore every task →" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { className: "resource-card resource-practice", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "resource-card-top", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "resource-icon", children: "▶" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: "resource-badge", children: ["95 PRACTICE ITEMS", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("b", { children: "Interactive" })] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: "Train in the full Practice Packs." }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Use timers, local drafts, speech playback, recording, answer reveals, and progress tracking across the complete Writing and Speaking packs." }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "resource-tags", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Writing" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Speaking" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Saved locally" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "resource-action-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { className: "resource-primary", href: "practice-packs.html", children: "Open practice hub →" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "writing-practice.html", children: "Writing" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "speaking-practice.html", children: "Speaking" })
+          ] })
+        ] })
+      ] })
+    ] });
+  }
   function TaskExplorer() {
     const [activeId, setActiveId] = (0, import_react.useState)(sections[0].id);
     const [openTask, setOpenTask] = (0, import_react.useState)(0);
@@ -13782,7 +13946,13 @@
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "kicker", children: "03 / TASK-BY-TASK EXPLORER" }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: "Every task, every module, every decision point." })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Use this enhanced explorer to understand section structure, module flow, what each task feels like, what ETS is measuring, a repeatable workflow, common traps and focused coaching. Facts come from ETS; tactics are clearly presented as study guidance." })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "task-heading-copy", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Start with the compact explorer here, then open the dedicated Task Atlas for official sample links, a complete module matrix, highlighted Writing templates and independent Speaking scripts." }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: "task-atlas-button", href: "task-explorer.html", children: [
+            "Open the complete Task Atlas ",
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u2197" })
+          ] })
+        ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "section-tabs", role: "tablist", "aria-label": "TOEFL sections", children: sections.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { role: "tab", "aria-selected": activeId === item.id, className: `${item.color} ${activeId === item.id ? "active" : ""}`, onClick: () => chooseSection(item.id), children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item.letter }),
@@ -13876,6 +14046,14 @@
           ] }, task.name);
         }) })
       ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: "task-atlas-launch", href: `task-explorer.html?section=${section.id}#task-map`, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("small", { children: "CONTINUE IN THE DEDICATED EXPLORER" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("b", { children: ["Open the complete ", section.title, " task map"] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("em", { children: section.id === "writing" ? "Highlighted templates, full models and rubric moves" : section.id === "speaking" ? "Highlighted scripts, response engines and chunk training" : "Official examples, decision rules and complete workflows" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("i", { children: "\u2197" })
+      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "adaptive-asterisk", children: "* Reading and Listening use adaptive routes, so delivered counts and timing may vary from the public base figures." })
     ] });
   }
@@ -13887,6 +14065,7 @@
     const overall = Math.round(average * 2) / 2;
     const band = scoreBands.find((item) => item.band === overall) ?? scoreBands[scoreBands.length - 1];
     const gap = Math.max(0, target - overall);
+    const weakest = scoreEntries.reduce((lowest, entry) => entry[1] < lowest[1] ? entry : lowest, scoreEntries[0]);
     const updateScore = (name, value) => setScores((current) => ({ ...current, [name]: value }));
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "score-section", id: "scoring", children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "section-heading score-heading", children: [
@@ -13915,6 +14094,13 @@
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { htmlFor: "target-band", children: "My target overall" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("select", { id: "target-band", value: target, onChange: (event) => setTarget(Number(event.target.value)), children: [3, 3.5, 4, 4.5, 5, 5.5, 6].map((value) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value, children: value.toFixed(1) }, value)) }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: gap === 0 ? "target-met" : "", children: gap === 0 ? "Target met in this scenario" : `${gap.toFixed(1)} band gap in this scenario` })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "score-presets", "aria-label": "Score scenario presets", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Quick scenarios" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => setScores({ Reading: 4, Listening: 4, Writing: 4, Speaking: 4 }), children: "Balanced 4.0" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => setScores({ Reading: 5, Listening: 5, Writing: 5, Speaking: 5 }), children: "C1 profile" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => setScores({ Reading: 5.5, Listening: 5, Writing: 4, Speaking: 4 }), children: "Strong R/L" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => setScores({ Reading: 4.5, Listening: 4.5, Writing: 4, Speaking: 4 }), children: "Reset" })
           ] })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "score-result", children: [
@@ -13926,6 +14112,11 @@
               band.cefr
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: band.descriptor })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "score-insight", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Next focus" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("b", { children: weakest[0] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("em", { children: `${weakest[1].toFixed(1)} band` })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "score-formula", children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("small", { children: "RAW AVERAGE" }),
@@ -13966,7 +14157,8 @@
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "score-transition", children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "JAN 2026 \u2192 JAN 2028" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "During the two-year transition, score reports show CEFR, 1\u20136 section and overall scores, and a comparable 0\u2013120 overall score. Always check an institution\u2019s current policy directly." })
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "During the two-year transition, score reports show CEFR, 1\u20136 section and overall scores, and a comparable 0\u2013120 overall score. Always check an institution\u2019s current policy directly." }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "practice-packs.html", children: "Practice, then model a score →" })
         ] })
       ] })
     ] });
@@ -14516,9 +14708,8 @@
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormatOverview, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TaskExplorer, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ResourceLaunchpad, {}),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScoreLab, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PracticeLab, {}),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TestDayAndFAQ, {}),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SourcesFooter, {})
       ] }),

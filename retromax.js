@@ -1,7 +1,6 @@
 (function(){
   'use strict';
 
-  const STORAGE_KEY='toefl-retromax-reader-v3';
   const qs=(s,r=document)=>r.querySelector(s);
   const qsa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 
@@ -17,25 +16,17 @@
     return el;
   }
 
-  function loadPrefs(){
-    try{
-      const value=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
-      return value && typeof value==='object' ? value : {};
-    }catch{return {}}
-  }
-
-  function savePrefs(next){
-    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(next))}catch{}
-  }
-
   function applyReadableText(root=document){
     const selectors=[
       'p','li','blockquote',
       '.task-description','.profile-overview','.source-note','.answer-box','.feedback',
-      '.transcript-box','.sample-panel p','.hub-card p','.pack-footer p','.faq-list article>p'
+      '.transcript-box','.sample-panel p','.hub-card p','.pack-footer p','.faq-list article>p',
+      '.atlas-heading>p','.detail-description','.example-desk>p','.template-source p',
+      '.move-notes p','.strategy-grid p','.strategy-grid li','.model-grid p',
+      '.speaking-prompt p','.speech-coaching p','.repeat-copy p','.source-ledger b'
     ];
     qsa(selectors.join(','),root).forEach(el=>{
-      if(el.closest('button,a,nav,.annotation-toolbar,.retro-reader-tools')) return;
+      if(el.closest('button,a,nav,.annotation-toolbar')) return;
       el.classList.add('justify-copy');
     });
   }
@@ -50,93 +41,46 @@
   function injectPackArt(){
     const hero=qs('.pack-hero');
     if(!hero || qs('.retro-pack-art',hero)) return;
+    const pack=document.body.dataset.pack;
+    if(pack!=='writing' && pack!=='speaking') return;
+    const heroCard=qs('.hero-card',hero);
+    if(!heroCard) return;
     const figure=make('figure','retro-pack-art');
     const img=new Image();
     img.loading='eager';
     img.decoding='async';
-    img.alt='Decorative retro study illustration';
-    const pack=document.body.dataset.pack;
+    img.alt=pack==='writing' ? 'Retro writing desk illustration' : 'Retro speaking studio illustration';
     img.src=pack==='writing' ? 'assets/retro-hero-writing.png' : pack==='speaking' ? 'assets/retro-hero-speaking.png' : 'assets/retro-hero-main.png';
     figure.appendChild(img);
-    hero.appendChild(figure);
+    heroCard.insertBefore(figure,qs('.metric-grid',heroCard));
   }
 
-  function addReadingProgress(){
-    if(qs('.retro-reading-progress')) return;
-    const bar=make('div','retro-reading-progress');
-    bar.setAttribute('aria-hidden','true');
-    document.body.appendChild(bar);
-    const update=()=>{
-      const doc=document.documentElement;
-      const max=Math.max(1,doc.scrollHeight-window.innerHeight);
-      bar.style.width=(Math.min(1,Math.max(0,window.scrollY/max))*100).toFixed(2)+'%';
-    };
-    update();
-    window.addEventListener('scroll',update,{passive:true});
-    window.addEventListener('resize',update,{passive:true});
-  }
+  function injectCommunityStrip(){
+    if(qs('.community-support')) return;
+    const footer=qs('.sources-footer')||qs('.atlas-footer')||qs('.pack-footer');
+    if(!footer || !footer.parentNode) return;
+    const section=make('section','community-support');
+    section.setAttribute('aria-label','Support this open learning project');
 
-  function addReaderTools(){
-    if(qs('.retro-reader-tools')) return;
-    const tools=make('div','retro-reader-tools');
-    tools.setAttribute('role','group');
-    tools.setAttribute('aria-label','Reading display controls');
+    const intro=make('div','community-support-copy');
+    intro.appendChild(make('span','community-kicker','OPEN LEARNING, BUILT TOGETHER'));
+    intro.appendChild(make('h2','', 'Help the guide keep growing.'));
+    intro.appendChild(make('p','', 'If this free project helps your TOEFL preparation, kindly give it a star on GitHub and join Kamiunity—our community for open-source learning.'));
 
-    const definitions=[
-      {key:'small',label:'A−',title:'Smaller text'},
-      {key:'normal',label:'A',title:'Normal text'},
-      {key:'large',label:'A+',title:'Larger text'}
-    ];
-    const sizeButtons={};
-    definitions.forEach(item=>{
-      const b=make('button','reader-size-btn',item.label);
-      b.type='button';
-      b.title=item.title;
-      b.setAttribute('aria-label',item.title);
-      b.dataset.readerSize=item.key;
-      sizeButtons[item.key]=b;
-      tools.appendChild(b);
-    });
-
-    const focus=make('button','reader-focus-btn','◉');
-    focus.type='button';
-    focus.title='Toggle distraction-free focus mode';
-    focus.setAttribute('aria-label','Toggle distraction-free focus mode');
-    tools.appendChild(focus);
-
-    const apply=(prefs=loadPrefs())=>{
-      const size=['small','normal','large'].includes(prefs.size) ? prefs.size : 'normal';
-      const focusOn=!!prefs.focus;
-      document.body.dataset.readingSize=size;
-      document.body.classList.toggle('focus-reading',focusOn);
-      Object.entries(sizeButtons).forEach(([key,button])=>{
-        const active=key===size;
-        button.classList.toggle('is-active',active);
-        button.setAttribute('aria-pressed',active?'true':'false');
-      });
-      focus.classList.toggle('is-active',focusOn);
-      focus.setAttribute('aria-pressed',focusOn?'true':'false');
-      focus.textContent=focusOn?'◎':'◉';
-      focus.title=focusOn?'Exit distraction-free focus mode':'Enter distraction-free focus mode';
-    };
-
-    Object.entries(sizeButtons).forEach(([key,button])=>{
-      button.addEventListener('click',()=>{
-        const prefs=loadPrefs();
-        prefs.size=key;
-        savePrefs(prefs);
-        apply(prefs);
-      });
-    });
-    focus.addEventListener('click',()=>{
-      const prefs=loadPrefs();
-      prefs.focus=!prefs.focus;
-      savePrefs(prefs);
-      apply(prefs);
-    });
-
-    document.body.appendChild(tools);
-    apply();
+    const actions=make('div','community-support-actions');
+    const github=make('a','community-link community-github');
+    github.href='https://github.com/Kami80/TOEFL-2026';
+    github.target='_blank';
+    github.rel='noreferrer';
+    github.innerHTML='<span aria-hidden="true">★</span><b>Star on GitHub</b><small>Kami80/TOEFL-2026</small>';
+    const telegram=make('a','community-link community-telegram');
+    telegram.href='https://t.me/kamiunity_opensource';
+    telegram.target='_blank';
+    telegram.rel='noreferrer';
+    telegram.innerHTML='<span aria-hidden="true">↗</span><b>Join Kamiunity</b><small>Open-source learning community</small>';
+    actions.append(github,telegram);
+    section.append(intro,actions);
+    footer.parentNode.insertBefore(section,footer);
   }
 
   function enhanceGuide(){
@@ -145,13 +89,19 @@
     applyReadableText(root);
     const heroCopy=qs('.hero > div:first-child',root)||qs('.hero',root);
     addStickerRail(heroCopy,['2026 format','Adaptive Reading + Listening','Practice-first guide']);
-    const headingLabels=[
-      ['Blueprint','Timing','Task map'],['Adaptive logic','Module 1','Module 2'],
-      ['Deep explorer','Workflows','Traps'],['Band scale','CEFR','Score lab'],
-      ['Practice lab','Audio','Writing'],['Test day','Checklist','Order']
-    ];
-    qsa('.section-heading > div:first-child',root).forEach((box,i)=>addStickerRail(box,headingLabels[i]||['TOEFL','Guide','2026']));
+    const headingLabels={
+      'format-section':['Blueprint','Timing','Task atlas'],
+      'score-section':['Band scale','CEFR','Score lab'],
+      'testday-section':['Test day','Checklist','Order'],
+      'faq-section':['Answers','Policies','2026 format']
+    };
+    qsa('.section-heading > div:first-child',root).forEach(box=>{
+      const section=box.closest('section');
+      const key=section ? Object.keys(headingLabels).find(name=>section.classList.contains(name)) : '';
+      addStickerRail(box,headingLabels[key]||['TOEFL','Guide','2026']);
+    });
     qsa('.task-card',root).forEach((card,i)=>card.dataset.retroIndex=String((i%4)+1));
+    injectCommunityStrip();
     setupSectionNav(root);
     setupReveal(root);
     return true;
@@ -162,14 +112,15 @@
     injectPackArt();
     const intro=qs('.pack-hero > div:first-child');
     const pack=document.body.dataset.pack;
-    const labels=pack==='writing' ? ['30 sentence items','5 email tasks','5 discussions'] : pack==='speaking' ? ['35 repeat items','20 interview answers','Local recording'] : ['Writing pack','Speaking pack','Study notes'];
+    const labels=pack==='writing' ? ['30 sentence items','5 email tasks','5 discussions'] : pack==='speaking' ? ['35 repeat items','20 interview answers','Local recording'] : pack==='explorer' ? ['12 task types','Official examples','Highlighted templates'] : ['Writing pack','Speaking pack','Study notes'];
     addStickerRail(intro,labels);
+    injectCommunityStrip();
     setupReveal(document);
   }
 
   function setupReveal(root=document){
     const reduce=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    const targets=qsa('.change-grid article,.task-card,.scale-card,.phase-grid article,.faq-list article,.hub-card,.practice-card',root);
+    const targets=qsa('.change-grid article,.task-card,.scale-card,.phase-grid article,.faq-list article,.hub-card,.practice-card,.module-lane,.model-grid article,.source-ledger a',root);
     if(reduce || !('IntersectionObserver' in window)){
       targets.forEach(el=>el.classList.add('is-visible'));
       return;
@@ -225,8 +176,6 @@
 
   ready(function(){
     document.body.classList.add('retromax-ready');
-    addReadingProgress();
-    addReaderTools();
     if(document.body.dataset.pack) enhancePack();
     else watchDynamicGuide();
     keepDynamicTextReadable();

@@ -81,9 +81,9 @@ body.retromax-ready .answer-box,
 body.retromax-ready .transcript-box,
 body.retromax-ready .saved-note p,
 body.retromax-ready .saved-note blockquote{
-  text-align:justify;
-  text-justify:inter-word;
-  hyphens:auto;
+  text-align:left;
+  text-justify:auto;
+  hyphens:none;
   line-height:1.72!important;
   color:var(--retro-muted)!important;
 }
@@ -347,25 +347,6 @@ body.retromax-ready .notes-head button{color:var(--retro-ink)}
 body.retromax-ready .saved-note.is-active{background:#fff0cc}
 body.retromax-ready .color-row button{border:2px solid var(--retro-line)}
 
-/* Reader tools */
-body.retromax-ready .retro-reading-progress{
-  position:fixed;top:0;left:0;z-index:1600;height:4px;width:0;
-  background:linear-gradient(90deg,var(--retro-coral),var(--retro-yellow),var(--retro-teal));
-}
-body.retromax-ready .retro-reader-tools{
-  position:fixed;left:18px;bottom:18px;z-index:880;
-  display:flex;gap:6px;padding:7px;border:2px solid var(--retro-line);border-radius:14px;
-  background:var(--retro-cream);box-shadow:var(--retro-shadow-sm);
-}
-body.retromax-ready .retro-reader-tools button{
-  width:34px;height:34px;padding:0;border:2px solid var(--retro-line);border-radius:9px;
-  background:var(--retro-white);color:var(--retro-ink);font-size:12px;font-weight:900;
-}
-body.retromax-ready .retro-reader-tools button:hover{background:var(--retro-mint)}
-body.retromax-ready[data-reading-size="large"]{font-size:17px}
-body.retromax-ready[data-reading-size="xlarge"]{font-size:18px}
-body.retromax-ready.focus-reading::before{opacity:.04}
-
 /* Motion */
 body.retromax-ready .retro-reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
 body.retromax-ready .retro-reveal.is-visible{opacity:1;transform:none}
@@ -381,7 +362,6 @@ body.retromax-ready .retro-reveal.is-visible{opacity:1;transform:none}
   body.retromax-ready .pack-nav{height:62px}
   body.retromax-ready .pack-hero{padding:40px 16px 30px}
   body.retromax-ready .pack-hero h1{font-size:46px}
-  body.retromax-ready .retro-reader-tools{left:10px;bottom:10px}
   body.retromax-ready .practice-card,
   body.retromax-ready .hero-card,
   body.retromax-ready .hub-card,
@@ -389,33 +369,12 @@ body.retromax-ready .retro-reveal.is-visible{opacity:1;transform:none}
 }
 
 /* =====================================================================
-   V3 READER + VIBRANT UI FIXES FOR PRACTICE PAGES
+   V3 READABILITY + VIBRANT UI FIXES FOR PRACTICE PAGES
    ===================================================================== */
-body.retromax-ready{--reader-copy-size:15px;--reader-ui-size:13px}
-body.retromax-ready[data-reading-size="small"]{--reader-copy-size:13.5px;--reader-ui-size:12px}
-body.retromax-ready[data-reading-size="large"]{--reader-copy-size:17px;--reader-ui-size:14px}
-body.retromax-ready :is(.pack-hero p,.source-pane .context,.prompt-pane p,.prompt-pane li,.professor-card p,.student-card p,.visual-pane p,.sample-panel p,.hub-card p,.pack-footer p,.feedback,.answer-box,.transcript-box,.saved-note p,.saved-note blockquote){font-size:var(--reader-copy-size)!important;line-height:1.72!important}
-body.retromax-ready :is(.mode-tabs button,.tool-btn,.primary-btn,.ghost-btn,.danger-btn,.question-nav button,.progress-strip button,.token-bank button,.placed-token,.sample-panel summary){font-size:var(--reader-ui-size)!important}
-body.retromax-ready .justify-copy{hyphens:none!important;word-break:normal!important;overflow-wrap:normal!important;text-align:justify!important;text-justify:inter-word!important}
-
-body.retromax-ready .retro-reader-tools{
-  position:fixed;left:18px;bottom:18px;z-index:880;display:flex;align-items:center;gap:7px;padding:8px;
-  border:2px solid var(--line);border-radius:16px;background:#fff2d8;box-shadow:5px 5px 0 var(--line),0 12px 24px rgba(27,33,69,.10)
-}
-body.retromax-ready .retro-reader-tools button{
-  width:38px;height:38px;display:grid;place-items:center;padding:0;border:2px solid var(--line);border-radius:10px;
-  background:#fffdf8;color:var(--ink);font-weight:900;font-size:12px
-}
-body.retromax-ready .retro-reader-tools button:hover{background:#ffd774;transform:translate(-1px,-1px)}
-body.retromax-ready .retro-reader-tools button.is-active,
-body.retromax-ready .retro-reader-tools button[aria-pressed="true"]{background:#ed7a68!important;color:var(--ink)!important;box-shadow:3px 3px 0 var(--line)!important}
-body.retromax-ready .retro-reader-tools .reader-focus-btn.is-active{background:#77d5c7!important}
-body.retromax-ready.focus-reading{background:#fffaf1!important}
-body.retromax-ready.focus-reading::before{display:none!important}
-body.retromax-ready.focus-reading .retro-sticker-rail,
-body.retromax-ready.focus-reading .retro-pack-art{display:none!important}
-body.retromax-ready.focus-reading .pack-hero{grid-template-columns:minmax(0,900px)!important;justify-content:center!important}
-body.retromax-ready.focus-reading :is(.practice-card,.hero-card,.hub-card,.notes-drawer){box-shadow:2px 2px 0 rgba(27,33,69,.35)!important}
+body.retromax-ready{--content-copy-size:15px;--content-ui-size:13px}
+body.retromax-ready :is(.pack-hero p,.source-pane .context,.prompt-pane p,.prompt-pane li,.professor-card p,.student-card p,.visual-pane p,.sample-panel p,.hub-card p,.pack-footer p,.feedback,.answer-box,.transcript-box,.saved-note p,.saved-note blockquote){font-size:var(--content-copy-size)!important;line-height:1.72!important}
+body.retromax-ready :is(.mode-tabs button,.tool-btn,.primary-btn,.ghost-btn,.danger-btn,.question-nav button,.progress-strip button,.token-bank button,.placed-token,.sample-panel summary){font-size:var(--content-ui-size)!important}
+body.retromax-ready .justify-copy{hyphens:none!important;word-break:normal!important;overflow-wrap:anywhere!important;text-align:left!important;text-justify:auto!important}
 
 /* Remove the heavy blue treatment from practice pages. */
 body.retromax-ready .pack-top{background:#fff0d3!important}
@@ -441,7 +400,283 @@ body.retromax-ready .pack-footer{background:linear-gradient(120deg,#713d9f,#1b80
 body.retromax-ready .notes-button,.selection-note{background:#d94f8a!important;color:#fff!important}
 body.retromax-ready .notes-drawer{background:#fff8e9!important}
 
-@media(max-width:600px){body.retromax-ready .retro-reader-tools{left:10px;bottom:10px}body.retromax-ready .retro-reader-tools button{width:36px;height:36px}}
 /* Contrast polish */
 body.retromax-ready .notes-button,
 body.retromax-ready .selection-note{background:#c63f7e!important;color:#fff!important}
+
+/* =====================================================================
+   DESKTOP READING SURFACES — WIDE PROSE, QUIET NESTED CARDS
+   ===================================================================== */
+
+/* Paragraphs are reading content, not newspaper columns. Left alignment
+   keeps spacing predictable at every viewport size and in every card. */
+body.retromax-ready :is(
+  .justify-copy,.pack-hero p,.source-pane .context,.source-note,
+  .prompt-pane p,.prompt-pane li,.professor-card p,.student-card p,
+  .sample-panel p,.visual-pane p,.hub-card p,.pack-footer p,
+  .feedback,.answer-box,.transcript-box,.saved-note p,.saved-note blockquote
+){
+  text-align:left!important;
+  text-justify:auto!important;
+  hyphens:none!important;
+  overflow-wrap:anywhere!important;
+  word-break:normal!important;
+  letter-spacing:0;
+}
+
+body.retromax-ready :is(.pack-nav,.pack-hero,.pack-shell){max-width:1320px}
+body.retromax-ready .pack-shell{padding-inline:28px}
+body.retromax-ready .practice-card{box-shadow:0 18px 42px rgba(24,32,63,.12),6px 6px 0 var(--retro-line)}
+
+/* Nested information should read as one surface, not a pile of boxes. */
+body.retromax-ready :is(
+  .hero-card .metric,.hub-list span,.mail-meta,.professor-card,.student-card,
+  .sample-panel,.record-box,.source-note,.feedback,.answer-box,.saved-note,.note-form
+){
+  border:1.5px solid rgba(24,32,63,.38);
+  border-radius:14px;
+  box-shadow:0 7px 18px rgba(24,32,63,.07);
+}
+body.retromax-ready .source-note{border-left:5px solid var(--retro-teal);background:#fff8e9}
+body.retromax-ready .sample-panel summary{
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+body.retromax-ready .sample-panel[open] summary{border-bottom:1px solid rgba(24,32,63,.15)}
+
+/* Dense support copy is capped so A+ remains useful without making compact
+   UI panels balloon. Primary prompts and editors continue to scale fully. */
+body.retromax-ready.retromax-ready :is(
+  .source-note,.feedback,.answer-box,.professor-card p,.student-card p,
+  .sample-panel p,.visual-pane p,.hub-card p,.saved-note p,.saved-note blockquote
+){
+  font-size:clamp(13.5px,var(--content-copy-size),15.5px)!important;
+  line-height:1.62!important;
+}
+body.retromax-ready :is(.prompt-pane>p,.prompt-pane>ul,.source-pane .context,.pack-hero p){max-width:72ch}
+body.retromax-ready .prompt-pane li{margin-block:7px;padding-left:3px}
+body.retromax-ready .mail-meta{max-width:66ch;padding:15px 17px;line-height:1.65}
+body.retromax-ready .editor-pane textarea{border-width:1.5px;box-shadow:inset 0 1px 0 rgba(24,32,63,.05)}
+
+@media(min-width:901px){
+  body.retromax-ready .sentence-layout{
+    grid-template-columns:minmax(350px,.72fr) minmax(0,1.28fr);
+  }
+  body.retromax-ready .email-layout{
+    grid-template-columns:minmax(390px,.82fr) minmax(520px,1.18fr);
+  }
+  body.retromax-ready .speaking-layout{
+    grid-template-columns:minmax(300px,.72fr) minmax(0,1.28fr);
+  }
+
+  /* Academic Discussion has the most source copy. Give it a dedicated wide
+     reading row, then a separate full-width writing surface. */
+  body.retromax-ready .discussion-layout{
+    grid-template-columns:1fr;
+    min-height:0;
+  }
+  body.retromax-ready .discussion-layout .discussion-prompt-pane{
+    padding:34px 40px 38px;
+    border-right:0;
+    border-bottom:2px solid var(--retro-line);
+  }
+  body.retromax-ready .discussion-layout .discussion-prompt-pane>p{max-width:76ch}
+  body.retromax-ready .discussion-grid{
+    grid-template-columns:1fr;
+    gap:16px;
+    margin-top:24px;
+  }
+  body.retromax-ready .professor-card{
+    display:grid;
+    grid-template-columns:110px minmax(0,1fr);
+    gap:18px;
+    align-items:start;
+    padding:20px 22px;
+    border-left:6px solid var(--retro-teal);
+    background:#e8f5f1;
+  }
+  body.retromax-ready .professor-card p{max-width:78ch}
+  body.retromax-ready .student-stack{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+  }
+  body.retromax-ready .student-card{
+    min-width:0;
+    padding:20px 22px;
+    border-top:5px solid var(--retro-yellow);
+    background:#fffaf0;
+  }
+  body.retromax-ready .student-card:nth-child(even){border-top-color:var(--retro-violet);background:#faf6ff}
+  body.retromax-ready .student-card p{max-width:58ch}
+  body.retromax-ready .discussion-layout .editor-pane{
+    min-height:500px;
+    padding:30px 40px 36px;
+  }
+  body.retromax-ready .discussion-layout .editor-pane textarea{min-height:360px}
+}
+
+@media(max-width:900px){
+  body.retromax-ready .pack-shell{padding-inline:18px}
+  body.retromax-ready .discussion-prompt-pane{border-right:0}
+}
+@media(max-width:680px){
+  body.retromax-ready .pack-shell{padding-inline:12px}
+  body.retromax-ready .student-stack{grid-template-columns:1fr}
+  body.retromax-ready .professor-card{display:block}
+}
+
+/* =====================================================================
+   FINAL PRACTICE POLISH — FRAMED HERO ART + INLINE HIGHLIGHT COMMENTS
+   ===================================================================== */
+
+/* Uploaded artwork now belongs to the information card instead of becoming
+   an oversized, unrelated third column. */
+body.retromax-ready .hero-card .retro-pack-art{
+  order:2;
+  width:100%;
+  margin:15px 0!important;
+  padding:7px!important;
+  border:1.5px solid rgba(24,32,63,.45)!important;
+  border-radius:16px!important;
+  background:#fff2d7!important;
+  box-shadow:none!important;
+  overflow:hidden;
+}
+body.retromax-ready .hero-card .retro-pack-art img{
+  display:block;
+  width:100%;
+  height:154px;
+  object-fit:cover;
+  object-position:center;
+  border:0!important;
+  border-radius:10px!important;
+  box-shadow:none!important;
+}
+body.retromax-ready .hero-card .metric-grid{order:3}
+
+body.retromax-ready .notes-button{
+  min-height:48px;padding:0 16px;border:2px solid #fff;border-radius:14px;
+  box-shadow:5px 5px 0 var(--retro-line),0 12px 28px rgba(24,32,63,.18);
+}
+body.retromax-ready .notes-drawer{z-index:1200;border-left:2px solid var(--retro-line)}
+body.retromax-ready .notes-head small{display:block;margin-bottom:4px;color:var(--retro-violet);font:900 9px/1 var(--font-display);letter-spacing:.1em}
+body.retromax-ready .notes-empty{margin-top:20px;padding:17px;border:1.5px dashed rgba(24,32,63,.42);border-radius:13px;background:#fff3d9}
+body.retromax-ready .notes-empty b{font:850 15px/1.25 var(--font-display)}
+body.retromax-ready .notes-empty p{margin:7px 0 0;color:var(--retro-muted);font-size:13px;line-height:1.55}
+
+.retro-highlight-popover{
+  --note:#ffd95a;
+  position:fixed;z-index:1400;width:min(340px,calc(100vw - 24px));
+  transform:translate(-50%,calc(-100% - 2px));
+  border:2px solid var(--retro-line);border-top:8px solid var(--note);border-radius:15px;
+  background:#fffaf0;color:var(--retro-ink);box-shadow:6px 6px 0 var(--retro-line),0 18px 38px rgba(24,32,63,.2);
+  animation:note-pop .16s ease-out;
+}
+.retro-highlight-popover[hidden]{display:none!important}
+.retro-highlight-popover.is-below{transform:translate(-50%,2px)}
+.retro-highlight-popover.color-mint{--note:#7be7bb}.retro-highlight-popover.color-blue{--note:#91b5ff}.retro-highlight-popover.color-pink{--note:#ff9db7}
+.retro-highlight-popover header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 11px;border-bottom:1.5px dashed rgba(24,32,63,.24)}
+.retro-highlight-popover header span{font:900 10px/1 var(--font-display);letter-spacing:.09em}
+.retro-highlight-popover header button{width:27px;height:27px;border:1.5px solid var(--retro-line);border-radius:8px;background:#fff;color:var(--retro-ink);font-size:18px;line-height:1}
+.retro-highlight-popover blockquote{max-height:92px;margin:0;padding:12px 13px 7px;overflow:auto;color:var(--retro-muted);font:700 12px/1.5 var(--font-body,'DM Sans',sans-serif)}
+.retro-highlight-popover .popover-comment{margin:0 12px 11px;padding:10px 11px;border-left:5px solid var(--note);border-radius:7px;background:#fff;color:var(--retro-ink);font-size:13px!important;line-height:1.5!important}
+.retro-highlight-popover .popover-comment em{color:var(--retro-muted)}
+.retro-highlight-popover footer{display:flex;gap:7px;padding:0 12px 12px}
+.retro-highlight-popover footer button{min-height:32px;padding:0 10px;border:1.5px solid var(--retro-line);border-radius:8px;background:var(--note);color:var(--retro-ink);font:800 10px/1 var(--font-display,'DM Sans',sans-serif)}
+.retro-highlight-popover footer button:last-child{background:#fff}
+@keyframes note-pop{from{opacity:0;transform:translate(-50%,calc(-100% + 5px)) scale(.97)}}
+
+body.retromax-ready .community-support{
+  max-width:1192px;margin:68px auto 36px;padding:24px 25px;display:grid;
+  grid-template-columns:minmax(280px,1fr) auto;gap:25px;align-items:center;
+  border:2px solid var(--retro-line);border-radius:22px;background:linear-gradient(115deg,#f2e3f8,#fff0ca 58%,#dff3ee);
+  box-shadow:7px 7px 0 var(--retro-line);
+}
+body.retromax-ready .community-kicker{color:var(--retro-violet);font:900 10px/1 var(--font-display,'DM Sans',sans-serif);letter-spacing:.11em}
+body.retromax-ready .community-support h2{margin:8px 0 5px;color:var(--retro-ink);font-size:27px;line-height:1.08;letter-spacing:-.04em}
+body.retromax-ready .community-support p{max-width:66ch;margin:0;color:var(--retro-muted)!important;font-size:13.5px!important;line-height:1.55!important}
+body.retromax-ready .community-support-actions{display:flex;gap:10px}
+body.retromax-ready .community-link{min-width:190px;display:grid;grid-template-columns:34px 1fr;column-gap:9px;align-items:center;padding:11px 12px;border:2px solid var(--retro-line);border-radius:13px;background:#fff;color:var(--retro-ink);box-shadow:3px 3px 0 var(--retro-line)}
+body.retromax-ready .community-link>span{grid-row:1/3;width:34px;height:34px;display:grid;place-items:center;border-radius:9px;background:var(--retro-yellow);font-size:16px}
+body.retromax-ready .community-telegram>span{background:var(--retro-mint)}
+body.retromax-ready .community-link b{font:850 12px/1.25 var(--font-display,'DM Sans',sans-serif)}
+body.retromax-ready .community-link small{color:var(--retro-muted);font-size:9px!important;line-height:1.35!important}
+
+@media(max-width:1060px){
+  body.retromax-ready .community-support{margin-inline:22px;grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  body.retromax-ready .hero-card .retro-pack-art img{height:132px}
+  body.retromax-ready .community-support{margin:52px 12px 28px;padding:20px 17px}
+  body.retromax-ready .community-support-actions{display:grid;grid-template-columns:1fr;width:100%}
+  body.retromax-ready .community-link{min-width:0}
+}
+
+/* Clear, accessible highlighter selection state. */
+.color-row{
+  display:flex;
+  gap:11px;
+  margin:10px 0 13px;
+  padding:3px;
+}
+.color-row button{
+  position:relative;
+  width:30px;
+  height:30px;
+  padding:0;
+  border-radius:50%;
+  transition:transform .16s ease,box-shadow .16s ease,outline-color .16s ease;
+}
+.color-row button:hover{transform:translateY(-2px)}
+.color-row button.active,
+body.retromax-ready .color-row button.active{
+  z-index:1;
+  border-color:#fff;
+  outline:3px solid var(--retro-line,#171a31);
+  box-shadow:3px 4px 0 rgba(23,26,49,.22);
+  transform:translateY(-3px);
+}
+.color-row button.active::after{
+  content:"\2713";
+  position:absolute;
+  right:-8px;
+  top:-9px;
+  width:17px;
+  height:17px;
+  display:grid;
+  place-items:center;
+  border:2px solid #fff;
+  border-radius:50%;
+  background:#171a31;
+  color:#fff;
+  font:900 10px/1 Arial,sans-serif;
+  box-shadow:1px 2px 0 rgba(23,26,49,.18);
+}
+.color-choice{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  min-height:28px;
+  margin:0 0 12px;
+  padding:4px 10px 4px 6px;
+  border:2px solid var(--retro-line,#171a31);
+  border-radius:999px;
+  background:#fff;
+  color:#171a31;
+  font-size:10px;
+  font-weight:850;
+  box-shadow:3px 3px 0 rgba(23,26,49,.16);
+}
+.color-choice::before{
+  content:"";
+  width:16px;
+  height:16px;
+  border:1.5px solid #171a31;
+  border-radius:50%;
+  background:#ffd95a;
+}
+.color-choice[data-color="mint"]::before{background:#7be7bb}
+.color-choice[data-color="blue"]::before{background:#91b5ff}
+.color-choice[data-color="pink"]::before{background:#ff9db7}
