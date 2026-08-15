@@ -13637,8 +13637,8 @@
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "fact-row", "aria-label": "Key test facts", children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "~2 hrs" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "allow for the test" })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "90 mins" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "approx. base test time" })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "12 task types" }),
