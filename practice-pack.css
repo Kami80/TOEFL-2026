@@ -735,3 +735,70 @@ html{scroll-padding-top:98px}
   body.retromax-ready .mode-tabs{top:70px}
   html{scroll-padding-top:80px}
 }
+
+@media(max-width:720px){
+  body.retromax-ready .pack-top{padding:7px 7px 0}
+  body.retromax-ready .pack-nav{
+    width:100%;
+    height:auto;
+    min-height:102px;
+    padding:8px 10px 9px;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:7px 8px;
+    align-items:center;
+    border-radius:24px;
+    box-shadow:3px 4px 0 rgba(24,32,63,.88),0 11px 24px rgba(24,32,63,.16);
+  }
+  body.retromax-ready .pack-brand{grid-column:1;grid-row:1;min-width:0;gap:8px;font-size:13px}
+  body.retromax-ready .pack-brand i{width:34px;height:34px}
+  body.retromax-ready .pack-brand span{display:inline!important;overflow:hidden;text-overflow:ellipsis}
+  body.retromax-ready .pack-home{
+    grid-column:2;
+    grid-row:1;
+    min-height:36px;
+    display:inline-flex!important;
+    align-items:center;
+    margin-left:0;
+    padding:0 10px;
+    font-size:10px!important;
+    white-space:nowrap;
+  }
+  body.retromax-ready .pack-links{
+    grid-column:1/-1;
+    grid-row:2;
+    width:100%;
+    display:flex!important;
+    gap:6px;
+    margin:0;
+    padding:7px 2px 2px;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none;
+    border-top:1.5px dashed rgba(24,32,63,.28);
+  }
+  body.retromax-ready .pack-links::-webkit-scrollbar{display:none}
+  body.retromax-ready .pack-links a{
+    flex:0 0 auto;
+    min-height:40px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 11px;
+    border:1.5px solid rgba(24,32,63,.42);
+    border-radius:999px;
+    background:#fffaf0;
+    box-shadow:2px 2px 0 rgba(24,32,63,.2);
+    font-size:11px!important;
+    scroll-snap-align:start;
+  }
+  body.retromax-ready .pack-links a:hover,
+  body.retromax-ready .pack-links a.active{
+    border-color:var(--retro-line);
+    background:var(--retro-mint)!important;
+    box-shadow:2px 2px 0 var(--retro-line);
+  }
+  body.retromax-ready .mode-tabs{top:128px}
+  html{scroll-padding-top:140px}
+}
