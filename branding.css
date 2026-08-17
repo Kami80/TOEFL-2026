@@ -1,0 +1,86 @@
+/* TOEFL 2026 — brand integration layer
+   Loaded after the existing page stylesheet so no existing UI behavior is changed. */
+
+:root{
+  --toefl-logo-bg:#fbf6ec;
+}
+
+/* Main guide + Task Explorer legacy T26 mark */
+.brand-mark{
+  width:52px !important;
+  height:52px !important;
+  flex:0 0 52px;
+  display:block !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:14px !important;
+  background:
+    var(--toefl-logo-bg)
+    url("toefl-2026-logo-header.webp")
+    center / contain no-repeat !important;
+  box-shadow:0 3px 12px rgba(18,19,34,.12) !important;
+  transform:none !important;
+  color:transparent !important;
+  font-size:0 !important;
+  overflow:hidden;
+}
+
+/* Practice-pack navigation uses <i>T26</i> */
+.pack-brand i{
+  width:52px !important;
+  height:52px !important;
+  flex:0 0 52px;
+  display:block !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:14px !important;
+  background:
+    var(--toefl-logo-bg)
+    url("toefl-2026-logo-header.webp")
+    center / contain no-repeat !important;
+  box-shadow:0 3px 12px rgba(18,19,34,.12) !important;
+  transform:none !important;
+  color:transparent !important;
+  font-size:0 !important;
+  font-style:normal !important;
+  overflow:hidden;
+}
+
+/* Direct image markup used on static sub-pages */
+.site-brand-logo{
+  width:52px;
+  height:52px;
+  flex:0 0 52px;
+  display:block;
+  object-fit:contain;
+  border-radius:14px;
+  background:var(--toefl-logo-bg);
+  box-shadow:0 3px 12px rgba(18,19,34,.12);
+}
+
+.footer-brand .brand-mark{
+  width:58px !important;
+  height:58px !important;
+  flex-basis:58px;
+}
+
+@media (max-width:820px){
+  .brand-mark,
+  .pack-brand i,
+  .site-brand-logo{
+    width:46px !important;
+    height:46px !important;
+    flex-basis:46px;
+    border-radius:12px;
+  }
+}
+
+@media (max-width:560px){
+  .brand-mark,
+  .pack-brand i,
+  .site-brand-logo{
+    width:42px !important;
+    height:42px !important;
+    flex-basis:42px;
+  }
+}
