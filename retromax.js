@@ -78,16 +78,111 @@
   }
 
   /* =========================================================
-     TOEFL://NAV + LIVING PIXEL SITE TREE
-     A shared, dependency-free navigation layer for every page.
+     TOEFL://NAV + PIXEL ROUTE MAP v2
+     Fast persistent navigation + full searchable sitemap.
+     No decorative tree: the map is a retro route console.
      ========================================================= */
   const SITE_ROUTES={
-    guide:{label:'Guide',short:'GUIDE',href:'index.html',desc:'Format, scoring & test day',group:'learn'},
-    atlas:{label:'Task Atlas',short:'TASKS',href:'task-explorer.html',desc:'Explore all 12 task types',group:'learn'},
-    hub:{label:'Practice Hub',short:'HUB',href:'practice-packs.html',desc:'Choose what to train',group:'practice'},
-    writing:{label:'Writing Lab',short:'WRITE',href:'writing-practice.html',desc:'Timed writing & drafts',group:'practice'},
-    speaking:{label:'Speaking Lab',short:'SPEAK',href:'speaking-practice.html',desc:'Record, replay & practice',group:'practice'}
+    guide:{label:'Field Guide',short:'GUIDE',href:'index.html',desc:'Format, scoring, study plan & test day',group:'learn'},
+    atlas:{label:'Task Atlas',short:'TASKS',href:'task-explorer.html',desc:'All 12 task types, templates & scripts',group:'learn'},
+    hub:{label:'Practice Hub',short:'HUB',href:'practice-packs.html',desc:'Choose a complete practice pack',group:'practice'},
+    writing:{label:'Writing Lab',short:'WRITE',href:'writing-practice.html',desc:'Sentence, email & discussion practice',group:'practice'},
+    speaking:{label:'Speaking Lab',short:'SPEAK',href:'speaking-practice.html',desc:'Listen & Repeat + Interview practice',group:'practice'}
   };
+
+  const SITE_MAP={
+    guide:{
+      code:'01',glyph:'G',label:'FIELD GUIDE',title:'TOEFL 2026 Field Guide',href:'index.html',desc:'The complete overview: format, adaptation, scoring, practice, planning, test day and sources.',
+      sections:[
+        {label:'Start / Overview',href:'index.html#top',desc:'Guide introduction and quick launch.'},
+        {label:'Format at a Glance',href:'index.html#format',desc:'Four sections, timing, delivery and blueprint details.'},
+        {label:'Adaptive Reading + Listening',href:'index.html#adaptive',desc:'How the routing module and second-stage route work.'},
+        {label:'Task-by-Task Explorer',href:'index.html#sections',desc:'Compact guide to every task family.'},
+        {label:'Score Lab',href:'index.html#scoring',desc:'Section bands, overall score and target scenarios.'},
+        {label:'Practice Lab',href:'index.html#practice',desc:'Five small interactive format drills.',children:[
+          {label:'Complete Words drill',href:'index.html?drill=words#practice'},
+          {label:'Build Sentence drill',href:'index.html?drill=sentence#practice'},
+          {label:'Choose Response drill',href:'index.html?drill=listen#practice'},
+          {label:'Timed Writing drill',href:'index.html?drill=write#practice'},
+          {label:'Voice Lab drill',href:'index.html?drill=speak#practice'}
+        ]},
+        {label:'Study Blueprint',href:'index.html#plan',desc:'4, 8 or 12-week planning system.'},
+        {label:'Test Day',href:'index.html#test-day',desc:'Section order, rules and checklist.'},
+        {label:'Questions / FAQ',href:'index.html#faq',desc:'Important format and policy answers.'},
+        {label:'Official Source Desk',href:'index.html#sources',desc:'Primary ETS references used by the guide.'}
+      ]
+    },
+    atlas:{
+      code:'02',glyph:'T',label:'TASK ATLAS',title:'Complete Task Atlas',href:'task-explorer.html',desc:'Deep task mechanics, module routes, examples, writing frameworks and speaking response engines.',
+      sections:[
+        {label:'Atlas Start',href:'task-explorer.html#explorer-main',desc:'Task Atlas overview and section console.'},
+        {label:'Expanded Format',href:'task-explorer.html#format',desc:'Comprehensive format matrix and module lanes.'},
+        {label:'All 12 Task Types',href:'task-explorer.html#task-map',desc:'Interactive task workbench.',children:[
+          {label:'01 · Complete the Words',href:'task-explorer.html?task=complete-words#task-map'},
+          {label:'02 · Read in Daily Life',href:'task-explorer.html?task=daily-life#task-map'},
+          {label:'03 · Academic Passage',href:'task-explorer.html?task=academic-passage#task-map'},
+          {label:'04 · Choose a Response',href:'task-explorer.html?task=choose-response#task-map'},
+          {label:'05 · Conversation',href:'task-explorer.html?task=conversation#task-map'},
+          {label:'06 · Announcement',href:'task-explorer.html?task=announcement#task-map'},
+          {label:'07 · Academic Talk',href:'task-explorer.html?task=academic-talk#task-map'},
+          {label:'08 · Build a Sentence',href:'task-explorer.html?task=build-sentence#task-map'},
+          {label:'09 · Write an Email',href:'task-explorer.html?task=write-email#task-map'},
+          {label:'10 · Academic Discussion',href:'task-explorer.html?task=academic-discussion#task-map'},
+          {label:'11 · Listen & Repeat',href:'task-explorer.html?task=listen-repeat#task-map'},
+          {label:'12 · Take an Interview',href:'task-explorer.html?task=take-interview#task-map'}
+        ]},
+        {label:'Writing Response Studio',href:'task-explorer.html#writing-studio',desc:'Highlighted structures, models and timing strategies.',children:[
+          {label:'Email · problem + request',href:'task-explorer.html?template=email-problem#writing-studio'},
+          {label:'Email · status + clarification',href:'task-explorer.html?template=email-status#writing-studio'},
+          {label:'Email · peer coordination',href:'task-explorer.html?template=email-peer#writing-studio'},
+          {label:'Discussion · agree + extend',href:'task-explorer.html?template=discussion-extend#writing-studio'},
+          {label:'Discussion · qualify + counter',href:'task-explorer.html?template=discussion-qualify#writing-studio'},
+          {label:'Writing model library',href:'task-explorer.html#writing-library-title'}
+        ]},
+        {label:'Speaking Response Studio',href:'task-explorer.html#speaking-studio',desc:'Interview engines, highlighted scripts and delivery coaching.',children:[
+          {label:'Opinion / preference engine',href:'task-explorer.html?engine=opinion#speaking-studio'},
+          {label:'Experience / memory engine',href:'task-explorer.html?engine=experience#speaking-studio'},
+          {label:'Routine / lifestyle engine',href:'task-explorer.html?engine=routine#speaking-studio'},
+          {label:'Solution / prediction engine',href:'task-explorer.html?engine=solution#speaking-studio'},
+          {label:'Listen & Repeat chunk map',href:'task-explorer.html#repeat-title'}
+        ]},
+        {label:'Research Desk',href:'task-explorer.html#sources',desc:'ETS and supporting preparation sources.'}
+      ]
+    },
+    hub:{
+      code:'03',glyph:'P',label:'PRACTICE HUB',title:'Practice Hub',href:'practice-packs.html',desc:'The launch point for complete Writing and Speaking practice environments.',
+      sections:[
+        {label:'Practice Hub Start',href:'practice-packs.html#page-top',desc:'Overview of available practice packs.'},
+        {label:'Writing Practice Pack',href:'practice-packs.html#writing-pack',desc:'40 Writing questions and saved progress.'},
+        {label:'Speaking Practice Pack',href:'practice-packs.html#speaking-pack',desc:'55 Speaking items with recording tools.'},
+        {label:'Study Notes',href:'practice-packs.html#notes',desc:'Highlights and comments saved in the browser.'},
+        {label:'Offline-friendly Notes',href:'practice-packs.html#page-footer',desc:'Local usage and browser capability information.'}
+      ]
+    },
+    writing:{
+      code:'04',glyph:'W',label:'WRITING LAB',title:'Writing Practice Lab',href:'writing-practice.html',desc:'Complete interactive Writing practice with timers, drafts, progress and answer review.',
+      sections:[
+        {label:'Writing Lab Start',href:'writing-practice.html#page-top',desc:'Pack overview and source inventory.'},
+        {label:'Build a Sentence',href:'writing-practice.html?mode=sentence#practice-root',desc:'30 questions across three timed sets.'},
+        {label:'Write an Email',href:'writing-practice.html?mode=email#practice-root',desc:'Five 7-minute email prompts.'},
+        {label:'Academic Discussion',href:'writing-practice.html?mode=discussion#practice-root',desc:'Five 10-minute discussion prompts.'},
+        {label:'Study Notes',href:'writing-practice.html#notes',desc:'Open saved highlights and comments.'},
+        {label:'Source Fidelity',href:'writing-practice.html#page-footer',desc:'Practice-source and adaptation notes.'}
+      ]
+    },
+    speaking:{
+      code:'05',glyph:'S',label:'SPEAKING LAB',title:'Speaking Practice Lab',href:'speaking-practice.html',desc:'Complete Speaking practice with prompt audio, microphone recording and optional speech recognition.',
+      sections:[
+        {label:'Speaking Lab Start',href:'speaking-practice.html#page-top',desc:'Pack overview and speaking inventory.'},
+        {label:'Listen & Repeat',href:'speaking-practice.html?mode=repeat#practice-root',desc:'35 sentences across five scenarios.'},
+        {label:'Take an Interview',href:'speaking-practice.html?mode=interview#practice-root',desc:'20 questions across five interview sets.'},
+        {label:'Study Notes',href:'speaking-practice.html#notes',desc:'Open saved pronunciation and strategy notes.'},
+        {label:'Microphone & Privacy',href:'speaking-practice.html#page-footer',desc:'Recording privacy and browser requirements.'}
+      ]
+    }
+  };
+
+  let mapLastFocus=null;
 
   function currentSiteRoute(){
     const file=(location.pathname.split('/').pop()||'index.html').toLowerCase();
@@ -102,50 +197,15 @@
     if(qs('link[data-site-tree-style]')) return;
     const link=document.createElement('link');
     link.rel='stylesheet';
-    link.href='site-tree-nav.css?v=20260818-tree1';
+    link.href='site-tree-nav.css?v=20260818-map2';
     link.dataset.siteTreeStyle='true';
     document.head.appendChild(link);
   }
 
-  function makePixelTree(extraClass=''){
-    const art=make('div','site-pixel-tree '+extraClass);
-    art.setAttribute('aria-hidden','true');
-    const pattern=[
-      '.......ll........',
-      '....llllllll.....',
-      '...llllllllll....',
-      '.llllllllllllll..',
-      'llllllllllllllll.',
-      '..llllllllllll...',
-      '...llllbbllll....',
-      '.....bbbb........',
-      '.....bbbb........',
-      '....bbbbbb.......',
-      '....bb..bb.......',
-      '...bb....bb......'
-    ];
-    pattern.forEach((row,y)=>Array.from(row).forEach((cell,x)=>{
-      if(cell==='.') return;
-      const px=make('i','site-tree-pixel '+(cell==='b'?'is-bark':'is-leaf'));
-      if(cell==='l') px.dataset.tone=String(((x*3+y*5)%4)+1);
-      px.style.gridColumn=String(x+1);
-      px.style.gridRow=String(y+1);
-      art.appendChild(px);
-    }));
-    return art;
-  }
-
-  function routeLink(id,className=''){
-    const route=SITE_ROUTES[id];
-    const a=make('a',className);
-    a.href=route.href;
-    a.dataset.siteRoute=id;
-    a.innerHTML='<b>'+route.label+'</b><small>'+route.desc+'</small>';
-    if(id===currentSiteRoute()){
-      a.classList.add('is-current');
-      a.setAttribute('aria-current','page');
-    }
-    return a;
+  function openPracticeBranch(practice,button){
+    if(!practice||!button) return;
+    practice.classList.add('is-open');
+    button.setAttribute('aria-expanded','true');
   }
 
   function closePracticeBranch(){
@@ -156,11 +216,18 @@
     btn.setAttribute('aria-expanded','false');
   }
 
+  function fastPracticeItem(label,href,desc,current=false){
+    const a=make('a','site-fastnav-branch-link');
+    a.href=href;
+    if(current) a.classList.add('is-current');
+    a.innerHTML='<b>'+label+'</b><small>'+desc+'</small><i aria-hidden="true">→</i>';
+    return a;
+  }
+
   function createFastNav(){
     if(qs('.site-fastnav')) return;
     const current=currentSiteRoute();
     const route=SITE_ROUTES[current];
-
     const bar=make('header','site-fastnav');
     bar.setAttribute('aria-label','Fast site navigation');
 
@@ -180,11 +247,9 @@
     nav.setAttribute('aria-label','Primary pages');
     const guide=make('a','site-fastnav-link','GUIDE');
     guide.href=SITE_ROUTES.guide.href;
-    guide.dataset.siteRoute='guide';
+    if(current==='guide') guide.classList.add('is-current');
     const atlas=make('a','site-fastnav-link','TASKS');
     atlas.href=SITE_ROUTES.atlas.href;
-    atlas.dataset.siteRoute='atlas';
-    if(current==='guide') guide.classList.add('is-current');
     if(current==='atlas') atlas.classList.add('is-current');
 
     const practice=make('div','site-fastnav-practice');
@@ -192,13 +257,35 @@
     practiceToggle.type='button';
     practiceToggle.setAttribute('aria-expanded','false');
     practiceToggle.setAttribute('aria-controls','site-fastnav-practice-panel');
-    practiceToggle.innerHTML='PRACTICE <i aria-hidden="true">+</i>';
+    practiceToggle.innerHTML='<span>PRACTICE</span><i aria-hidden="true">+</i>';
     if(route.group==='practice') practiceToggle.classList.add('is-current');
+
     const practicePanel=make('div','site-fastnav-branch-panel');
     practicePanel.id='site-fastnav-practice-panel';
-    practicePanel.append(routeLink('hub'),routeLink('writing'),routeLink('speaking'));
+    practicePanel.setAttribute('aria-label','Practice destinations');
+    const panelHead=make('div','site-fastnav-branch-head');
+    panelHead.innerHTML='<span>TOEFL://PRACTICE</span><b>Choose a lab</b><small>This panel stays open until you leave it intentionally.</small>';
+    const hub=fastPracticeItem('Practice Hub','practice-packs.html','Choose a complete pack',current==='hub');
+    hub.classList.add('is-featured');
+    const columns=make('div','site-fastnav-branch-columns');
+    const wcol=make('section','site-fastnav-mini-group');
+    wcol.innerHTML='<header><span>W</span><b>WRITING LAB</b></header>';
+    wcol.append(
+      fastPracticeItem('Open Writing Lab','writing-practice.html','All writing practice',current==='writing'),
+      fastPracticeItem('Build a Sentence','writing-practice.html?mode=sentence#practice-root','30 questions'),
+      fastPracticeItem('Write an Email','writing-practice.html?mode=email#practice-root','5 timed prompts'),
+      fastPracticeItem('Academic Discussion','writing-practice.html?mode=discussion#practice-root','5 timed prompts')
+    );
+    const scol=make('section','site-fastnav-mini-group');
+    scol.innerHTML='<header><span>S</span><b>SPEAKING LAB</b></header>';
+    scol.append(
+      fastPracticeItem('Open Speaking Lab','speaking-practice.html','All speaking practice',current==='speaking'),
+      fastPracticeItem('Listen & Repeat','speaking-practice.html?mode=repeat#practice-root','35 sentences'),
+      fastPracticeItem('Take an Interview','speaking-practice.html?mode=interview#practice-root','20 questions')
+    );
+    columns.append(wcol,scol);
+    practicePanel.append(panelHead,hub,columns);
     practice.append(practiceToggle,practicePanel);
-
     nav.append(guide,atlas,practice);
 
     const routeChip=make('div','site-fastnav-route');
@@ -206,8 +293,8 @@
 
     const mapButton=make('button','site-map-open');
     mapButton.type='button';
-    mapButton.innerHTML='<span class="site-map-open-icon" aria-hidden="true">⌘</span><b>MAP</b>';
-    mapButton.setAttribute('aria-label','Open interactive TOEFL site map');
+    mapButton.innerHTML='<span class="site-map-open-pixels" aria-hidden="true"><i></i><i></i><i></i><i></i></span><b>MAP</b>';
+    mapButton.setAttribute('aria-label','Open complete TOEFL site map');
 
     bar.append(brand,nav,routeChip,mapButton);
     document.body.prepend(bar);
@@ -218,38 +305,161 @@
 
     practiceToggle.addEventListener('click',e=>{
       e.stopPropagation();
-      const open=practice.classList.toggle('is-open');
-      practiceToggle.setAttribute('aria-expanded',String(open));
+      if(practice.classList.contains('is-open')) closePracticeBranch();
+      else openPracticeBranch(practice,practiceToggle);
     });
-    practice.addEventListener('mouseenter',()=>{
-      if(matchMedia('(hover:hover)').matches){practice.classList.add('is-open');practiceToggle.setAttribute('aria-expanded','true')}
+    practice.addEventListener('pointerenter',()=>{
+      if(matchMedia('(hover:hover)').matches) openPracticeBranch(practice,practiceToggle);
     });
-    practice.addEventListener('mouseleave',()=>{
-      if(matchMedia('(hover:hover)').matches) closePracticeBranch();
-    });
+    practice.addEventListener('focusin',()=>openPracticeBranch(practice,practiceToggle));
+    practicePanel.addEventListener('click',e=>e.stopPropagation());
     document.addEventListener('click',e=>{if(!practice.contains(e.target)) closePracticeBranch()});
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape' && practice.classList.contains('is-open')){
+        closePracticeBranch();
+        practiceToggle.focus({preventScroll:true});
+      }
+    });
   }
 
-  function setMapBranch(branch,open){
-    const section=qs('.site-map-branch[data-branch="'+branch+'"]');
-    if(!section) return;
-    const button=qs('.site-map-branch-toggle',section);
-    section.classList.toggle('is-grown',open);
-    button?.setAttribute('aria-expanded',String(open));
+  function targetHash(href){
+    try{return new URL(href,location.href).hash||''}catch{return ''}
+  }
+
+  function isCurrentMapLink(pageId,href){
+    if(pageId!==currentSiteRoute()) return false;
+    try{
+      const u=new URL(href,location.href);
+      const here=new URL(location.href);
+      if(u.pathname!==here.pathname) return false;
+      const sameMode=(u.searchParams.get('mode')||'')===(here.searchParams.get('mode')||'');
+      const sameTask=(u.searchParams.get('task')||'')===(here.searchParams.get('task')||'');
+      const sameTemplate=(u.searchParams.get('template')||'')===(here.searchParams.get('template')||'');
+      const sameEngine=(u.searchParams.get('engine')||'')===(here.searchParams.get('engine')||'');
+      if((u.searchParams.has('mode')&&!sameMode)||(u.searchParams.has('task')&&!sameTask)||(u.searchParams.has('template')&&!sameTemplate)||(u.searchParams.has('engine')&&!sameEngine)) return false;
+      if(!u.hash) return !here.hash;
+      return u.hash===here.hash;
+    }catch{return false}
+  }
+
+  function routeCard(pageId,item,depth=0){
+    const a=make('a','site-map-route-card'+(depth?' is-child':''));
+    a.href=item.href;
+    a.dataset.mapPage=pageId;
+    if(isCurrentMapLink(pageId,item.href)) a.classList.add('is-current');
+    const n=make('span','site-map-route-index',depth?'·':'→');
+    const copy=make('span','site-map-route-copy');
+    copy.innerHTML='<b>'+item.label+'</b>'+(item.desc?'<small>'+item.desc+'</small>':'');
+    const end=make('i','site-map-route-go',depth?'↳':'ENTER');
+    a.append(n,copy,end);
+    return a;
+  }
+
+  function flattenMap(){
+    const out=[];
+    Object.entries(SITE_MAP).forEach(([pageId,page])=>{
+      out.push({pageId,page,item:{label:page.title,href:page.href,desc:page.desc},kind:'page'});
+      page.sections.forEach(section=>{
+        out.push({pageId,page,item:section,kind:'section'});
+        (section.children||[]).forEach(child=>out.push({pageId,page,item:child,kind:'child',parent:section.label}));
+      });
+    });
+    return out;
+  }
+
+  function createPixelRouteChip(text,tone='a'){
+    const chip=make('span','site-map-pixel-chip tone-'+tone);
+    chip.innerHTML='<i></i><i></i><i></i><i></i><b>'+text+'</b>';
+    return chip;
+  }
+
+  function renderMapPage(pageId){
+    const stage=qs('.site-map-stage');
+    if(!stage) return;
+    const page=SITE_MAP[pageId]||SITE_MAP[currentSiteRoute()]||SITE_MAP.guide;
+    qsa('.site-map-page-button').forEach(btn=>{
+      const active=btn.dataset.page===pageId;
+      btn.classList.toggle('is-active',active);
+      btn.setAttribute('aria-selected',String(active));
+    });
+    stage.dataset.page=pageId;
+    stage.innerHTML='';
+
+    const hero=make('header','site-map-page-hero');
+    const identity=make('div','site-map-page-identity');
+    const badge=make('span','site-map-page-glyph',page.glyph);
+    const copy=make('div','site-map-page-copy');
+    copy.innerHTML='<span>ROUTE '+page.code+' / '+page.label+'</span><h3>'+page.title+'</h3><p>'+page.desc+'</p>';
+    identity.append(badge,copy);
+    const open=make('a','site-map-page-open','OPEN PAGE →');
+    open.href=page.href;
+    hero.append(identity,open);
+
+    const meter=make('div','site-map-route-meter');
+    meter.append(
+      createPixelRouteChip(String(page.sections.length).padStart(2,'0')+' SECTIONS','a'),
+      createPixelRouteChip(pageId===currentSiteRoute()?'CURRENT PAGE':'LOCAL ROUTES','b'),
+      createPixelRouteChip('CLICK TO JUMP','c')
+    );
+
+    const list=make('div','site-map-route-list');
+    page.sections.forEach((section,index)=>{
+      const group=make('section','site-map-route-group');
+      const header=make('div','site-map-route-group-head');
+      header.innerHTML='<span>'+String(index+1).padStart(2,'0')+'</span><b>'+section.label+'</b>'+(section.children?.length?'<small>'+section.children.length+' sub-routes</small>':'');
+      group.append(header,routeCard(pageId,section,0));
+      if(section.children?.length){
+        const children=make('div','site-map-route-children');
+        section.children.forEach(child=>children.appendChild(routeCard(pageId,child,1)));
+        group.appendChild(children);
+      }
+      list.appendChild(group);
+    });
+    stage.append(hero,meter,list);
     const status=qs('.site-map-status-text');
-    if(status) status.textContent=open ? branch.toUpperCase()+' BRANCH GROWN · CHOOSE A DESTINATION' : 'SELECT A BRANCH TO GROW';
+    if(status) status.textContent='ROUTE LOADED · '+page.label+' · '+page.sections.length+' SECTIONS';
   }
 
-  function openSiteMap(preferredBranch){
+  function renderMapSearch(query){
+    const stage=qs('.site-map-stage');
+    if(!stage) return;
+    const q=query.trim().toLowerCase();
+    if(!q){renderMapPage(qs('.site-map-page-button.is-active')?.dataset.page||currentSiteRoute());return}
+    const matches=flattenMap().filter(row=>[row.page.label,row.page.title,row.item.label,row.item.desc||'',row.parent||''].join(' ').toLowerCase().includes(q));
+    stage.dataset.page='search';
+    stage.innerHTML='';
+    const head=make('header','site-map-search-head');
+    head.innerHTML='<span>SEARCH://ROUTES</span><h3>'+matches.length+' match'+(matches.length===1?'':'es')+'</h3><p>Search spans every local page, subsection, task, template and practice mode.</p>';
+    stage.appendChild(head);
+    const results=make('div','site-map-search-results');
+    matches.forEach(({pageId,page,item,kind,parent})=>{
+      const card=routeCard(pageId,item,kind==='child'?1:0);
+      const tag=make('span','site-map-search-tag',page.label+(parent?' / '+parent:''));
+      card.prepend(tag);
+      results.appendChild(card);
+    });
+    if(!matches.length){
+      const empty=make('div','site-map-empty');
+      empty.innerHTML='<span>404</span><b>NO LOCAL ROUTE FOUND</b><p>Try “writing”, “score”, “interview”, “email”, “adaptive” or “sources”.</p>';
+      results.appendChild(empty);
+    }
+    stage.appendChild(results);
+    const status=qs('.site-map-status-text');
+    if(status) status.textContent='SEARCH ACTIVE · '+matches.length+' ROUTES FOUND';
+  }
+
+  function openSiteMap(pageId){
     const overlay=qs('.site-map-overlay');
     if(!overlay) return;
+    mapLastFocus=document.activeElement;
     overlay.hidden=false;
     requestAnimationFrame(()=>overlay.classList.add('is-open'));
     document.body.classList.add('site-map-opened');
-    const route=SITE_ROUTES[currentSiteRoute()];
-    const branch=preferredBranch||route.group;
-    if(branch) setMapBranch(branch,true);
-    qs('.site-map-close',overlay)?.focus({preventScroll:true});
+    const selected=pageId||currentSiteRoute();
+    const pageButton=qs('.site-map-page-button[data-page="'+selected+'"]');
+    if(pageButton) pageButton.click(); else renderMapPage(selected);
+    const search=qs('.site-map-search');
+    if(search){search.value='';window.setTimeout(()=>search.focus({preventScroll:true}),80)}
   }
 
   function closeSiteMap(){
@@ -257,13 +467,13 @@
     if(!overlay||overlay.hidden) return;
     overlay.classList.remove('is-open');
     document.body.classList.remove('site-map-opened');
-    window.setTimeout(()=>{if(!overlay.classList.contains('is-open')) overlay.hidden=true},180);
+    window.setTimeout(()=>{if(!overlay.classList.contains('is-open')) overlay.hidden=true},170);
+    if(mapLastFocus?.focus) window.setTimeout(()=>mapLastFocus.focus({preventScroll:true}),30);
   }
 
   function createSiteMap(){
     if(qs('.site-map-overlay')) return;
     const current=currentSiteRoute();
-    const route=SITE_ROUTES[current];
     const overlay=make('div','site-map-overlay');
     overlay.hidden=true;
     const dialog=make('section','site-map-window');
@@ -272,86 +482,148 @@
     dialog.setAttribute('aria-labelledby','site-map-title');
 
     const head=make('header','site-map-head');
-    const titleBox=make('div','site-map-titlebox');
-    titleBox.innerHTML='<span>TOEFL://WORLD</span><h2 id="site-map-title">Living Site Map</h2><small>Click a branch. Watch it grow. Pick a page.</small>';
+    const brand=make('div','site-map-titlebox');
+    brand.innerHTML='<span>TOEFL://MAP</span><h2 id="site-map-title">Route Console</h2><small>Every page. Every subsection. One searchable map.</small>';
+    const headPixels=make('div','site-map-head-pixels');
+    for(let i=0;i<12;i++) headPixels.appendChild(make('i',''));
     const close=make('button','site-map-close','×');
     close.type='button';
     close.setAttribute('aria-label','Close site map');
-    head.append(titleBox,close);
+    head.append(brand,headPixels,close);
 
+    const toolbar=make('div','site-map-toolbar');
+    const searchWrap=make('label','site-map-search-wrap');
+    searchWrap.innerHTML='<span>FIND ROUTE</span>';
+    const search=make('input','site-map-search');
+    search.type='search';
+    search.placeholder='Search tasks, labs, scoring, sources…';
+    search.setAttribute('aria-label','Search all site routes');
+    searchWrap.appendChild(search);
     const status=make('div','site-map-status');
-    status.innerHTML='<span class="site-map-led"></span><b class="site-map-status-text">SELECT A BRANCH TO GROW</b><small>YOU ARE HERE → '+route.label.toUpperCase()+'</small>';
+    status.innerHTML='<span class="site-map-led"></span><b class="site-map-status-text">READY</b><small>YOU → '+SITE_ROUTES[current].label.toUpperCase()+'</small>';
+    toolbar.append(searchWrap,status);
 
-    const canvas=make('div','site-map-canvas');
-    const root=make('div','site-map-root');
-    root.appendChild(makePixelTree('site-map-big-tree'));
-    const rootLabel=make('div','site-map-root-label');
-    rootLabel.innerHTML='<span>ROOT</span><b>TOEFL 2026</b><small>Choose your route</small>';
-    root.appendChild(rootLabel);
+    const shell=make('div','site-map-shell');
+    const rail=make('nav','site-map-page-rail');
+    rail.setAttribute('aria-label','Site pages');
+    rail.setAttribute('role','tablist');
+    Object.entries(SITE_MAP).forEach(([pageId,page])=>{
+      const btn=make('button','site-map-page-button');
+      btn.type='button';
+      btn.dataset.page=pageId;
+      btn.setAttribute('role','tab');
+      btn.setAttribute('aria-selected','false');
+      btn.innerHTML='<span class="site-map-page-num">'+page.code+'</span><i>'+page.glyph+'</i><span><b>'+page.label+'</b><small>'+page.sections.length+' sections</small></span><em>›</em>';
+      if(pageId===current) btn.classList.add('is-current-page');
+      btn.addEventListener('click',()=>{
+        search.value='';
+        renderMapPage(pageId);
+      });
+      rail.appendChild(btn);
+    });
+    const stage=make('main','site-map-stage');
+    stage.setAttribute('aria-live','polite');
+    shell.append(rail,stage);
 
-    const branches=make('div','site-map-branches');
-    const makeBranch=(id,label,caption,routeIds)=>{
-      const section=make('section','site-map-branch');
-      section.dataset.branch=id;
-      const toggle=make('button','site-map-branch-toggle');
-      toggle.type='button';
-      toggle.setAttribute('aria-expanded','false');
-      toggle.innerHTML='<span class="site-map-node-icon" aria-hidden="true">'+(id==='learn'?'◆':'★')+'</span><span><b>'+label+'</b><small>'+caption+'</small></span><i aria-hidden="true">+</i>';
-      const children=make('div','site-map-children');
-      routeIds.forEach(routeId=>children.appendChild(routeLink(routeId,'site-map-leaf')));
-      section.append(toggle,children);
-      toggle.addEventListener('click',()=>setMapBranch(id,!section.classList.contains('is-grown')));
-      return section;
-    };
-    branches.append(
-      makeBranch('learn','LEARN','Understand the test',['guide','atlas']),
-      makeBranch('practice','PRACTICE','Train with interactive labs',['hub','writing','speaking'])
-    );
-
-    canvas.append(root,branches);
     const foot=make('footer','site-map-foot');
-    foot.innerHTML='<span><i class="legend-current"></i> YOU ARE HERE</span><span><i class="legend-branch"></i> BRANCH</span><span><i class="legend-page"></i> PAGE</span><b>ESC TO CLOSE</b>';
-    dialog.append(head,status,canvas,foot);
+    foot.innerHTML='<span><i class="legend-current"></i> CURRENT</span><span><kbd>/</kbd> SEARCH</span><span><kbd>ESC</kbd> CLOSE</span><span><kbd>↑</kbd><kbd>↓</kbd> PAGES</span><b>LOCAL-FIRST NAVIGATION</b>';
+
+    dialog.append(head,toolbar,shell,foot);
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
 
     close.addEventListener('click',closeSiteMap);
     overlay.addEventListener('mousedown',e=>{if(e.target===overlay) closeSiteMap()});
+    search.addEventListener('input',()=>renderMapSearch(search.value));
+    dialog.addEventListener('keydown',e=>{
+      if(e.key==='/' && e.target!==search){e.preventDefault();search.focus();return}
+      if((e.key==='ArrowDown'||e.key==='ArrowUp') && document.activeElement?.classList.contains('site-map-page-button')){
+        e.preventDefault();
+        const buttons=qsa('.site-map-page-button');
+        const index=buttons.indexOf(document.activeElement);
+        const next=e.key==='ArrowDown'?(index+1)%buttons.length:(index-1+buttons.length)%buttons.length;
+        buttons[next].focus();buttons[next].click();
+      }
+      if(e.key==='Tab'){
+        const focusables=qsa('a[href],button:not([disabled]),input:not([disabled])',dialog).filter(el=>el.offsetParent!==null);
+        if(!focusables.length) return;
+        const first=focusables[0],last=focusables[focusables.length-1];
+        if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+        else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+      }
+    });
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&!overlay.hidden) closeSiteMap();
     });
     qsa('.site-map-open').forEach(button=>button.addEventListener('click',()=>openSiteMap()));
+    renderMapPage(current);
   }
 
-  function injectMiniSiteTree(root=document){
-    if(qs('.site-tree-mini') || document.body.dataset.pack) return;
-    const hero=qs('.hero',root)||qs('.hero');
-    if(!hero || !hero.parentNode) return;
-    const widget=make('aside','site-tree-mini');
-    widget.setAttribute('aria-label','Interactive TOEFL website map');
-    const artWrap=make('button','site-tree-mini-art');
-    artWrap.type='button';
-    artWrap.setAttribute('aria-label','Open living site map');
-    artWrap.appendChild(makePixelTree('site-tree-mini-pixels'));
-    const treeTag=make('span','site-tree-mini-tag','TOEFL://MAP');
-    artWrap.appendChild(treeTag);
-    const copy=make('div','site-tree-mini-copy');
-    copy.innerHTML='<span>PIXEL SITE TREE</span><h3>See where everything lives.</h3><p>Open the map, grow a branch, and jump straight to the page you need.</p>';
-    const action=make('button','site-tree-mini-open');
-    action.type='button';
-    action.innerHTML='EXPLORE MAP <span aria-hidden="true">→</span>';
-    copy.appendChild(action);
-    widget.append(artWrap,copy);
-    hero.parentNode.insertBefore(widget,hero.nextSibling);
-    const open=()=>openSiteMap();
-    artWrap.addEventListener('click',open);
-    action.addEventListener('click',open);
+  function ensureSyntheticAnchors(){
+    const pack=document.body.dataset.pack;
+    const hero=qs('.pack-hero');
+    if(hero&&!hero.id) hero.id='page-top';
+    const footer=qs('.pack-footer');
+    if(footer&&!footer.id) footer.id='page-footer';
+    if(pack==='hub'){
+      const grid=qs('.hub-grid');if(grid&&!grid.id) grid.id='packs';
+      const writing=qs('.hub-card.writing');if(writing&&!writing.id) writing.id='writing-pack';
+      const speaking=qs('.hub-card.speaking');if(speaking&&!speaking.id) speaking.id='speaking-pack';
+    }
+    if((pack==='writing'||pack==='speaking')){
+      const tabs=qs('.mode-tabs');if(tabs&&!tabs.id) tabs.id='task-modes';
+    }
+  }
+
+  function clickBySelector(selector){
+    const el=qs(selector);
+    if(el){el.click();return true}
+    return false;
+  }
+
+  function applyRouteIntent(attempt=0){
+    ensureSyntheticAnchors();
+    const page=currentSiteRoute();
+    const params=new URLSearchParams(location.search);
+    let actionDone=false;
+    if(page==='guide'&&params.get('drill')){
+      const labels={words:'Complete words',sentence:'Build sentence',listen:'Choose response',write:'Timed writing',speak:'Voice lab'};
+      const wanted=labels[params.get('drill')];
+      const btn=qsa('#practice .practice-tabs button').find(b=>b.textContent.trim().toLowerCase()===String(wanted||'').toLowerCase());
+      if(btn){btn.click();actionDone=true}
+    }
+    if(page==='atlas'){
+      const template=params.get('template');
+      const engine=params.get('engine');
+      if(template) actionDone=clickBySelector('[data-writing-template="'+CSS.escape(template)+'"]')||actionDone;
+      if(engine) actionDone=clickBySelector('[data-speaking-template="'+CSS.escape(engine)+'"]')||actionDone;
+    }
+    if(page==='writing'||page==='speaking'){
+      const mode=params.get('mode');
+      if(mode) actionDone=clickBySelector('.mode-tabs [data-mode="'+CSS.escape(mode)+'"]')||actionDone;
+    }
+    if(location.hash==='#notes'){
+      const notes=qs('#notesButton,.notes-button');
+      if(notes){notes.click();actionDone=true}
+      return;
+    }
+    if(location.hash){
+      const id=decodeURIComponent(location.hash.slice(1));
+      const target=document.getElementById(id);
+      if(target){
+        window.setTimeout(()=>target.scrollIntoView({behavior:attempt?'auto':'smooth',block:'start'}),actionDone?90:20);
+        return;
+      }
+    }
+    if(attempt<8) window.setTimeout(()=>applyRouteIntent(attempt+1),90+attempt*45);
   }
 
   function setupGlobalSiteNav(){
     ensureSiteNavStyles();
     createFastNav();
     createSiteMap();
+    ensureSyntheticAnchors();
+    applyRouteIntent();
   }
 
   function enhanceGuide(){
@@ -372,7 +644,6 @@
       addStickerRail(box,headingLabels[key]||['TOEFL','Guide','2026']);
     });
     qsa('.task-card',root).forEach((card,i)=>card.dataset.retroIndex=String((i%4)+1));
-    injectMiniSiteTree(root);
     injectCommunityStrip();
     setupSectionNav(root);
     setupReveal(root);
