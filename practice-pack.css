@@ -802,3 +802,37 @@ html{scroll-padding-top:98px}
   body.retromax-ready .mode-tabs{top:128px}
   html{scroll-padding-top:140px}
 }
+
+/* =========================================================
+   TOEFL 2026 RETRO PIXEL BRAND UPDATE — 2026-08-18
+   Replaces T26/TX text marks with the compact pixel badge.
+   ========================================================= */
+.pack-brand i{
+  width:50px !important;
+  height:50px !important;
+  flex:0 0 50px;
+  display:block !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:13px !important;
+  background:
+    #0c0715
+    url("toefl-2026-logo-header.webp")
+    center / contain no-repeat !important;
+  box-shadow:0 4px 0 #121322, 0 7px 18px rgba(18,19,34,.18) !important;
+  transform:none !important;
+  color:transparent !important;
+  font-size:0 !important;
+  font-style:normal !important;
+  overflow:hidden;
+}
+
+@media (max-width:700px){
+  .pack-brand i{
+    width:44px !important;
+    height:44px !important;
+    flex-basis:44px !important;
+    border-radius:11px !important;
+  }
+}
+
