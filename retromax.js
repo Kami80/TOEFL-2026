@@ -69,21 +69,114 @@
     labels.forEach((label,i)=>rail.appendChild(make('span','retro-chip chip-'+((i%4)+1),label)));
     target.appendChild(rail);
   }
-  function injectPackArt(){
-    const hero=qs('.pack-hero');
-    if(!hero || qs('.retro-pack-art',hero)) return;
-    const pack=document.body.dataset.pack;
-    if(pack!=='writing' && pack!=='speaking') return;
-    const heroCard=qs('.hero-card',hero);
-    if(!heroCard) return;
-    const figure=make('figure','retro-pack-art');
+  /* =========================================================
+     TOEFL 2026 PAGE VISUALS
+     Shared WebP art integration. Keeps HTML files untouched.
+     ========================================================= */
+  function ensureVisualStyles(){
+    if(qs('link[data-toefl-visuals]')) return;
+    const link=document.createElement('link');
+    link.rel='stylesheet';
+    link.href='visuals.css?v=20260818-visuals1';
+    link.dataset.toeflVisuals='true';
+    document.head.appendChild(link);
+  }
+
+  function visualImage(src,alt){
     const img=new Image();
     img.loading='eager';
     img.decoding='async';
-    img.alt=pack==='writing' ? 'Retro writing desk illustration' : 'Retro speaking studio illustration';
-    img.src=pack==='writing' ? 'assets/retro-hero-writing.png' : pack==='speaking' ? 'assets/retro-hero-speaking.png' : 'assets/retro-hero-main.png';
-    figure.appendChild(img);
-    heroCard.insertBefore(figure,qs('.metric-grid',heroCard));
+    img.alt=alt;
+    img.src=src;
+    return img;
+  }
+
+  function visualFigure(className,src,alt){
+    const figure=make('figure','site-page-visual '+className);
+    figure.appendChild(visualImage(src,alt));
+    return figure;
+  }
+
+  function injectGuideVisual(){
+    const host=qs('.hero-visual');
+    if(!host || qs('.site-page-visual',host)) return false;
+    host.classList.add('has-site-visual');
+    host.appendChild(
+      visualFigure(
+        'site-page-visual--guide',
+        'assets/visuals/toefl-2026-hero.webp',
+        'Retro pixel TOEFL 2026 study dashboard'
+      )
+    );
+    return true;
+  }
+
+  function injectAtlasVisual(){
+    const host=qs('.retro-pack-art.atlas-console');
+    if(!host || host.dataset.visualEnhanced==='true') return;
+    host.dataset.visualEnhanced='true';
+    host.classList.add('site-page-visual','site-page-visual--atlas');
+    host.replaceChildren(
+      visualImage(
+        'assets/visuals/task-explorer-hero.webp',
+        'Pixel-art overview of the twelve TOEFL task types'
+      )
+    );
+
+    const shortcuts=make('div','site-visual-shortcuts');
+    [
+      ['READING','#task-map','reading'],
+      ['LISTENING','#task-map','listening'],
+      ['WRITING','#writing-studio',''],
+      ['SPEAKING','#speaking-studio','']
+    ].forEach(([label,href,section])=>{
+      const a=make('a','site-visual-shortcut',label);
+      a.href=href;
+      if(section) a.dataset.jumpSection=section;
+      shortcuts.appendChild(a);
+    });
+    host.appendChild(shortcuts);
+  }
+
+  function injectPackArt(){
+    const hero=qs('.pack-hero');
+    if(!hero) return;
+    const pack=document.body.dataset.pack;
+
+    if(pack==='explorer'){
+      injectAtlasVisual();
+      return;
+    }
+
+    if(pack==='hub'){
+      if(!qs('.site-page-visual--hub',hero)){
+        hero.appendChild(
+          visualFigure(
+            'site-page-visual--hub',
+            'assets/visuals/practice-hub-hero.webp',
+            'Retro pixel Practice Hub with Writing and Speaking practice stations'
+          )
+        );
+      }
+      return;
+    }
+
+    if(pack!=='writing' && pack!=='speaking') return;
+    const heroCard=qs('.hero-card',hero);
+    if(!heroCard || qs('.site-page-visual',heroCard)) return;
+
+    const figure=visualFigure(
+      'site-page-visual--'+pack,
+      pack==='writing'
+        ? 'assets/visuals/writing-lab-hero.webp'
+        : 'assets/visuals/speaking-lab-hero.webp',
+      pack==='writing'
+        ? 'Retro pixel Writing Lab workstation'
+        : 'Retro pixel Speaking Lab recording studio'
+    );
+    const metrics=qs('.metric-grid',heroCard);
+    if(metrics) heroCard.insertBefore(figure,metrics);
+    else heroCard.appendChild(figure);
   }
   function injectCommunityStrip(){
     if(qs('.community-support')) return;
@@ -664,6 +757,8 @@
     const root=qs('#root');
     if(!root || !qs('.hero',root)) return false;
     applyReadableText(root);
+    ensureVisualStyles();
+    injectGuideVisual();
     const heroCopy=qs('.hero > div:first-child',root)||qs('.hero',root);
     addStickerRail(heroCopy,['2026 format','Adaptive Reading + Listening','Practice-first guide']);
     const headingLabels={
@@ -685,6 +780,7 @@
   }
   function enhancePack(){
     applyReadableText(document);
+    ensureVisualStyles();
     injectPackArt();
     const intro=qs('.pack-hero > div:first-child');
     const pack=document.body.dataset.pack;
@@ -747,6 +843,7 @@
   }
   ready(function(){
     document.body.classList.add('retromax-ready');
+    ensureVisualStyles();
     setupGlobalSiteNav();
     if(document.body.dataset.pack) enhancePack();
     else watchDynamicGuide();

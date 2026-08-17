@@ -1,0 +1,213 @@
+/* TOEFL 2026 — generated retro WebP visual integration
+   Loaded after the existing page styles by retromax.js. */
+
+:root{
+  --visual-ink:#181f3f;
+  --visual-cream:#fff3d5;
+  --visual-yellow:#f4bf45;
+  --visual-coral:#f27a68;
+  --visual-mint:#55c8bd;
+  --visual-pink:#ee4f96;
+  --visual-violet:#6b3fa0;
+}
+
+.site-page-visual{
+  position:relative;
+  margin:0;
+  min-width:0;
+  overflow:hidden;
+  border:2px solid var(--visual-ink);
+  border-radius:20px;
+  background:#0b1031;
+  box-shadow:6px 6px 0 var(--visual-ink),0 20px 38px rgba(24,31,63,.16);
+  isolation:isolate;
+}
+.site-page-visual::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.025) 0 1px,transparent 1px 4px);
+  mix-blend-mode:screen;
+  opacity:.45;
+  z-index:2;
+}
+.site-page-visual>img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+
+/* Homepage: use the generated art as the actual right-side hero visual.
+   This also fixes the previous empty-box state caused by hidden hero children. */
+body.retromax-ready .hero-visual.has-site-visual{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:530px!important;
+  padding:12px!important;
+  background:
+    radial-gradient(circle at 18% 16%,rgba(238,79,150,.22),transparent 30%),
+    radial-gradient(circle at 86% 84%,rgba(85,200,189,.22),transparent 32%),
+    #090d2b!important;
+  border:2px solid var(--visual-ink)!important;
+  overflow:hidden!important;
+}
+body.retromax-ready .hero-visual.has-site-visual::after{
+  inset:14px!important;
+  border:2px dashed rgba(255,243,213,.28)!important;
+  border-radius:22px!important;
+  z-index:4!important;
+}
+body.retromax-ready .hero-visual.has-site-visual>:not(.site-page-visual){
+  display:none!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+body.retromax-ready .hero-visual .site-page-visual--guide{
+  width:100%;
+  height:100%;
+  min-height:500px;
+  border:0;
+  border-radius:20px;
+  background:transparent;
+  box-shadow:none;
+}
+body.retromax-ready .hero-visual .site-page-visual--guide>img{
+  object-fit:contain;
+  padding:22px;
+}
+
+/* Task Atlas: the image replaces the old faux console but keeps useful
+   direct section shortcuts below it. */
+body.retromax-ready .atlas-console.site-page-visual--atlas{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  min-height:0!important;
+  padding:10px!important;
+  border:2px solid var(--visual-ink)!important;
+  border-radius:22px!important;
+  background:#080d2c!important;
+  box-shadow:7px 7px 0 var(--visual-ink),0 24px 45px rgba(24,31,63,.16)!important;
+}
+body.retromax-ready .atlas-console.site-page-visual--atlas>img{
+  width:100%!important;
+  height:auto!important;
+  aspect-ratio:4/3;
+  object-fit:cover!important;
+  border:0!important;
+  border-radius:13px!important;
+  box-shadow:none!important;
+}
+.site-visual-shortcuts{
+  position:relative;
+  z-index:5;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:7px;
+  padding:2px;
+}
+.site-visual-shortcut{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+  padding:7px 8px;
+  border:2px solid var(--visual-ink);
+  border-radius:9px;
+  background:var(--visual-cream);
+  color:var(--visual-ink)!important;
+  box-shadow:3px 3px 0 var(--visual-ink);
+  font:900 10px/1.1 var(--font-display,system-ui,sans-serif);
+  letter-spacing:.035em;
+  text-decoration:none!important;
+  text-align:center;
+}
+.site-visual-shortcut:nth-child(1){background:#f7a0b2}
+.site-visual-shortcut:nth-child(2){background:#7bd8cf}
+.site-visual-shortcut:nth-child(3){background:#caa1df}
+.site-visual-shortcut:nth-child(4){background:#f6c95e}
+.site-visual-shortcut:hover,.site-visual-shortcut:focus-visible{
+  transform:translate(-1px,-1px);
+  box-shadow:4px 4px 0 var(--visual-ink);
+  outline:3px solid rgba(238,79,150,.22);
+  outline-offset:2px;
+}
+
+/* Practice hub: upgrade the text-only hero into a balanced 2-column hero. */
+body.retromax-ready[data-pack="hub"] .pack-hero{
+  grid-template-columns:minmax(0,.82fr) minmax(420px,1.18fr)!important;
+  gap:34px!important;
+}
+body.retromax-ready[data-pack="hub"] .site-page-visual--hub{
+  width:100%;
+  aspect-ratio:4/3;
+  align-self:center;
+  border-radius:22px;
+}
+body.retromax-ready[data-pack="hub"] .site-page-visual--hub>img{object-fit:cover}
+
+/* Writing / Speaking: artwork belongs inside the existing hero information card,
+   keeping its source metrics visible and useful. */
+body.retromax-ready[data-pack="writing"] .hero-card,
+body.retromax-ready[data-pack="speaking"] .hero-card{
+  gap:14px!important;
+}
+body.retromax-ready .hero-card>.site-page-visual{
+  order:2;
+  width:100%;
+  aspect-ratio:4/3;
+  margin:4px 0 2px!important;
+  border:2px solid var(--visual-ink)!important;
+  border-radius:16px!important;
+  box-shadow:4px 4px 0 var(--visual-ink)!important;
+  background:#0a0e2b!important;
+}
+body.retromax-ready .hero-card>.site-page-visual>img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  border:0!important;
+  border-radius:13px!important;
+  box-shadow:none!important;
+}
+body.retromax-ready .hero-card>.metric-grid{order:3!important}
+
+@media(max-width:1000px){
+  body.retromax-ready[data-pack="hub"] .pack-hero{
+    grid-template-columns:1fr 1fr!important;
+    gap:24px!important;
+  }
+  .site-visual-shortcuts{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:900px){
+  body.retromax-ready[data-pack="hub"] .pack-hero{grid-template-columns:1fr!important}
+  body.retromax-ready[data-pack="hub"] .site-page-visual--hub{max-width:720px;margin-inline:auto}
+  body.retromax-ready .hero-visual.has-site-visual{min-height:470px!important}
+  body.retromax-ready .hero-visual .site-page-visual--guide{min-height:440px}
+}
+
+@media(max-width:600px){
+  .site-page-visual{border-radius:15px;box-shadow:4px 4px 0 var(--visual-ink)}
+  body.retromax-ready .hero-visual.has-site-visual{
+    min-height:360px!important;
+    padding:8px!important;
+    border-radius:22px!important;
+    box-shadow:6px 6px 0 var(--visual-ink),0 20px 40px rgba(24,31,63,.14)!important;
+  }
+  body.retromax-ready .hero-visual .site-page-visual--guide{min-height:338px}
+  body.retromax-ready .hero-visual .site-page-visual--guide>img{padding:10px}
+  body.retromax-ready .atlas-console.site-page-visual--atlas{padding:7px!important}
+  .site-visual-shortcut{min-height:35px;font-size:9px}
+  body.retromax-ready .hero-card>.site-page-visual{box-shadow:3px 3px 0 var(--visual-ink)!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .site-visual-shortcut{transition:none!important}
+  .site-visual-shortcut:hover,.site-visual-shortcut:focus-visible{transform:none}
+}
