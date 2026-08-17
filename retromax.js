@@ -2,6 +2,40 @@
   'use strict';
 
   const qs=(s,r=document)=>r.querySelector(s);
+
+  /* =========================================================
+     TOEFL 2026 FAVICON FIX
+     Registers explicit browser-tab icons on every page.
+     ========================================================= */
+  function ensureRetroFavicon(){
+    if(!document.head) return;
+
+    const version='20260818-favicon3';
+    const managed='data-toefl-favicon';
+
+    // Remove only favicon links managed by this layer, then rebuild them.
+    document.head.querySelectorAll(`link[${managed}]`).forEach(el=>el.remove());
+
+    const add=(rel,href,type,sizes)=>{
+      const link=document.createElement('link');
+      link.rel=rel;
+      link.href=`${href}?v=${version}`;
+      if(type) link.type=type;
+      if(sizes) link.sizes=sizes;
+      link.setAttribute(managed,'true');
+      document.head.appendChild(link);
+    };
+
+    // Explicit small PNGs are intentionally listed first for reliable tab rendering.
+    add('icon','favicon-32x32.png','image/png','32x32');
+    add('icon','favicon-16x16.png','image/png','16x16');
+    add('shortcut icon','favicon.ico','image/x-icon');
+    add('icon','toefl-2026-favicon-512.png','image/png','512x512');
+    add('apple-touch-icon','apple-touch-icon.png','image/png','180x180');
+  }
+
+  ensureRetroFavicon();
+
   const qsa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 
   function ready(fn){
