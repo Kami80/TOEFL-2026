@@ -2146,7 +2146,7 @@ body.retromax-ready [id]{scroll-margin-top:98px}
 
 /* =========================================================
    TOEFL 2026 RETRO PIXEL BRAND UPDATE — 2026-08-18
-   New generated logo + compact T26 browser/header mark.
+   Header logo only. Homepage artwork is controlled by visuals.css.
    ========================================================= */
 .brand-mark{
   width:52px !important;
@@ -2167,22 +2167,18 @@ body.retromax-ready [id]{scroll-margin-top:98px}
   overflow:hidden;
 }
 
-.hero-visual{
-  background:
-    #08050d
-    url("toefl-2026-master-guide-logo.webp")
-    center / 94% auto no-repeat !important;
-  border:3px solid #121322 !important;
-  border-radius:28px !important;
-  box-shadow:
-    8px 8px 0 #ef2494,
-    14px 14px 0 #6d25d9,
-    0 30px 70px rgba(19,10,35,.24) !important;
+/* Safety reset for the generated homepage WebP.
+   An older branding rule hid every child of .hero-visual. */
+body.retromax-ready .hero-visual.has-site-visual .site-page-visual--guide{
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
 }
-
-.hero-visual > *{
-  opacity:0 !important;
-  pointer-events:none !important;
+body.retromax-ready .hero-visual.has-site-visual .site-page-visual--guide > img{
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
 }
 
 @media (max-width:820px){
@@ -2198,15 +2194,6 @@ body.retromax-ready [id]{scroll-margin-top:98px}
     width:42px !important;
     height:42px !important;
     flex-basis:42px !important;
-  }
-
-  .hero-visual{
-    min-height:390px !important;
-    background-size:96% auto !important;
-    box-shadow:
-      5px 5px 0 #ef2494,
-      9px 9px 0 #6d25d9,
-      0 20px 45px rgba(19,10,35,.22) !important;
   }
 }
 
