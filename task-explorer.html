@@ -1,164 +1,334 @@
 <!doctype html>
-<html lang="en" data-size="100">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#17131c">
-  <meta name="description" content="A complete interactive task-by-task explorer for the updated TOEFL iBT 2026 format.">
-  <title>TOEFL 2026 — Complete Task-by-Task Explorer</title>
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" type="image/webp" href="toefl-2026-favicon.webp">
-  <link rel="apple-touch-icon" href="toefl-2026-favicon-512.png">
-  <link rel="stylesheet" href="task-explorer.css">
-  <link rel="stylesheet" href="branding.css">
-</head>
-<body>
-  <header class="topbar">
-    <a class="brand" href="index.html" aria-label="Back to TOEFL Field Guide">
-      <img class="site-brand-logo" src="toefl-2026-logo-header.webp" alt="" width="52" height="52">
-      <span><b>TOEFL</b> Field Guide</span>
-    </a>
-    <nav class="top-actions" aria-label="Explorer controls">
-      <button class="utility" id="fontDown" type="button" aria-label="Decrease text size">A−</button>
-      <button class="utility" id="fontUp" type="button" aria-label="Increase text size">A+</button>
-      <button class="utility focus-toggle" id="focusToggle" type="button" aria-pressed="false">◎ Focus</button>
-      <a class="back-link" href="index.html#sections">← Main guide</a>
-    </nav>
-  </header>
+<html lang="en" style="--font-body:'DM Sans','Segoe UI',Arial,sans-serif;--font-display:Manrope,'Segoe UI',Arial,sans-serif">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A complete task-by-task explorer for the TOEFL iBT format introduced January 21, 2026, with module maps, official examples, writing templates, and speaking scripts." />
+    <meta name="theme-color" content="#f4bf45" />
+    <title>TOEFL 2026 Complete Task Explorer</title>
+    <link rel="stylesheet" href="practice-pack.css?v=20260815-phonenav6" />
+    <link rel="stylesheet" href="task-explorer.css?v=20260815-modeltext7" />
+    <link rel="stylesheet" href="pets.css?v=20260815-petarc8" />
+  </head>
+  <body data-pack="explorer" data-note-scope="task-atlas-page">
+    <a class="skip-link" href="#explorer-main">Skip to the explorer</a>
 
-  <main>
-    <section class="explorer-hero" id="top">
-      <div class="hero-copy">
-        <span class="hero-kicker">TASK-BY-TASK EXPLORER · 2026 FORMAT</span>
-        <h1>12 tasks.<br><em>One operating manual.</em></h1>
-        <p>
-          Go beyond task names. Learn what each TOEFL task measures, what appears on screen,
-          how to approach it under time pressure, what traps to expect, and what a real prep
-          example looks like—then practice immediately.
-        </p>
-        <div class="hero-actions">
-          <button class="hero-button primary" id="startFirst">Start with Task 01 →</button>
-          <button class="hero-button secondary" id="resumeTask">Resume last task</button>
+    <header class="pack-top explorer-top">
+      <nav class="pack-nav" aria-label="Task explorer navigation">
+        <a class="pack-brand" href="index.html" aria-label="Return to TOEFL Field Guide home">
+          <i>TX</i><span>TOEFL <b>Task Atlas</b></span>
+        </a>
+        <div class="pack-links">
+          <a href="#format">Format</a>
+          <a href="#task-map">12 tasks</a>
+          <a href="#writing-studio">Writing</a>
+          <a href="#speaking-studio">Speaking</a>
+          <a href="#sources">Sources</a>
         </div>
-      </div>
-      <aside class="hero-board" aria-label="Explorer summary">
-        <div class="hero-stamp">VERIFIED<br><b>AUG 14 · 2026</b></div>
-        <div class="metric"><b>12</b><span>task types</span></div>
-        <div class="metric"><b>4</b><span>skills</span></div>
-        <div class="metric"><b>2</b><span>adaptive sections</span></div>
-        <div class="metric wide"><b id="heroProgress">0 / 12</b><span>tasks studied on this device</span></div>
-        <div class="progress-track"><i id="heroProgressBar"></i></div>
-      </aside>
-    </section>
+        <a class="pack-home" href="index.html">← Field guide</a>
+      </nav>
+    </header>
 
-    <section class="format-ribbon" aria-label="Current TOEFL section overview">
-      <article class="reading"><span>R</span><div><b>Reading</b><small>3 task types · ~30 min base</small></div><em>ADAPTIVE</em></article>
-      <article class="listening"><span>L</span><div><b>Listening</b><small>4 task types · ~29 min base</small></div><em>ADAPTIVE</em></article>
-      <article class="writing"><span>W</span><div><b>Writing</b><small>3 task types · ~23 min</small></div><em>LINEAR</em></article>
-      <article class="speaking"><span>S</span><div><b>Speaking</b><small>2 task types · ~8 min</small></div><em>LINEAR</em></article>
-    </section>
-
-    <section class="adaptive-map" aria-label="Reading and Listening adaptive flow">
-      <div class="adaptive-copy">
-        <span class="section-label">HOW THE ADAPTIVE SECTIONS FLOW</span>
-        <h2>Stage 1 routes you.<br><em>Stage 2 responds.</em></h2>
-        <p>
-          ETS confirms multistage adaptivity in Reading and Listening. You begin with a first-stage
-          module; your performance helps determine the second-stage module you receive. Focus on
-          solving the current module accurately—do not waste test time trying to guess your route.
-        </p>
-      </div>
-      <div class="route-diagram">
-        <div class="route-start">
-          <small>STAGE 1</small><b>Routing module</b><span>Common starting stage</span>
-        </div>
-        <div class="route-arrow">→</div>
-        <div class="route-options">
-          <div><small>STAGE 2</small><b>Selected module A</b><span>Performance-responsive path</span></div>
-          <div><small>STAGE 2</small><b>Selected module B</b><span>Performance-responsive path</span></div>
-        </div>
-        <div class="route-note">Reading + Listening only · Writing + Speaking remain linear</div>
-      </div>
-    </section>
-
-    <section class="control-deck" id="explore">
-      <div class="search-wrap">
-        <label for="taskSearch">FIND A TASK, SKILL OR STRATEGY</label>
-        <div class="search-box"><span>⌕</span><input id="taskSearch" type="search" placeholder="Try “inference”, “email”, “repeat”…" autocomplete="off"></div>
-      </div>
-      <div class="filter-row" role="group" aria-label="Filter task explorer">
-        <button class="filter active" data-filter="all">All <b>12</b></button>
-        <button class="filter reading" data-filter="reading">Reading <b>3</b></button>
-        <button class="filter listening" data-filter="listening">Listening <b>4</b></button>
-        <button class="filter writing" data-filter="writing">Writing <b>3</b></button>
-        <button class="filter speaking" data-filter="speaking">Speaking <b>2</b></button>
-      </div>
-    </section>
-
-    <section class="explorer-shell">
-      <aside class="task-rail" aria-label="Task list">
-        <div class="rail-head">
-          <span>THE 12 TASKS</span>
-          <small id="visibleCount">12 visible</small>
-        </div>
-        <div id="taskList" class="task-list"></div>
-      </aside>
-
-      <article class="task-stage" id="taskStage">
-        <div id="taskDetail"></div>
-      </article>
-    </section>
-
-    <section class="source-library" id="sources">
-      <div class="source-heading">
+    <main id="explorer-main" class="explorer-page" data-note-scope="task-atlas">
+      <section class="pack-hero explorer-hero" aria-labelledby="explorer-title">
         <div>
-          <span class="section-label">SOURCE DESK</span>
-          <h2>Know what is official—and what is practice.</h2>
+          <span class="pack-kicker">THE COMPLETE 2026 TASK EXPLORER</span>
+          <h1 id="explorer-title">Know the route.<br /><em>Own the response.</em></h1>
+          <p>A second-level guide to every module and task: what appears on screen, what you must do, what the scoring evidence rewards, and how to respond under time pressure. Official facts and examples are linked to ETS; strategy frameworks are labeled as coaching.</p>
+          <div class="explorer-actions">
+            <a class="atlas-button primary" href="#task-map">Explore all 12 tasks <span>↓</span></a>
+            <a class="atlas-button" href="#writing-studio">See highlighted templates <span>→</span></a>
+          </div>
+          <div class="hero-proof" aria-label="Explorer coverage">
+            <span><b>4</b> sections</span>
+            <span><b>12</b> task types</span>
+            <span><b>2</b> adaptive sections</span>
+            <span><b>9</b> worked frameworks</span>
+          </div>
         </div>
-        <p>
-          Format claims are grounded in current ETS pages. “Real example snapshots” summarize
-          publicly available ETS or independent test-prep examples. The interactive drills on
-          this page are original practice unless explicitly labeled as coming from your uploaded practice pack.
-        </p>
-      </div>
-      <div class="source-grid">
-        <a href="https://www.ets.org/toefl/test-takers/ibt/about/content.html" target="_blank" rel="noopener">
-          <span>OFFICIAL ETS</span><b>Current TOEFL iBT content & timing</b><small>All four sections and task families ↗</small>
-        </a>
-        <a href="https://www.ets.org/toefl/test-takers/ibt/prepare/sample-test-jan-2026-1.html" target="_blank" rel="noopener">
-          <span>OFFICIAL ETS</span><b>Full-length 2026 sample test</b><small>Experience official test content and structure ↗</small>
-        </a>
-        <a href="https://www.ets.org/toefl/test-takers/ibt/about/content/reading.html" target="_blank" rel="noopener">
-          <span>OFFICIAL ETS</span><b>Reading section</b><small>Complete Words · Daily Life · Academic Passage ↗</small>
-        </a>
-        <a href="https://www.ets.org/toefl/test-takers/ibt/about/content/listening.html" target="_blank" rel="noopener">
-          <span>OFFICIAL ETS</span><b>Listening section</b><small>Responses · Conversations · Announcements · Talks ↗</small>
-        </a>
-        <a href="https://www.ets.org/toefl/test-takers/ibt/about/content/writing.html" target="_blank" rel="noopener">
-          <span>OFFICIAL ETS</span><b>Writing section</b><small>Sentence · Email · Academic Discussion ↗</small>
-        </a>
-        <a href="https://www.ets.org/toefl/test-takers/ibt/about/content/speaking.html" target="_blank" rel="noopener">
-          <span>OFFICIAL ETS</span><b>Speaking section</b><small>Listen & Repeat · Take an Interview ↗</small>
-        </a>
-        <a href="https://www.toeflresources.com/toefl-reading/" target="_blank" rel="noopener">
-          <span>TEST RESOURCES · UNOFFICIAL</span><b>2026 Reading examples</b><small>Concrete sample formats and strategies ↗</small>
-        </a>
-        <a href="https://www.toeflresources.com/listening/" target="_blank" rel="noopener">
-          <span>TEST RESOURCES · UNOFFICIAL</span><b>2026 Listening examples</b><small>Response, conversation, announcement and lecture examples ↗</small>
-        </a>
-        <a href="practice-packs.html">
-          <span>YOUR LOCAL PACKS</span><b>Writing + Speaking practice hub</b><small>Open your existing interactive packs →</small>
-        </a>
-      </div>
-    </section>
-  </main>
 
-  <footer class="explorer-footer">
-    <div><b>TOEFL 2026 / TASK EXPLORER</b><span>Independent educational guide · not affiliated with ETS.</span></div>
-    <a href="#top">Back to top ↑</a>
-  </footer>
+        <figure class="retro-pack-art atlas-console" aria-label="TOEFL section map">
+          <div class="console-topline"><span>TEST ROUTE / 2026</span><b>LIVE MAP</b></div>
+          <div class="console-grid">
+            <a class="console-card reading" href="#task-map" data-jump-section="reading">
+              <span>R</span><strong>Reading</strong><small>Router → adjusted module</small><b>3 task types</b>
+            </a>
+            <a class="console-card listening" href="#task-map" data-jump-section="listening">
+              <span>L</span><strong>Listening</strong><small>Router → adjusted module</small><b>4 task types</b>
+            </a>
+            <a class="console-card writing" href="#writing-studio">
+              <span>W</span><strong>Writing</strong><small>Linear response path</small><b>3 task types</b>
+            </a>
+            <a class="console-card speaking" href="#speaking-studio">
+              <span>S</span><strong>Speaking</strong><small>Linear response path</small><b>2 task types</b>
+            </a>
+          </div>
+          <figcaption><span>01</span> The same four-section order, now mapped down to task level.</figcaption>
+        </figure>
+      </section>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="task-explorer.js" defer></script>
-</body>
+      <section class="atlas-section format-deep" id="format" aria-labelledby="format-title">
+        <div class="atlas-heading">
+          <div>
+            <span class="atlas-kicker">01 / FORMAT AT A GLANCE — EXPANDED</span>
+            <h2 id="format-title">The whole test,<br />down to its moving parts.</h2>
+          </div>
+          <p>The public base is 120 items and about 90 minutes before directions. Reading and Listening use a routing module and an adjusted second module, so delivered time and item counts can vary. Writing and Speaking remain linear.</p>
+        </div>
+
+        <div class="official-banner">
+          <span>✓</span>
+          <p><b>Blueprint note.</b> Item ranges and raw-point totals below come from the ETS 2026 specifications. They explain test construction—not a public raw-to-band conversion.</p>
+          <a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/toefl-ibt-test-specifications-2026.pdf" target="_blank" rel="noreferrer">Open ETS blueprint ↗</a>
+        </div>
+
+        <div class="format-matrix-wrap" tabindex="0" aria-label="Scrollable comprehensive TOEFL format table">
+          <table class="format-matrix">
+            <thead>
+              <tr>
+                <th>Section</th>
+                <th>Delivery path</th>
+                <th>Item anatomy</th>
+                <th>Base time</th>
+                <th>Response mode</th>
+                <th>Blueprint points</th>
+                <th>Control that matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-reading">
+                <th><span>R</span><b>Reading</b><small>50 items*</small></th>
+                <td><b>Two-stage adaptive</b><small>Routing module → lower or upper second module</small></td>
+                <td><b>30</b> Complete the Words<br /><b>5–15</b> Daily Life<br /><b>5–15</b> Academic Passage</td>
+                <td><b>~30 min*</b><small>Router 18–21 min + second module 9 min</small></td>
+                <td>Type missing letters + choose answers; text remains visible.</td>
+                <td><b>35 raw</b><small>Some delivered items are unscored pretest items.</small></td>
+                <td>Context, exact text evidence, and module-level pacing.</td>
+              </tr>
+              <tr class="row-listening">
+                <th><span>L</span><b>Listening</b><small>47 items*</small></th>
+                <td><b>Two-stage adaptive</b><small>Routing module → lower or upper second module</small></td>
+                <td><b>15–19</b> Choose a Response<br /><b>10</b> Conversation<br /><b>18–22</b> Announcement + Academic Talk</td>
+                <td><b>~29 min*</b><small>Router 18 min + lower 7 / upper 11 min</small></td>
+                <td>Audio plays once; select answers. Notes are allowed.</td>
+                <td><b>35 raw</b><small>Some delivered items are unscored pretest items.</small></td>
+                <td>Purpose-first listening and relationship-based notes.</td>
+              </tr>
+              <tr class="row-writing">
+                <th><span>W</span><b>Writing</b><small>12 items</small></th>
+                <td><b>Linear</b><small>No adaptive routing</small></td>
+                <td><b>10</b> Build a Sentence<br /><b>1</b> Write an Email<br /><b>1</b> Academic Discussion</td>
+                <td><b>23 min</b><small>Email 7 min; Discussion 10 min</small></td>
+                <td>Arrange language chunks, then type two constructed responses.</td>
+                <td><b>20 raw max</b><small>Sentence items ×1; constructed responses ×5.</small></td>
+                <td>Every prompt action, appropriate tone, useful elaboration.</td>
+              </tr>
+              <tr class="row-speaking">
+                <th><span>S</span><b>Speaking</b><small>11 items</small></th>
+                <td><b>Linear</b><small>No preparation time in official samples</small></td>
+                <td><b>7</b> Listen and Repeat<br /><b>4</b> Take an Interview</td>
+                <td><b>8 min</b><small>The screen clock controls each response.</small></td>
+                <td>Listen once, then record speech into the microphone.</td>
+                <td><b>55 raw max</b><small>Each response has a maximum of 5 points.</small></td>
+                <td>Intelligibility, accuracy, direct answers, and elaboration.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="module-lanes" aria-label="Section module maps">
+          <article class="module-lane reading">
+            <header><span>R</span><div><small>READING ROUTE</small><h3>Context → evidence</h3></div></header>
+            <div class="lane-flow"><b>M1</b><i></i><span>Routing mix</span><i></i><b>M2</b><em>Lower / upper</em></div>
+            <p>Both modules sample the same three task families. The second route changes difficulty—not the skill being measured.</p>
+          </article>
+          <article class="module-lane listening">
+            <header><span>L</span><div><small>LISTENING ROUTE</small><h3>Intent → structure</h3></div></header>
+            <div class="lane-flow"><b>M1</b><i></i><span>Routing mix</span><i></i><b>M2</b><em>Lower / upper</em></div>
+            <p>The upper route may take longer than the lower route. Never slow down to guess which route you received.</p>
+          </article>
+          <article class="module-lane writing">
+            <header><span>W</span><div><small>WRITING ROUTE</small><h3>Form → purpose</h3></div></header>
+            <div class="lane-flow linear"><b>10</b><i></i><span>Sentence</span><i></i><b>1</b><span>Email</span><i></i><b>1</b><span>Discussion</span></div>
+            <p>The constructed responses have a word counter and no spell-check. Save a final scan for missing words and prompt bullets.</p>
+          </article>
+          <article class="module-lane speaking">
+            <header><span>S</span><div><small>SPEAKING ROUTE</small><h3>Accuracy → spontaneity</h3></div></header>
+            <div class="lane-flow linear"><b>7</b><i></i><span>Repeat</span><i></i><b>4</b><span>Interview</span></div>
+            <p>Sentence complexity grows in Listen and Repeat; Interview questions move from familiar description toward explanation and opinion.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="atlas-section task-map-section" id="task-map" aria-labelledby="task-map-title">
+        <div class="atlas-heading inverse">
+          <div>
+            <span class="atlas-kicker">02 / ALL 12 TASK TYPES</span>
+            <h2 id="task-map-title">Choose a task.<br />See the whole play.</h2>
+          </div>
+          <p>Each card separates official mechanics from coaching. The example desk uses short ETS excerpts or ETS-aligned, newly written mini-items and links back to the source.</p>
+        </div>
+
+        <div class="task-filter" role="tablist" aria-label="Filter task types by section">
+          <button class="active" type="button" role="tab" aria-selected="true" data-section-filter="all">All <span>12</span></button>
+          <button type="button" role="tab" aria-selected="false" data-section-filter="reading">Reading <span>3</span></button>
+          <button type="button" role="tab" aria-selected="false" data-section-filter="listening">Listening <span>4</span></button>
+          <button type="button" role="tab" aria-selected="false" data-section-filter="writing">Writing <span>3</span></button>
+          <button type="button" role="tab" aria-selected="false" data-section-filter="speaking">Speaking <span>2</span></button>
+        </div>
+
+        <div class="task-workbench">
+          <aside class="task-index" aria-label="Task type list">
+            <div class="task-index-head"><span>TASK INDEX</span><b id="visible-task-count">12 visible</b></div>
+            <div id="task-index-list"></div>
+          </aside>
+          <article class="task-detail" id="task-detail" aria-live="polite"></article>
+        </div>
+      </section>
+
+      <section class="atlas-section writing-studio" id="writing-studio" aria-labelledby="writing-title">
+        <div class="atlas-heading">
+          <div>
+            <span class="atlas-kicker">03 / WRITING RESPONSE STUDIO</span>
+            <h2 id="writing-title">A template is a route,<br />not a memorized paragraph.</h2>
+          </div>
+          <p>Use the highlighted moves to protect task completion, organization, and tone. Replace every bracket with prompt-specific content; natural detail earns more than decorative filler.</p>
+        </div>
+
+        <div class="rubric-ribbon writing-ribbon">
+          <span>ETS BAND-5 TARGET</span>
+          <b>Effective elaboration</b><i>+</i><b>syntactic variety</b><i>+</i><b>precise word choice</b><i>+</i><b>appropriate social conventions</b>
+          <a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/writing-rubrics.pdf" target="_blank" rel="noreferrer">Rubric ↗</a>
+        </div>
+
+        <div class="studio-tabs" role="tablist" aria-label="Writing templates">
+          <button type="button" class="active" role="tab" aria-selected="true" data-writing-template="email-problem">Email · problem + request</button>
+          <button type="button" role="tab" aria-selected="false" data-writing-template="email-status">Email · status + clarification</button>
+          <button type="button" role="tab" aria-selected="false" data-writing-template="email-peer">Email · peer coordination</button>
+          <button type="button" role="tab" aria-selected="false" data-writing-template="discussion-extend">Discussion · agree + extend</button>
+          <button type="button" role="tab" aria-selected="false" data-writing-template="discussion-qualify">Discussion · qualify + counter</button>
+        </div>
+
+        <div class="template-board" id="writing-template-board"></div>
+
+        <div class="strategy-grid writing-strategies">
+          <article>
+            <span>7:00 EMAIL CLOCK</span>
+            <h3>45 sec → 5 min → 75 sec</h3>
+            <ol>
+              <li>Label audience, purpose, and each bullet.</li>
+              <li>Draft one useful move per bullet.</li>
+              <li>Check tone, missing verbs, articles, and spelling.</li>
+            </ol>
+          </article>
+          <article>
+            <span>10:00 DISCUSSION CLOCK</span>
+            <h3>1 min → 8 min → 1 min</h3>
+            <ol>
+              <li>Map professor + two student positions.</li>
+              <li>Answer, support, connect, and add a new angle.</li>
+              <li>Confirm 100+ words and proofread the final lines.</li>
+            </ol>
+          </article>
+          <article>
+            <span>THE COMPLETION TEST</span>
+            <h3>Underline the verbs</h3>
+            <p>If the prompt says <b>describe</b>, <b>explain</b>, and <b>request</b>, your draft needs visible evidence of all three actions. A polished response that skips one action is incomplete.</p>
+          </article>
+        </div>
+
+        <div class="example-library" aria-labelledby="writing-library-title">
+          <div class="subsection-head">
+            <div><span>MORE MODELS</span><h3 id="writing-library-title">Three ways to adapt the framework</h3></div>
+            <p>These are original models built from ETS task shapes and the supplied landlord example—not official scored responses.</p>
+          </div>
+          <div class="model-grid" id="writing-model-grid"></div>
+        </div>
+      </section>
+
+      <section class="atlas-section speaking-studio" id="speaking-studio" aria-labelledby="speaking-title">
+        <div class="atlas-heading inverse">
+          <div>
+            <span class="atlas-kicker">04 / INDEPENDENT SPEAKING STUDIO</span>
+            <h2 id="speaking-title">Answer first.<br />Build while speaking.</h2>
+          </div>
+          <p>In the 2026 test, the independent-style task is <b>Take an Interview</b>: four related questions, no preparation time in official samples. These response engines keep organization light enough to sound conversational.</p>
+        </div>
+
+        <div class="rubric-ribbon speaking-ribbon">
+          <span>ETS BAND-5 TARGET</span>
+          <b>On-topic elaboration</b><i>+</i><b>conversational pace</b><i>+</i><b>intelligibility</b><i>+</i><b>accurate, flexible language</b>
+          <a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/speaking-rubrics.pdf" target="_blank" rel="noreferrer">Rubric ↗</a>
+        </div>
+
+        <div class="speaking-engine-grid">
+          <aside class="engine-menu" aria-label="Speaking response engines">
+            <button type="button" class="active" data-speaking-template="opinion"><span>01</span><b>Opinion / preference</b><small>Answer → reason → example → result</small></button>
+            <button type="button" data-speaking-template="experience"><span>02</span><b>Experience / memory</b><small>Scene → action → outcome → reflection</small></button>
+            <button type="button" data-speaking-template="routine"><span>03</span><b>Routine / lifestyle</b><small>Headline → pattern → example → benefit</small></button>
+            <button type="button" data-speaking-template="solution"><span>04</span><b>Solution / prediction</b><small>Position → mechanism → illustration → close</small></button>
+          </aside>
+          <article class="speaking-script-board" id="speaking-script-board"></article>
+        </div>
+
+        <div class="repeat-lab" aria-labelledby="repeat-title">
+          <div class="repeat-copy">
+            <span>LISTEN &amp; REPEAT / CHUNK MAP</span>
+            <h3 id="repeat-title">Store meaning groups, not loose words.</h3>
+            <p>ETS scores exactness and intelligibility. Hear the sentence once, hold its stressed content words and grammar links, then reproduce the original order. If one word disappears, keep moving.</p>
+            <div class="repeat-actions">
+              <button type="button" id="play-repeat-sample">▶ Hear sample</button>
+              <button type="button" id="toggle-repeat-text">Hide text for recall</button>
+            </div>
+          </div>
+          <div class="repeat-card">
+            <div class="repeat-meta"><span>OFFICIAL ETS SAMPLE · ZOO SCENARIO</span><a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/toefl-ibt-full-length-practice-test-1.pdf#page=34" target="_blank" rel="noreferrer">Practice Test 1 ↗</a></div>
+            <p id="repeat-sample-text"><mark class="chunk-one">For those with children,</mark> <mark class="chunk-two">we offer summer camps</mark> <mark class="chunk-three">and educational opportunities.</mark></p>
+            <div class="chunk-legend"><span><i class="chunk-one"></i>fronted phrase</span><span><i class="chunk-two"></i>subject + action</span><span><i class="chunk-three"></i>linked object</span></div>
+            <small>On test day the text is not shown. The colors visualize a study method only.</small>
+          </div>
+        </div>
+
+        <div class="speaking-checklist">
+          <article><b>1</b><span><strong>Land immediately</strong>Answer the exact question in sentence one.</span></article>
+          <article><b>2</b><span><strong>Develop one line</strong>Explain a mechanism instead of listing reasons.</span></article>
+          <article><b>3</b><span><strong>Make it concrete</strong>Add a person, place, moment, action, or consequence.</span></article>
+          <article><b>4</b><span><strong>Exit cleanly</strong>Finish the idea; do not launch a new point near the buzzer.</span></article>
+        </div>
+      </section>
+
+      <section class="atlas-section source-section" id="sources" aria-labelledby="sources-title">
+        <div class="atlas-heading">
+          <div>
+            <span class="atlas-kicker">05 / RESEARCH DESK</span>
+            <h2 id="sources-title">Official facts first.<br />Strategy second.</h2>
+          </div>
+          <p>ETS sources define task mechanics, examples, and scoring. Test-prep sources informed the flexible strategy patterns. No template is an ETS requirement or a guaranteed score.</p>
+        </div>
+        <div class="source-ledger">
+          <a href="https://www.ets.org/toefl/test-takers/ibt/about/content.html" target="_blank" rel="noreferrer"><span>ETS</span><b>Test content and timing overview</b><em>Primary facts ↗</em></a>
+          <a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/toefl-ibt-test-specifications-2026.pdf" target="_blank" rel="noreferrer"><span>ETS PDF</span><b>2026 test blueprint and specifications</b><em>Modules + points ↗</em></a>
+          <a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/toefl-ibt-full-length-practice-test-1.pdf" target="_blank" rel="noreferrer"><span>ETS PDF</span><b>Official Full-Length Practice Test 1</b><em>Prompt examples ↗</em></a>
+          <a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/toefl-ibt-lesson-plan-writing.pdf" target="_blank" rel="noreferrer"><span>ETS PDF</span><b>Updated Writing lesson plans</b><em>Tasks + samples ↗</em></a>
+          <a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/toefl-ibt-lesson-plan-speaking.pdf" target="_blank" rel="noreferrer"><span>ETS PDF</span><b>Updated Speaking lesson plans</b><em>Practice methods ↗</em></a>
+          <a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/writing-rubrics.pdf" target="_blank" rel="noreferrer"><span>ETS PDF</span><b>Writing scoring guides</b><em>0–5 criteria ↗</em></a>
+          <a href="https://www.ets.org/content/dam/ets-org/pdfs/toefl/speaking-rubrics.pdf" target="_blank" rel="noreferrer"><span>ETS PDF</span><b>Speaking scoring guides</b><em>0–5 criteria ↗</em></a>
+          <a href="https://magoosh.com/toefl/toefl-write-an-email/" target="_blank" rel="noreferrer"><span>PREP</span><b>Magoosh 2026 Email guide</b><em>Timing + register ↗</em></a>
+          <a href="https://www.toeflresources.com/writing-section/toefl-writing-templates/" target="_blank" rel="noreferrer"><span>PREP</span><b>TOEFL Resources Writing templates</b><em>Flexible structure ↗</em></a>
+          <a href="https://www.toeflresources.com/speaking-section/toefl-speaking-templates/" target="_blank" rel="noreferrer"><span>PREP</span><b>TOEFL Resources Speaking templates</b><em>Interview patterns ↗</em></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="atlas-footer" data-note-scope="task-atlas-footer">
+      <div><b>TOEFL Task Atlas</b><span>Independent study guide · updated August 14, 2026</span></div>
+      <p>TOEFL and TOEFL iBT are registered trademarks of ETS. This independent guide is not endorsed by ETS.</p>
+      <a href="#explorer-main">Back to top ↑</a>
+    </footer>
+
+    <script src="task-explorer.js?v=20260814-atlas2" defer></script>
+    <script src="practice-pack.js?v=20260815-color2" defer></script>
+    <script src="retromax.js?v=20260815-polish1" defer></script>
+    <script src="pets.js?v=20260815-petarc8" defer></script>
+  </body>
 </html>
