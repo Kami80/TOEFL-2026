@@ -36,6 +36,355 @@
 
   ensureRetroFavicon();
 
+
+  /* =========================================================
+     TOEFL 2026 FIRST-VISIT RETRO BOOT + SMART CACHE
+     - Full boot only on first visit for this boot version.
+     - Real cache progress through service-worker messages.
+     - Returning visits warm the cache silently.
+     - ?boot=1 previews the boot screen again.
+     ========================================================= */
+  const TOEFL_BOOT_VERSION='20260818-boot1';
+  const TOEFL_BOOT_KEY='toefl26:first-boot:'+TOEFL_BOOT_VERSION;
+  const TOEFL_CACHE_ASSETS=[
+    './',
+    'index.html',
+    'task-explorer.html',
+    'practice-packs.html',
+    'writing-practice.html',
+    'speaking-practice.html',
+
+    'styles.css',
+    'branding.css',
+    'visuals.css',
+    'site-tree-nav.css',
+    'task-explorer.css',
+    'practice-pack.css',
+    'pets.css',
+
+    'app.js',
+    'retromax.js',
+    'task-explorer.js',
+    'practice-pack.js',
+    'practice-data.js',
+    'pets.js',
+
+    'toefl-2026-logo-header.webp',
+    'toefl-2026-master-guide-logo.webp',
+    'toefl-2026-favicon.webp',
+    'toefl-2026-favicon-512.png',
+    'favicon.ico',
+    'favicon-16x16.png',
+    'favicon-32x32.png',
+    'apple-touch-icon.png',
+
+    'assets/visuals/toefl-2026-hero.webp',
+    'assets/visuals/task-explorer-hero.webp',
+    'assets/visuals/practice-hub-hero.webp',
+    'assets/visuals/writing-lab-hero.webp',
+    'assets/visuals/speaking-lab-hero.webp'
+  ];
+
+  function bootSafeGet(key){
+    try{return localStorage.getItem(key)}catch{return null}
+  }
+
+  function bootSafeSet(key,value){
+    try{localStorage.setItem(key,value)}catch{}
+  }
+
+  function ensureBootStyles(){
+    if(!document.head||document.querySelector('link[data-toefl-boot-style]')) return;
+    const critical=document.createElement('style');
+    critical.dataset.toeflBootCritical='true';
+    critical.textContent='#toefl-first-boot{position:fixed;inset:0;z-index:2147483600;display:grid;place-items:center;background:#080b28;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}';
+    document.head.appendChild(critical);
+
+    const link=document.createElement('link');
+    link.rel='stylesheet';
+    link.href='boot.css?v='+TOEFL_BOOT_VERSION;
+    link.dataset.toeflBootStyle='true';
+    document.head.appendChild(link);
+  }
+
+  function registerToeflServiceWorker(){
+    if(!('serviceWorker' in navigator)) return Promise.resolve(null);
+    if(location.protocol==='file:') return Promise.resolve(null);
+    return navigator.serviceWorker
+      .register('./service-worker.js?v='+TOEFL_BOOT_VERSION,{scope:'./'})
+      .then(()=>navigator.serviceWorker.ready)
+      .catch(()=>null);
+  }
+
+  function warmCacheThroughWorker(registration,assets,onProgress,timeoutMs=6500){
+    if(!registration?.active||typeof MessageChannel==='undefined'){
+      return Promise.resolve({cached:0,total:assets.length,available:false});
+    }
+
+    return new Promise(resolve=>{
+      const channel=new MessageChannel();
+      let settled=false;
+      const finish=value=>{
+        if(settled) return;
+        settled=true;
+        clearTimeout(timer);
+        try{channel.port1.close()}catch{}
+        resolve(value);
+      };
+
+      const timer=setTimeout(
+        ()=>finish({cached:0,total:assets.length,available:true,timedOut:true}),
+        timeoutMs
+      );
+
+      channel.port1.onmessage=event=>{
+        const data=event.data||{};
+        if(data.type==='CACHE_PROGRESS'){
+          onProgress?.(data);
+        }else if(data.type==='CACHE_DONE'){
+          onProgress?.(data);
+          finish({
+            cached:data.cached||0,
+            total:data.total||assets.length,
+            failed:data.failed||0,
+            available:true
+          });
+        }
+      };
+
+      try{
+        registration.active.postMessage(
+          {type:'WARM_CACHE',assets},
+          [channel.port2]
+        );
+      }catch{
+        finish({cached:0,total:assets.length,available:false});
+      }
+    });
+  }
+
+  function backgroundWarmCache(){
+    registerToeflServiceWorker().then(reg=>{
+      if(!reg?.active) return;
+      const saveData=navigator.connection?.saveData;
+      const connection=String(navigator.connection?.effectiveType||'');
+      if(saveData||connection.includes('2g')) return;
+
+      try{
+        const channel=new MessageChannel();
+        channel.port1.onmessage=event=>{
+          if(event.data?.type==='CACHE_DONE'){
+            try{channel.port1.close()}catch{}
+          }
+        };
+        reg.active.postMessage(
+          {type:'WARM_CACHE',assets:TOEFL_CACHE_ASSETS,quiet:true},
+          [channel.port2]
+        );
+      }catch{}
+    });
+  }
+
+  function createRetroBoot(){
+    if(!document.body||document.getElementById('toefl-first-boot')) return null;
+
+    const overlay=document.createElement('div');
+    overlay.id='toefl-first-boot';
+    overlay.setAttribute('role','dialog');
+    overlay.setAttribute('aria-modal','true');
+    overlay.setAttribute('aria-label','Preparing TOEFL 2026');
+    overlay.innerHTML=`
+      <div class="toefl-boot-noise" aria-hidden="true"></div>
+      <section class="toefl-boot-window">
+        <header class="toefl-boot-titlebar">
+          <div class="toefl-boot-brand">
+            <img src="toefl-2026-logo-header.webp" alt="" width="54" height="54">
+            <span>
+              <b>TOEFL OS // 2026</b>
+              <small>RETRO STUDY SYSTEM v2.6</small>
+            </span>
+          </div>
+          <div class="toefl-boot-window-buttons" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+        </header>
+
+        <div class="toefl-boot-body">
+          <div class="toefl-boot-display">
+            <span class="toefl-boot-kicker">FIRST RUN INITIALIZATION</span>
+            <h1>Preparing your<br><em>study station.</em></h1>
+            <p class="toefl-boot-message" aria-live="polite">Checking local study space…</p>
+
+            <div class="toefl-boot-progress-shell" aria-label="Loading progress">
+              <div class="toefl-boot-progress" style="--boot-progress:2%"></div>
+              <span class="toefl-boot-percent">02%</span>
+            </div>
+
+            <div class="toefl-boot-pixels" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+          </div>
+
+          <div class="toefl-boot-console">
+            <div class="toefl-boot-console-head">
+              <span>SYSTEM CHECK</span>
+              <b>LOCAL-FIRST MODE</b>
+            </div>
+
+            <ul class="toefl-boot-steps">
+              <li data-boot-step="save"><i></i><span>LOCAL SAVE</span><b>WAIT</b></li>
+              <li data-boot-step="ui"><i></i><span>CORE INTERFACE</span><b>WAIT</b></li>
+              <li data-boot-step="worker"><i></i><span>OFFLINE ENGINE</span><b>WAIT</b></li>
+              <li data-boot-step="cache"><i></i><span>APP + PRACTICE CACHE</span><b>WAIT</b></li>
+              <li data-boot-step="ready"><i></i><span>STUDY SYSTEM</span><b>WAIT</b></li>
+            </ul>
+
+            <div class="toefl-boot-cache-note">
+              <span class="toefl-boot-led"></span>
+              <p>No tracking cookies are required. Progress, notes and preferences stay in browser storage.</p>
+            </div>
+          </div>
+        </div>
+
+        <footer class="toefl-boot-footer">
+          <span class="toefl-boot-tip">TIP // returning visits use the local cache</span>
+          <button type="button" class="toefl-boot-skip">SKIP INTRO →</button>
+        </footer>
+      </section>
+    `;
+
+    document.body.prepend(overlay);
+    document.documentElement.classList.add('toefl-boot-active');
+    return overlay;
+  }
+
+  function runFirstVisitBoot(){
+    ensureBootStyles();
+
+    const params=new URLSearchParams(location.search);
+    const force=params.get('boot')==='1';
+    const firstVisit=bootSafeGet(TOEFL_BOOT_KEY)!=='done';
+
+    if(!force&&!firstVisit){
+      backgroundWarmCache();
+      return;
+    }
+
+    const overlay=createRetroBoot();
+    if(!overlay){
+      backgroundWarmCache();
+      return;
+    }
+
+    const started=performance.now();
+    const percent=overlay.querySelector('.toefl-boot-percent');
+    const meter=overlay.querySelector('.toefl-boot-progress');
+    const message=overlay.querySelector('.toefl-boot-message');
+    const skip=overlay.querySelector('.toefl-boot-skip');
+    let finished=false;
+    let currentProgress=2;
+
+    const setProgress=(value,text)=>{
+      currentProgress=Math.max(currentProgress,Math.min(100,Math.round(value)));
+      meter?.style.setProperty('--boot-progress',currentProgress+'%');
+      if(percent) percent.textContent=String(currentProgress).padStart(2,'0')+'%';
+      if(text&&message) message.textContent=text;
+    };
+
+    const setStep=(name,state,label)=>{
+      const row=overlay.querySelector('[data-boot-step="'+name+'"]');
+      if(!row) return;
+      row.dataset.state=state;
+      const value=row.querySelector('b');
+      if(value) value.textContent=label||(state==='done'?'OK':state==='warn'?'SKIP':'WAIT');
+    };
+
+    const closeBoot=async(markSeen=true)=>{
+      if(finished) return;
+      finished=true;
+      if(markSeen&&!force) bootSafeSet(TOEFL_BOOT_KEY,'done');
+      else if(markSeen&&force&&firstVisit) bootSafeSet(TOEFL_BOOT_KEY,'done');
+
+      setProgress(100,'SYSTEM READY // Welcome to TOEFL 2026');
+
+      const elapsed=performance.now()-started;
+      const minimum=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?0:520;
+      if(elapsed<minimum){
+        await new Promise(resolve=>setTimeout(resolve,minimum-elapsed));
+      }
+
+      overlay.classList.add('is-complete');
+      document.documentElement.classList.remove('toefl-boot-active');
+      setTimeout(()=>overlay.remove(),window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?0:260);
+    };
+
+    skip?.addEventListener('click',()=>{
+      setStep('cache','warn','BG');
+      setStep('ready','done','GO');
+      closeBoot(true);
+      backgroundWarmCache();
+    });
+
+    (async()=>{
+      setStep('save','done','OK');
+      setProgress(10,'Local study storage ready.');
+
+      setStep('ui','done','OK');
+      setProgress(20,'Core interface loaded.');
+
+      const registration=await registerToeflServiceWorker();
+
+      if(registration?.active){
+        setStep('worker','done','ON');
+        setProgress(28,'Offline engine connected.');
+
+        const result=await warmCacheThroughWorker(
+          registration,
+          TOEFL_CACHE_ASSETS,
+          data=>{
+            if(data.type!=='CACHE_PROGRESS') return;
+            const ratio=data.total?data.done/data.total:0;
+            const mapped=30+(ratio*62);
+            setProgress(
+              mapped,
+              'Caching '+String(data.done).padStart(2,'0')+
+              ' / '+String(data.total).padStart(2,'0')+
+              ' · '+(data.asset||'study files')
+            );
+          }
+        );
+
+        if(result.timedOut){
+          setStep('cache','warn','BG');
+          setProgress(92,'Main interface ready. Remaining files will cache quietly.');
+          backgroundWarmCache();
+        }else{
+          setStep('cache','done',String(result.cached||0).padStart(2,'0'));
+          setProgress(94,'Practice pages and pixel assets cached.');
+        }
+      }else{
+        setStep('worker','warn',location.protocol==='file:'?'FILE':'N/A');
+        setStep('cache','warn','LIVE');
+        setProgress(92,location.protocol==='file:'
+          ? 'Local file mode detected. Use a local web server for offline caching.'
+          : 'Browser cache will handle this session.');
+      }
+
+      setStep('ready','done','GO');
+      setProgress(100,'SYSTEM READY // You got this!');
+      await closeBoot(true);
+    })().catch(()=>{
+      setStep('worker','warn','N/A');
+      setStep('cache','warn','LIVE');
+      setStep('ready','done','GO');
+      setProgress(100,'SYSTEM READY // Continuing with available content.');
+      closeBoot(true);
+    });
+  }
+
+  runFirstVisitBoot();
+
+
   const qsa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 
   function ready(fn){

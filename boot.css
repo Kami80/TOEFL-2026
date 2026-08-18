@@ -1,0 +1,489 @@
+
+/* =========================================================
+   TOEFL 2026 — First Visit Retro Boot
+   ========================================================= */
+
+:root{
+  --boot-navy:#080b28;
+  --boot-navy-2:#10183a;
+  --boot-cream:#fff1d1;
+  --boot-ink:#15162d;
+  --boot-coral:#f47467;
+  --boot-pink:#ef2c91;
+  --boot-cyan:#54c7bf;
+  --boot-yellow:#f8c448;
+  --boot-purple:#8e4fd1;
+}
+
+html.toefl-boot-active,
+html.toefl-boot-active body{
+  overflow:hidden!important;
+}
+
+#toefl-first-boot{
+  position:fixed;
+  inset:0;
+  z-index:2147483600;
+  display:grid;
+  place-items:center;
+  box-sizing:border-box;
+  padding:clamp(12px,3vw,38px);
+  overflow:auto;
+  background:
+    linear-gradient(rgba(8,11,40,.94),rgba(8,11,40,.97)),
+    radial-gradient(circle at 20% 15%,rgba(239,44,145,.24),transparent 28%),
+    radial-gradient(circle at 82% 78%,rgba(84,199,191,.18),transparent 30%),
+    var(--boot-navy);
+  color:var(--boot-cream);
+  font-family:"Courier New",ui-monospace,SFMono-Regular,Consolas,monospace;
+  opacity:1;
+  transition:opacity .24s ease,visibility .24s ease;
+}
+
+#toefl-first-boot *,
+#toefl-first-boot *::before,
+#toefl-first-boot *::after{box-sizing:border-box}
+
+#toefl-first-boot.is-complete{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.toefl-boot-noise{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.22;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.28) 0 1px,transparent 1.3px);
+  background-size:8px 8px;
+  mask-image:linear-gradient(to bottom,transparent,black 12%,black 88%,transparent);
+}
+
+.toefl-boot-window{
+  position:relative;
+  width:min(980px,100%);
+  border:4px solid var(--boot-cream);
+  border-radius:20px;
+  overflow:hidden;
+  background:var(--boot-ink);
+  box-shadow:
+    8px 8px 0 var(--boot-pink),
+    14px 14px 0 var(--boot-purple),
+    20px 20px 0 rgba(84,199,191,.85),
+    0 30px 90px rgba(0,0,0,.42);
+}
+
+.toefl-boot-window::after{
+  content:"";
+  position:absolute;
+  inset:58px 0 42px;
+  pointer-events:none;
+  opacity:.08;
+  background:repeating-linear-gradient(
+    to bottom,
+    transparent 0 3px,
+    #fff 3px 4px
+  );
+}
+
+.toefl-boot-titlebar{
+  position:relative;
+  z-index:2;
+  min-height:76px;
+  padding:10px 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  color:var(--boot-ink);
+  background:var(--boot-cream);
+  border-bottom:4px solid var(--boot-ink);
+}
+
+.toefl-boot-brand{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.toefl-boot-brand img{
+  width:54px;
+  height:54px;
+  object-fit:contain;
+  image-rendering:auto;
+  border-radius:11px;
+  background:var(--boot-navy);
+  box-shadow:3px 3px 0 var(--boot-ink);
+}
+
+.toefl-boot-brand span{
+  display:grid;
+  gap:3px;
+}
+
+.toefl-boot-brand b{
+  font-size:clamp(16px,2.2vw,24px);
+  letter-spacing:.055em;
+}
+
+.toefl-boot-brand small{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.13em;
+  color:#6e6670;
+}
+
+.toefl-boot-window-buttons{
+  display:flex;
+  gap:8px;
+}
+
+.toefl-boot-window-buttons i{
+  width:26px;
+  height:26px;
+  border:3px solid var(--boot-ink);
+  box-shadow:2px 2px 0 var(--boot-ink);
+}
+
+.toefl-boot-window-buttons i:nth-child(1){background:var(--boot-cyan)}
+.toefl-boot-window-buttons i:nth-child(2){background:var(--boot-yellow)}
+.toefl-boot-window-buttons i:nth-child(3){background:var(--boot-coral)}
+
+.toefl-boot-body{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);
+  min-height:440px;
+}
+
+.toefl-boot-display{
+  position:relative;
+  padding:clamp(28px,5vw,58px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 78% 18%,rgba(244,116,103,.16),transparent 26%),
+    linear-gradient(135deg,#0e1437,#111a42 62%,#12244a);
+  border-right:4px solid var(--boot-cream);
+}
+
+.toefl-boot-display::before{
+  content:"";
+  position:absolute;
+  left:20px;
+  top:20px;
+  width:42px;
+  height:42px;
+  border-left:4px solid var(--boot-cyan);
+  border-top:4px solid var(--boot-cyan);
+}
+
+.toefl-boot-kicker{
+  display:inline-flex;
+  width:max-content;
+  max-width:100%;
+  padding:7px 10px;
+  margin-bottom:16px;
+  color:var(--boot-ink);
+  background:var(--boot-yellow);
+  border:3px solid var(--boot-cream);
+  box-shadow:4px 4px 0 var(--boot-pink);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+
+.toefl-boot-display h1{
+  margin:0;
+  max-width:680px;
+  font-family:inherit;
+  font-size:clamp(38px,6vw,72px);
+  line-height:.94;
+  letter-spacing:-.065em;
+  text-transform:uppercase;
+  text-wrap:balance;
+}
+
+.toefl-boot-display h1 em{
+  color:var(--boot-coral);
+  font-style:normal;
+}
+
+.toefl-boot-message{
+  min-height:42px;
+  margin:23px 0 15px;
+  color:#bedddc;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.toefl-boot-progress-shell{
+  position:relative;
+  height:38px;
+  overflow:hidden;
+  border:3px solid var(--boot-cream);
+  background:#05081d;
+  box-shadow:5px 5px 0 rgba(0,0,0,.35);
+}
+
+.toefl-boot-progress{
+  position:absolute;
+  inset:4px auto 4px 4px;
+  width:calc(var(--boot-progress,2%) - 8px);
+  max-width:calc(100% - 8px);
+  min-width:7px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--boot-pink) 0 18px,
+      var(--boot-pink) 18px 20px,
+      var(--boot-cyan) 20px 38px,
+      var(--boot-cyan) 38px 40px,
+      var(--boot-yellow) 40px 58px,
+      var(--boot-yellow) 58px 60px
+    );
+  transition:width .18s steps(5,end);
+}
+
+.toefl-boot-percent{
+  position:absolute;
+  right:7px;
+  top:50%;
+  z-index:2;
+  transform:translateY(-50%);
+  padding:2px 5px;
+  color:var(--boot-cream);
+  background:#05081d;
+  font-size:12px;
+  font-weight:900;
+}
+
+.toefl-boot-pixels{
+  display:flex;
+  gap:5px;
+  margin-top:17px;
+}
+
+.toefl-boot-pixels i{
+  width:9px;
+  height:9px;
+  background:var(--boot-purple);
+  box-shadow:12px 0 0 rgba(239,44,145,.26);
+  animation:toeflBootPixel 1s steps(2,end) infinite;
+}
+
+.toefl-boot-pixels i:nth-child(2n){background:var(--boot-cyan);animation-delay:.12s}
+.toefl-boot-pixels i:nth-child(3n){background:var(--boot-yellow);animation-delay:.24s}
+
+.toefl-boot-console{
+  padding:clamp(22px,3vw,38px);
+  color:var(--boot-ink);
+  background:
+    linear-gradient(rgba(255,241,209,.96),rgba(255,241,209,.96)),
+    repeating-linear-gradient(0deg,transparent 0 12px,rgba(21,22,45,.08) 12px 13px);
+}
+
+.toefl-boot-console-head{
+  padding-bottom:14px;
+  margin-bottom:14px;
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:3px solid var(--boot-ink);
+}
+
+.toefl-boot-console-head span{
+  font-size:17px;
+  font-weight:950;
+  letter-spacing:.06em;
+}
+
+.toefl-boot-console-head b{
+  padding:4px 6px;
+  color:var(--boot-cream);
+  background:var(--boot-ink);
+  font-size:9px;
+  letter-spacing:.08em;
+}
+
+.toefl-boot-steps{
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:grid;
+  gap:9px;
+}
+
+.toefl-boot-steps li{
+  min-height:46px;
+  padding:8px 9px;
+  display:grid;
+  grid-template-columns:13px 1fr auto;
+  align-items:center;
+  gap:10px;
+  border:2px solid rgba(21,22,45,.28);
+  background:#fff9e9;
+  transition:transform .16s ease,background .16s ease;
+}
+
+.toefl-boot-steps li i{
+  width:10px;
+  height:10px;
+  background:#c7bca9;
+  border:2px solid var(--boot-ink);
+}
+
+.toefl-boot-steps li span{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+
+.toefl-boot-steps li b{
+  min-width:40px;
+  padding:4px 5px;
+  text-align:center;
+  color:#746b64;
+  background:#eee1c5;
+  border:2px solid var(--boot-ink);
+  font-size:9px;
+}
+
+.toefl-boot-steps li[data-state="done"]{
+  background:#e0f4e9;
+  transform:translateX(2px);
+}
+
+.toefl-boot-steps li[data-state="done"] i{background:var(--boot-cyan)}
+.toefl-boot-steps li[data-state="done"] b{
+  color:var(--boot-ink);
+  background:var(--boot-cyan);
+}
+
+.toefl-boot-steps li[data-state="warn"]{background:#fff0ca}
+.toefl-boot-steps li[data-state="warn"] i{background:var(--boot-yellow)}
+.toefl-boot-steps li[data-state="warn"] b{
+  color:var(--boot-ink);
+  background:var(--boot-yellow);
+}
+
+.toefl-boot-cache-note{
+  margin-top:18px;
+  padding:12px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:10px;
+  align-items:start;
+  color:#544f53;
+  background:rgba(142,79,209,.1);
+  border:2px dashed rgba(21,22,45,.45);
+}
+
+.toefl-boot-cache-note p{
+  margin:0;
+  font-size:10px;
+  font-weight:700;
+  line-height:1.45;
+}
+
+.toefl-boot-led{
+  width:11px;
+  height:11px;
+  margin-top:2px;
+  border:2px solid var(--boot-ink);
+  border-radius:50%;
+  background:#5be39d;
+  box-shadow:0 0 0 3px rgba(91,227,157,.18);
+}
+
+.toefl-boot-footer{
+  position:relative;
+  z-index:2;
+  min-height:52px;
+  padding:8px 12px 8px 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  color:var(--boot-ink);
+  background:var(--boot-cream);
+  border-top:4px solid var(--boot-ink);
+}
+
+.toefl-boot-tip{
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.045em;
+}
+
+.toefl-boot-skip{
+  appearance:none;
+  min-height:34px;
+  padding:7px 12px;
+  cursor:pointer;
+  color:var(--boot-ink);
+  background:var(--boot-yellow);
+  border:3px solid var(--boot-ink);
+  border-radius:7px;
+  box-shadow:3px 3px 0 var(--boot-ink);
+  font:900 10px/1 inherit;
+  letter-spacing:.06em;
+}
+
+.toefl-boot-skip:hover,
+.toefl-boot-skip:focus-visible{
+  background:var(--boot-cyan);
+  outline:3px solid var(--boot-pink);
+  outline-offset:3px;
+}
+
+@keyframes toeflBootPixel{
+  50%{transform:translateY(-4px)}
+}
+
+@media (max-width:780px){
+  #toefl-first-boot{padding:8px}
+  .toefl-boot-window{
+    border-width:3px;
+    border-radius:15px;
+    box-shadow:5px 5px 0 var(--boot-pink),9px 9px 0 var(--boot-purple);
+  }
+  .toefl-boot-titlebar{min-height:64px;padding:7px 9px}
+  .toefl-boot-brand img{width:44px;height:44px}
+  .toefl-boot-brand small{display:none}
+  .toefl-boot-window-buttons i{width:20px;height:20px;border-width:2px}
+  .toefl-boot-body{grid-template-columns:1fr;min-height:auto}
+  .toefl-boot-display{
+    min-height:300px;
+    padding:34px 24px;
+    border-right:0;
+    border-bottom:4px solid var(--boot-cream);
+  }
+  .toefl-boot-console{padding:20px}
+  .toefl-boot-display h1{font-size:clamp(36px,12vw,58px)}
+  .toefl-boot-footer{align-items:stretch}
+  .toefl-boot-tip{display:none}
+  .toefl-boot-skip{width:100%}
+}
+
+@media (max-width:430px){
+  .toefl-boot-display{min-height:260px;padding:28px 18px}
+  .toefl-boot-message{margin-top:16px}
+  .toefl-boot-console{padding:15px}
+  .toefl-boot-steps li{min-height:42px}
+  .toefl-boot-console-head b{display:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  #toefl-first-boot,
+  .toefl-boot-progress,
+  .toefl-boot-steps li{transition:none!important}
+  .toefl-boot-pixels i{animation:none!important}
+}
