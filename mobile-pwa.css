@@ -2,6 +2,7 @@
 
 :root {
   --toefl-safe-top: env(safe-area-inset-top, 0px);
+  --toefl-safe-left: env(safe-area-inset-left, 0px);
   --toefl-safe-right: env(safe-area-inset-right, 0px);
   --toefl-safe-bottom: env(safe-area-inset-bottom, 0px);
   --toefl-mobile-ink: #19152f;
@@ -177,6 +178,10 @@ summary:focus-visible {
   color: var(--toefl-mobile-ink);
   box-shadow: 3px 3px 0 var(--toefl-mobile-ink);
   font: 950 18px/1 var(--font-display, system-ui, sans-serif);
+}
+
+.toefl-mobile-utility {
+  display: none;
 }
 
 .toefl-mobile-top[hidden],
@@ -658,6 +663,329 @@ summary:focus-visible {
   .speak-controls button,
   .interview-actions button {
     flex-basis: 100%;
+  }
+}
+
+/* ================================================================
+   MOBILE APP SHELL
+   On a phone the site becomes a bottom tab bar instead of a
+   compressed desktop header. Keep the route surface intentionally small.
+   ================================================================ */
+@media (max-width: 760px) {
+  html {
+    scroll-padding-top: calc(76px + var(--toefl-safe-top));
+    scroll-padding-bottom: calc(94px + var(--toefl-safe-bottom));
+  }
+
+  body {
+    padding-top: calc(64px + var(--toefl-safe-top));
+    padding-bottom: calc(94px + var(--toefl-safe-bottom));
+  }
+
+  .toefl-mobile-utility {
+    position: fixed;
+    z-index: 1120;
+    top: calc(7px + var(--toefl-safe-top));
+    right: calc(68px + var(--toefl-safe-right));
+    left: calc(10px + var(--toefl-safe-left, 0px));
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    pointer-events: none;
+    font-family: var(--font-body, "DM Sans", "Segoe UI", Arial, sans-serif);
+  }
+
+  .toefl-mobile-brand,
+  .toefl-mobile-community-link {
+    pointer-events: auto;
+    color: var(--toefl-mobile-ink);
+    text-decoration: none;
+    transition: transform .12s steps(2, end), box-shadow .12s ease, background-color .12s ease;
+  }
+
+  .toefl-mobile-brand {
+    position: relative;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 2px solid var(--toefl-mobile-ink);
+    border-radius: 12px;
+    background: #0c0715;
+    box-shadow: 3px 3px 0 var(--toefl-mobile-ink), 0 8px 20px rgba(25, 21, 47, .16);
+  }
+
+  .toefl-mobile-brand img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .toefl-mobile-community {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .toefl-mobile-community-link {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 2px;
+    border: 2px solid var(--toefl-mobile-ink);
+    border-radius: 10px;
+    box-shadow: 2px 2px 0 var(--toefl-mobile-ink);
+    font: 950 7px/1 var(--map-mono, ui-monospace, monospace);
+    letter-spacing: .06em;
+  }
+
+  .toefl-mobile-community-link svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .toefl-mobile-community-github svg {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .toefl-mobile-community-kamiunity {
+    background: var(--toefl-mobile-cyan, #5fe4de);
+  }
+
+  .toefl-mobile-community-github {
+    background: var(--toefl-mobile-yellow);
+  }
+
+  .toefl-mobile-brand:hover,
+  .toefl-mobile-brand:focus-visible,
+  .toefl-mobile-community-link:hover,
+  .toefl-mobile-community-link:focus-visible {
+    outline: none;
+    background: var(--toefl-mobile-mint);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--toefl-mobile-ink);
+  }
+
+  .site-fastnav-spacer {
+    display: none !important;
+  }
+
+  .site-fastnav {
+    top: auto !important;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    transform: none !important;
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 7px 7px calc(7px + var(--toefl-safe-bottom));
+    border-width: 2px 2px 0;
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -4px 0 var(--map-ink), 0 -14px 30px rgba(25, 21, 47, .18);
+  }
+
+  .site-fastnav::before {
+    inset: 2px;
+    border-radius: 14px 14px 0 0;
+    border-bottom: 0;
+  }
+
+  .site-fastnav::after,
+  .site-fastnav-brand,
+  .site-fastnav-route {
+    display: none !important;
+  }
+
+  .site-fastnav-links {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 4px;
+    min-width: 0;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .site-fastnav-link,
+  .site-fastnav-practice-toggle {
+    width: 100%;
+    min-width: 0;
+    min-height: 56px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 5px 3px;
+    border: 1.5px solid transparent;
+    border-radius: 11px;
+    background: transparent;
+    box-shadow: none;
+    font-size: 8px !important;
+    line-height: 1;
+    letter-spacing: .08em;
+  }
+
+  .site-fastnav-links > a:nth-child(1)::before,
+  .site-fastnav-links > a:nth-child(2)::before,
+  .site-fastnav-practice-toggle::before {
+    width: auto;
+    height: auto;
+    flex: 0 0 auto;
+    background: none;
+    box-shadow: none;
+    color: var(--map-purple);
+    font: 900 18px/1 var(--map-mono);
+  }
+
+  .site-fastnav-links > a:nth-child(1)::before { content: "⌂"; }
+  .site-fastnav-links > a:nth-child(2)::before { content: "▦"; }
+  .site-fastnav-practice-toggle::before { content: "▶"; font-size: 15px; }
+
+  .site-fastnav-link.is-current,
+  .site-fastnav-practice-toggle.is-current {
+    border-color: var(--map-ink);
+    background: var(--map-mint);
+    box-shadow: 2px 2px 0 var(--map-ink);
+  }
+
+  .site-fastnav-links > a:nth-child(1).is-current::before,
+  .site-fastnav-links > a:nth-child(2).is-current::before,
+  .site-fastnav-practice-toggle.is-current::before {
+    width: auto;
+    height: auto;
+    flex: 0 0 auto;
+    background: none;
+    box-shadow: none;
+    color: var(--map-ink);
+  }
+
+  .site-fastnav-links > a:nth-child(1).is-current::before { content: "⌂"; }
+  .site-fastnav-links > a:nth-child(2).is-current::before { content: "▦"; }
+  .site-fastnav-practice-toggle.is-current::before { content: "▶"; }
+
+  .site-fastnav-practice {
+    min-width: 0;
+    display: flex;
+  }
+
+  .site-fastnav-practice-toggle i {
+    display: none;
+  }
+
+  .site-map-open {
+    display: none !important;
+  }
+
+  /* The install banner is the mobile install CTA; keep APP out of the tab bar. */
+  .toefl-pwa-nav-install {
+    display: none !important;
+  }
+
+  .site-fastnav-branch-panel {
+    display: none !important;
+  }
+
+  body.retromax-ready .mode-tabs {
+    top: calc(64px + var(--toefl-safe-top)) !important;
+  }
+
+  .toefl-pwa-status,
+  .toefl-pwa-install-banner,
+  .toefl-pwa-update-banner,
+  .toefl-mobile-top,
+  .notes-button,
+  .annotation-fab {
+    bottom: calc(94px + var(--toefl-safe-bottom));
+  }
+
+  .pixel-pet-launcher {
+    top: calc(7px + var(--toefl-safe-top));
+    right: calc(9px + var(--toefl-safe-right));
+    bottom: auto !important;
+    left: auto !important;
+    z-index: 1150;
+    width: 56px;
+    height: 50px;
+  }
+
+  .pixel-pet-launcher .pixel-house-sleepers {
+    left: 11px;
+    top: 26px;
+    gap: 1px;
+  }
+
+  .pixel-pet-launcher .pixel-house-sleepers span {
+    width: 10px;
+    height: 9px;
+  }
+
+  .pixel-pet-home-sign,
+  .pixel-pet-launcher::before {
+    display: none;
+  }
+
+  .pixel-pet-dialog {
+    top: calc(68px + var(--toefl-safe-top));
+    right: calc(10px + var(--toefl-safe-right));
+    bottom: auto !important;
+    left: calc(10px + var(--toefl-safe-left, 0px));
+    max-height: calc(100dvh - 168px - var(--toefl-safe-top) - var(--toefl-safe-bottom));
+  }
+
+  .pixel-pet-dialog-shell {
+    max-height: calc(100dvh - 174px - var(--toefl-safe-top) - var(--toefl-safe-bottom));
+  }
+
+  .pixel-pet-toast {
+    right: calc(10px + var(--toefl-safe-right));
+    bottom: calc(94px + var(--toefl-safe-bottom));
+    left: calc(10px + var(--toefl-safe-left, 0px));
+    max-width: none;
+  }
+}
+
+@media (max-width: 430px) {
+  .site-fastnav {
+    grid-template-columns: 1fr;
+    padding-inline: 5px;
+  }
+
+  .site-fastnav-links {
+    gap: 2px;
+  }
+
+  .site-fastnav-link,
+  .site-fastnav-practice-toggle {
+    min-height: 52px;
+    border-radius: 10px;
+  }
+
+  .site-fastnav-link,
+  .site-fastnav-practice-toggle {
+    font-size: 7px !important;
+  }
+
+  .site-fastnav-links > a:nth-child(2) {
+    display: inline-flex !important;
   }
 }
 

@@ -336,7 +336,7 @@ The interface includes:
 - High-contrast tactile cards and large response highlights.
 - Internal horizontal scrolling for wide data tables on small screens.
 - Responsive layouts tested at desktop and 390 px mobile width.
-- Mobile-safe touch targets, safe-area padding, swipeable tab rails, and a compact app navigation treatment.
+- Mobile-safe touch targets, safe-area padding, a top utility bar with the app logo and community actions, and a bottom app tab bar with Guide, Atlas, and Practice destinations.
 - Offline/online state messaging, PWA update feedback, and install affordances when the browser exposes them.
 
 This project has not undergone a formal WCAG conformance audit. Accessibility improvements and assistive-technology testing are welcome.

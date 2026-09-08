@@ -44,7 +44,7 @@
      - Returning visits warm the cache silently.
      - ?boot=1 previews the boot screen again.
      ========================================================= */
-  const TOEFL_BOOT_VERSION='20260908-mobile-pwa1';
+  const TOEFL_BOOT_VERSION='20260908-mobile-nav3';
   const TOEFL_BOOT_KEY='toefl26:first-boot:'+TOEFL_BOOT_VERSION;
   const TOEFL_CACHE_ASSETS=[
     './',
@@ -575,7 +575,7 @@
      ========================================================= */
   const SITE_ROUTES={
     guide:{label:'Field Guide',short:'GUIDE',href:'index.html',desc:'Format, scoring, study plan & test day',group:'learn'},
-    atlas:{label:'Task Atlas',short:'TASKS',href:'task-explorer.html',desc:'All 12 task types, templates & scripts',group:'learn'},
+    atlas:{label:'Task Atlas',short:'ATLAS',href:'task-explorer.html',desc:'All 12 task types, templates & scripts',group:'learn'},
     hub:{label:'Practice Hub',short:'HUB',href:'practice-packs.html',desc:'Choose a complete practice pack',group:'practice'},
     writing:{label:'Writing Lab',short:'WRITE',href:'writing-practice.html',desc:'Sentence, email & discussion practice',group:'practice'},
     speaking:{label:'Speaking Lab',short:'SPEAK',href:'speaking-practice.html',desc:'Listen & Repeat + Interview practice',group:'practice'}
@@ -739,7 +739,7 @@
     const guide=make('a','site-fastnav-link','GUIDE');
     guide.href=SITE_ROUTES.guide.href;
     if(current==='guide') guide.classList.add('is-current');
-    const atlas=make('a','site-fastnav-link','TASKS');
+    const atlas=make('a','site-fastnav-link','ATLAS');
     atlas.href=SITE_ROUTES.atlas.href;
     if(current==='atlas') atlas.classList.add('is-current');
 
@@ -796,6 +796,10 @@
 
     practiceToggle.addEventListener('click',e=>{
       e.stopPropagation();
+      if(matchMedia('(max-width:760px)').matches){
+        window.location.href=SITE_ROUTES.hub.href;
+        return;
+      }
       if(practice.classList.contains('is-open')) closePracticeBranch();
       else openPracticeBranch(practice,practiceToggle);
     });

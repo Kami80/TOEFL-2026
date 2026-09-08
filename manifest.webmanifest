@@ -37,7 +37,7 @@
     },
     {
       "name": "Task Atlas",
-      "short_name": "Tasks",
+      "short_name": "Atlas",
       "description": "Browse all twelve TOEFL task types.",
       "url": "./task-explorer.html",
       "icons": [{"src": "toefl-2026-favicon-192.png", "sizes": "192x192", "type": "image/png"}]

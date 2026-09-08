@@ -1,7 +1,7 @@
 
 /* TOEFL 2026 — Local-first offline cache / first-visit warmer */
 
-const CACHE_VERSION='toefl26-cache-20260908-mobile-pwa1';
+const CACHE_VERSION='toefl26-cache-20260908-mobile-nav3';
 const MINIMUM_SHELL=[
   './',
   'index.html',
