@@ -44,7 +44,7 @@
      - Returning visits warm the cache silently.
      - ?boot=1 previews the boot screen again.
      ========================================================= */
-  const TOEFL_BOOT_VERSION='20260908-mobile-nav3';
+  const TOEFL_BOOT_VERSION='20260908-mobile-nav4';
   const TOEFL_BOOT_KEY='toefl26:first-boot:'+TOEFL_BOOT_VERSION;
   const TOEFL_CACHE_ASSETS=[
     './',

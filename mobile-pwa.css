@@ -917,6 +917,10 @@ summary:focus-visible {
     bottom: calc(94px + var(--toefl-safe-bottom));
   }
 
+  .toefl-mobile-top {
+    display: none !important;
+  }
+
   .pixel-pet-launcher {
     top: calc(7px + var(--toefl-safe-top));
     right: calc(9px + var(--toefl-safe-right));

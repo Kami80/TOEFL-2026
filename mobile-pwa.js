@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const PWA_VERSION = '20260908-mobile-nav3';
+  const PWA_VERSION = '20260908-mobile-nav4';
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   let installPrompt = null;
@@ -188,6 +188,7 @@
   }
 
   function addScrollTopControl() {
+    if (window.matchMedia?.('(max-width:760px)').matches) return;
     if ($('.toefl-mobile-top')) return;
     const button = makeButton('↑', 'toefl-mobile-top', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     button.setAttribute('aria-label', 'Back to top');

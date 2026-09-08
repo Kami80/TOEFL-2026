@@ -139,6 +139,12 @@
     return PETS.find(function (pet) { return pet.id === id; });
   }
 
+  function defaultActivePets() {
+    return window.matchMedia && window.matchMedia("(max-width: 760px)").matches
+      ? []
+      : DEFAULT_STATE.active.slice();
+  }
+
   function safeReadState() {
     var stored;
     try {
@@ -152,7 +158,7 @@
       ? stored.active.filter(function (id, index, list) {
           return petById(id) && list.indexOf(id) === index;
         }).slice(0, MAX_PETS)
-      : DEFAULT_STATE.active.slice();
+      : defaultActivePets();
 
     return {
       version: 1,
@@ -170,7 +176,7 @@
   function copyDefaultState() {
     return {
       version: DEFAULT_STATE.version,
-      active: DEFAULT_STATE.active.slice(),
+      active: defaultActivePets(),
       house: DEFAULT_STATE.house,
       autoplay: DEFAULT_STATE.autoplay,
       quiet: DEFAULT_STATE.quiet,
@@ -536,7 +542,9 @@
       var self = this;
       window.setTimeout(function () {
         self.launcher.dataset.nudge = "true";
-        self.toast("New: right-click a pet for tricks, or open the little Pet Home.");
+        self.toast(self.actors.size
+          ? "New: right-click a pet for tricks, or open the little Pet Home."
+          : "Open Pet Home to choose a companion.");
         var first = self.actors.values().next().value;
         if (first) first.say("Drag me or click for a trick!", 4400);
         self.state.introduced = true;
