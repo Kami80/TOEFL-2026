@@ -1,0 +1,46 @@
+{
+  "id": "./index.html",
+  "name": "TOEFL 2026 Field Guide",
+  "short_name": "TOEFL 2026",
+  "description": "A local-first TOEFL iBT 2026 guide, task atlas, and interactive practice suite.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#fff1d1",
+  "theme_color": "#151628",
+  "categories": ["education", "reference"],
+  "icons": [
+    {
+      "src": "toefl-2026-favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "toefl-2026-favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Practice Hub",
+      "short_name": "Practice",
+      "description": "Open the Writing and Speaking practice packs.",
+      "url": "./practice-packs.html",
+      "icons": [{"src": "toefl-2026-favicon-192.png", "sizes": "192x192", "type": "image/png"}]
+    },
+    {
+      "name": "Task Atlas",
+      "short_name": "Tasks",
+      "description": "Browse all twelve TOEFL task types.",
+      "url": "./task-explorer.html",
+      "icons": [{"src": "toefl-2026-favicon-192.png", "sizes": "192x192", "type": "image/png"}]
+    }
+  ]
+}
