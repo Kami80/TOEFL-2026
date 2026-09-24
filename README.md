@@ -28,6 +28,7 @@ The project turns the updated TOEFL iBT into an explorable learning system rathe
 - Color-coded Writing frameworks and annotated original models.
 - Independent Speaking response engines and Listen & Repeat chunk training.
 - Full Writing and Speaking practice packs with timers, drafts, recording, playback, and progress tracking.
+- A YouTube video library with four full practice videos, five playlists, and two creator channels.
 - Browser-local highlighting, comments, checklists, and study progress.
 - A persistent Pixel Pet Home with six selectable pets, one active companion, three home styles, toys, naps, and dragging.
 - A responsive maximalist-retro interface that works without a backend or build pipeline.
@@ -61,6 +62,7 @@ The project turns the updated TOEFL iBT into an explorable learning system rathe
 | [`practice-packs.html`](practice-packs.html) | Practice hub | Entry point for the standalone Writing and Speaking practice environments |
 | [`writing-practice.html`](writing-practice.html) | Writing lab | Build a Sentence, Email, and Academic Discussion practice with saved drafts, timers, word counts, and sample answers |
 | [`speaking-practice.html`](speaking-practice.html) | Speaking lab | Listen & Repeat playback, microphone recording, optional speech-recognition feedback, interview timers, and completion tracking |
+| [`videos.html`](videos.html) | Video library | Four full practice videos, five skill playlists, and links to linguamarina and TST Prep TOEFL |
 
 ## 2026 format snapshot
 
@@ -173,6 +175,7 @@ flowchart TD
     I --> P["practice-packs.html · Practice hub"]
     P --> W["writing-practice.html · Writing lab"]
     P --> S["speaking-practice.html · Speaking lab"]
+    I --> V["videos.html · Video library"]
 
     A["app.js + styles.css"] --> I
     X["task-explorer.js + task-explorer.css"] --> T
@@ -211,7 +214,7 @@ flowchart TD
 ### PWA and mobile delivery
 
 - Every page links the same install manifest, app icons, and mobile-safe viewport metadata.
-- `service-worker.js` precaches all five pages, the practice dataset, page visuals, and speaking visuals, then keeps later same-origin assets available offline.
+- `service-worker.js` precaches all six pages, the practice dataset, page visuals, and speaking visuals, then keeps later same-origin assets available offline. YouTube video playback requires an internet connection.
 - `mobile-pwa.js` registers the worker, exposes install/update affordances when the browser supports them, reports offline/online state, and adds a keyboard- and touch-friendly back-to-top control.
 - `mobile-pwa.css` is loaded last so safe-area insets, touch targets, compact navigation, sticky practice tabs, wide-table swipe hints, and small-screen practice controls remain consistent across all pages.
 
@@ -248,7 +251,7 @@ http://localhost:4173/
 
 No dependency installation is required for the site itself.
 
-On a Chromium-based browser, use the install icon in the address bar or the in-app install prompt to add the guide to the device home screen. After the first cache warm-up, the five local pages and included practice visuals remain available without a network connection.
+On a Chromium-based browser, use the install icon in the address bar or the in-app install prompt to add the guide to the device home screen. After the first cache warm-up, the six local pages and included practice visuals remain available without a network connection. Embedded YouTube videos still need an internet connection.
 
 ## Deploying
 
@@ -385,6 +388,8 @@ TOEFL-2026/
 ├── practice-packs.html        # Practice hub
 ├── writing-practice.html      # Writing practice interface
 ├── speaking-practice.html     # Speaking practice interface
+├── videos.html                # YouTube video library
+├── videos.css                 # Video library styling
 ├── practice-data.js           # Structured Writing and Speaking content
 ├── practice-pack.js           # Practice interactions and local persistence
 ├── practice-pack.css          # Shared practice-page styling

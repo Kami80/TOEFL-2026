@@ -53,6 +53,7 @@
     'practice-packs.html',
     'writing-practice.html',
     'speaking-practice.html',
+    'videos.html',
 
     'styles.css',
     'branding.css',
@@ -60,6 +61,7 @@
     'site-tree-nav.css',
     'task-explorer.css',
     'practice-pack.css',
+    'videos.css',
     'pets.css',
     'mobile-pwa.css',
     'manifest.webmanifest',
@@ -578,7 +580,8 @@
     atlas:{label:'Task Atlas',short:'ATLAS',href:'task-explorer.html',desc:'All 12 task types, templates & scripts',group:'learn'},
     hub:{label:'Practice Hub',short:'HUB',href:'practice-packs.html',desc:'Choose a complete practice pack',group:'practice'},
     writing:{label:'Writing Lab',short:'WRITE',href:'writing-practice.html',desc:'Sentence, email & discussion practice',group:'practice'},
-    speaking:{label:'Speaking Lab',short:'SPEAK',href:'speaking-practice.html',desc:'Listen & Repeat + Interview practice',group:'practice'}
+    speaking:{label:'Speaking Lab',short:'SPEAK',href:'speaking-practice.html',desc:'Listen & Repeat + Interview practice',group:'practice'},
+    videos:{label:'Video Library',short:'VIDEOS',href:'videos.html',desc:'Practice videos, playlists & channels',group:'watch'}
   };
 
   const SITE_MAP={
@@ -670,6 +673,14 @@
         {label:'Study Notes',href:'speaking-practice.html#notes',desc:'Open saved pronunciation and strategy notes.'},
         {label:'Microphone & Privacy',href:'speaking-practice.html#page-footer',desc:'Recording privacy and browser requirements.'}
       ]
+    },
+    videos:{
+      code:'06',glyph:'V',label:'VIDEO LIBRARY',title:'TOEFL 2026 Video Library',href:'videos.html',desc:'Full practice videos, skill playlists and recommended YouTube channels.',
+      sections:[
+        {label:'Full Practice Videos',href:'videos.html#full-tests',desc:'Reading, Listening, Speaking and Writing walkthroughs.'},
+        {label:'Skill Playlists',href:'videos.html#playlists',desc:'Five embedded YouTube playlists.'},
+        {label:'YouTube Channels',href:'videos.html#channels',desc:'linguamarina and TST Prep TOEFL.'}
+      ]
     }
   };
 
@@ -681,6 +692,7 @@
     if(file.includes('practice-packs')) return 'hub';
     if(file.includes('writing-practice')) return 'writing';
     if(file.includes('speaking-practice')) return 'speaking';
+    if(file.includes('videos')) return 'videos';
     return 'guide';
   }
 
@@ -742,6 +754,9 @@
     const atlas=make('a','site-fastnav-link','ATLAS');
     atlas.href=SITE_ROUTES.atlas.href;
     if(current==='atlas') atlas.classList.add('is-current');
+    const videos=make('a','site-fastnav-link','VIDEOS');
+    videos.href=SITE_ROUTES.videos.href;
+    if(current==='videos') videos.classList.add('is-current');
 
     const practice=make('div','site-fastnav-practice');
     const practiceToggle=make('button','site-fastnav-link site-fastnav-practice-toggle');
@@ -777,7 +792,7 @@
     columns.append(wcol,scol);
     practicePanel.append(panelHead,hub,columns);
     practice.append(practiceToggle,practicePanel);
-    nav.append(guide,atlas,practice);
+    nav.append(guide,atlas,videos,practice);
 
     const routeChip=make('div','site-fastnav-route');
     routeChip.innerHTML='<span>YOU:</span><b>'+route.short+'</b><i aria-hidden="true">_</i>';

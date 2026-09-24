@@ -1,7 +1,7 @@
 
 /* TOEFL 2026 — Local-first offline cache / first-visit warmer */
 
-const CACHE_VERSION='toefl26-cache-20260908-mobile-nav4';
+const CACHE_VERSION='toefl26-cache-20260924-videos1';
 const MINIMUM_SHELL=[
   './',
   'index.html',
@@ -9,12 +9,14 @@ const MINIMUM_SHELL=[
   'practice-packs.html',
   'writing-practice.html',
   'speaking-practice.html',
+  'videos.html',
   'styles.css',
   'branding.css',
   'visuals.css',
   'site-tree-nav.css',
   'task-explorer.css',
   'practice-pack.css',
+  'videos.css',
   'retromax.js',
   'app.js',
   'task-explorer.js',

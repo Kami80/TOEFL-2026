@@ -816,7 +816,7 @@ summary:focus-visible {
     grid-column: 1;
     grid-row: 1;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: stretch;
     gap: 4px;
     min-width: 0;
@@ -846,6 +846,7 @@ summary:focus-visible {
 
   .site-fastnav-links > a:nth-child(1)::before,
   .site-fastnav-links > a:nth-child(2)::before,
+  .site-fastnav-links > a:nth-child(3)::before,
   .site-fastnav-practice-toggle::before {
     width: auto;
     height: auto;
@@ -858,6 +859,7 @@ summary:focus-visible {
 
   .site-fastnav-links > a:nth-child(1)::before { content: "⌂"; }
   .site-fastnav-links > a:nth-child(2)::before { content: "▦"; }
+  .site-fastnav-links > a:nth-child(3)::before { content: "▶"; }
   .site-fastnav-practice-toggle::before { content: "▶"; font-size: 15px; }
 
   .site-fastnav-link.is-current,
@@ -869,6 +871,7 @@ summary:focus-visible {
 
   .site-fastnav-links > a:nth-child(1).is-current::before,
   .site-fastnav-links > a:nth-child(2).is-current::before,
+  .site-fastnav-links > a:nth-child(3).is-current::before,
   .site-fastnav-practice-toggle.is-current::before {
     width: auto;
     height: auto;
@@ -880,6 +883,7 @@ summary:focus-visible {
 
   .site-fastnav-links > a:nth-child(1).is-current::before { content: "⌂"; }
   .site-fastnav-links > a:nth-child(2).is-current::before { content: "▦"; }
+  .site-fastnav-links > a:nth-child(3).is-current::before { content: "▶"; }
   .site-fastnav-practice-toggle.is-current::before { content: "▶"; }
 
   .site-fastnav-practice {
